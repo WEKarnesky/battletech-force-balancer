@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map/>
+    <node name="bvcalc">
+      <map>
+        <entry key="LastOpenDirectory" value="F:\Battletech\Wolf and Blake\Touchpoint Liberty\"/>
+        <entry key="LastOpenFile" value="Word_of_Blake_vs_The_Battle_Corps.xml"/>
+        <entry key="LastLoadDirectory" value="C:\Documents and Settings\gblouin\Desktop\"/>
+      </map>
+    </node>
+  </root>
+</preferences>
