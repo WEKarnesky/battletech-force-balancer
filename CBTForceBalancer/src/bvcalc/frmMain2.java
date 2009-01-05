@@ -1132,7 +1132,7 @@ private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_mnuPrintActionPerformed
 
 private void fileDropped(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileDropped
-    //TODO add handler code here
+
 }//GEN-LAST:event_fileDropped
 
 private void btnLoadFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFileActionPerformed

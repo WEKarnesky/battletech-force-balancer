@@ -33,7 +33,6 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-import org.omg.CORBA.portable.ApplicationException;
 /**
  *
  * @author gblouin
@@ -65,7 +64,7 @@ public class PrintSheet implements Printable {
         Reset();
         currentY += 15;
         setFont(CommonTools.TitleFont);
-        WriteStr(Parent.getTitle(), 0);
+        WriteStr("Battle Value Calculator", 0);
         NewLine();
         setFont(CommonTools.PlainFont);
         WriteLine();

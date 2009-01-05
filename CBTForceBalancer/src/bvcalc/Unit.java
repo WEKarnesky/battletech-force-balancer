@@ -119,8 +119,4 @@ public class Unit {
         file.newLine();
     }
 
-    @Override
-    public String toString(){
-        return TypeModel + " [" + BaseBV + "]";
-    }
 }

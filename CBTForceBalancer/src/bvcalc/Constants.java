@@ -32,12 +32,12 @@ package bvcalc;
  * @author justin
  */
 public class Constants {
-    public final static String AppName = "CBT Force Balancer",
-                        AppDescription = "CBT Force Balancer",
+    public final static String AppName = "Battle Value Calculator",
+                        AppDescription = "Battle Value Calculator",
                         Version = "0.0.2",
                         AppRelease = "Alpha",
-                        Author = "George Blouin",
-                        EMail = "skyhigh@solaris7.com";
+                        Author = "Justin Bengtson",
+                        EMail = "poopshotgun@yahoo.com";
     public final static int BattleMech = 0,
                             IndustrialMech = 1,
                             ProtoMech = 2,

@@ -26,6 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package bvcalc;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -57,41 +59,19 @@ public class SSWReader {
         Unit u = new Unit();
         NodeList n = d.getElementsByTagName( "mech" );
         NamedNodeMap map = n.item( 0 ).getAttributes();
-        String Model = "";
-        int Tonnage = 0;
+
         // basics
         boolean omnimech = Boolean.parseBoolean( map.getNamedItem( "omnimech" ).getTextContent() );
 
         if (omnimech) {
-            Model = map.getNamedItem( "name" ).getTextContent() + " " + map.getNamedItem( "model" ).getTextContent();
-            Tonnage = Integer.parseInt( map.getNamedItem( "tons" ).getTextContent());
-
-            dlgOmnis Omnis = new dlgOmnis(Parent, true);
-
-            NodeList Variants = d.getElementsByTagName("loadout");
-            for (int i=0; i<=Variants.getLength()-1; i++) {
-                if (Variants.item(i).getNodeName().equals("loadout")) {
-                    NamedNodeMap atts = Variants.item(i).getAttributes();
-                    Unit unit = new Unit();
-                    unit.TypeModel = Model + " " + atts.getNamedItem("name").getTextContent();
-                    unit.Tonnage = Tonnage;
-                    unit.BaseBV = Float.parseFloat(Variants.item(i).getFirstChild().getNextSibling().getTextContent());
-                    Omnis.choices.add(unit);
-                }
-            }
-            Omnis.Load();
-            Omnis.setLocationRelativeTo(Parent);
-            Omnis.setVisible(true);
-            if (Omnis.result) {
-                u = Omnis.Variant;
-            }
-
+            u.TypeModel = map.getNamedItem( "name" ).getTextContent() + " " + map.getNamedItem( "model" ).getTextContent();
+            u.Tonnage = Integer.parseInt( map.getNamedItem( "tons" ).getTextContent());
         } else {
             u.TypeModel = map.getNamedItem( "name" ).getTextContent() + " " + map.getNamedItem( "model" ).getTextContent();
             u.Tonnage = Integer.parseInt( map.getNamedItem( "tons" ).getTextContent());
-            u.BaseBV = Float.parseFloat( d.getElementsByTagName("battle_value").item(0).getTextContent() );
+            //u.BaseBV = Float.parseFloat( map.getNamedItem("bv").getTextContent());
         }
-        u.Refresh();
+
         // all done, return the unit
         return u;
     }
