@@ -157,7 +157,8 @@ public class Force extends AbstractTableModel {
         p.setFont(CommonTools.ItalicFont);
         
         //Output column Headers
-        p.WriteStr("Name", 100);
+        p.WriteStr("Name", 60);
+        p.WriteStr("Pilot", 140);
         p.WriteStr("Type", 60);
         p.WriteStr("Tonnage", 50);
         p.WriteStr("Base BV", 50);
@@ -181,7 +182,8 @@ public class Force extends AbstractTableModel {
 
         //Outut Totals
         p.setFont(CommonTools.ItalicFont);
-        p.WriteStr(Units.size() + " Units", 100);
+        p.WriteStr(Units.size() + " Units", 60);
+        p.WriteStr("", 140);
         p.WriteStr("", 60);
         p.WriteStr(String.format("%1$,.2f", TotalTonnage), 50);
         p.WriteStr(String.format("%1$,.0f", TotalBaseBV), 50);

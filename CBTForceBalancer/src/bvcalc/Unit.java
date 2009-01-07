@@ -84,7 +84,8 @@ public class Unit {
     }
 
     public void RenderPrint(PrintSheet p) {
-        p.WriteStr(TypeModel, 100);
+        p.WriteStr(TypeModel, 60);
+        p.WriteStr(Mechwarrior, 140);
         p.WriteStr(Constants.UnitTypes[UnitType], 60);
         p.WriteStr(String.format("%1$,.2f", Tonnage), 50);
         p.WriteStr(String.format("%1$,.0f", BaseBV), 50);
