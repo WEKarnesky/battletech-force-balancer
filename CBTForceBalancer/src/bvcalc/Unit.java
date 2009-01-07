@@ -80,7 +80,7 @@ public class Unit {
     }
 
     public String GetSkills(){
-        return Piloting + "/" + Gunnery;
+        return Gunnery + "/" + Piloting;
     }
 
     public void RenderPrint(PrintSheet p) {
