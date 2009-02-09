@@ -9,8 +9,9 @@
  * Created on Dec 16, 2008, 2:40:00 PM
  */
 
-package bvcalc;
+package BFB.GUI;
 
+import BFB.*;
 import java.util.Vector;
 import javax.swing.JRadioButton;
 

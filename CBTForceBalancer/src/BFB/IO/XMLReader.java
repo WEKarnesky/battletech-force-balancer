@@ -25,12 +25,57 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF TH
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package bvcalc;
+package BFB.IO;
+
+import BFB.GUI.frmMain;
+import BFB.*;
+import BFB.Common.CommonTools;
+import BFB.GUI.frmMain2;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.*;
 
 /**
  *
- * @author gblouin
+ * @author justin
  */
-public class RUS {
+public class XMLReader {
+    frmMain2 Parent;
+    frmMain Parent1;
 
+    public void ReadFile( frmMain2 parent, String filename ) throws Exception {
+        Parent = parent;
+        Document load;
+        filename = CommonTools.SafeFileName( filename );
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        load = db.parse( filename );
+        NodeList n = load.getElementsByTagName("force");
+
+        Parent.leftForce = new Force(n.item(0));
+        Parent.rightForce = new Force(n.item(1));
+        Parent.Load();
+        Parent.RefreshDisplay();
+    }
+
+    public void ReadFile( frmMain parent, String filename ) throws Exception {
+        Parent1 = parent;
+        Document load;
+        filename = CommonTools.SafeFileName( filename );
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        load = db.parse( filename );
+        NodeList n = load.getElementsByTagName("force");
+
+        Parent1.leftForce = new Force(n.item(0));
+        Parent1.rightForce = new Force(n.item(1));
+        Parent1.Load();
+        Parent1.RefreshDisplay();
+    }
 }

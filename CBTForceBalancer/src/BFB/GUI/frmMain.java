@@ -31,8 +31,12 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF TH
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package bvcalc;
+package BFB.GUI;
 
+import BFB.*;
+import BFB.IO.XMLWriter;
+import BFB.IO.XMLReader;
+import BFB.Common.CommonTools;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -238,7 +242,7 @@ public class frmMain extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(101, 30));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        btnAddUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/add2.png"))); // NOI18N
+        btnAddUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/add2.png"))); // NOI18N
         btnAddUnit.setToolTipText("Add Unit");
         btnAddUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,7 +256,7 @@ public class frmMain extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(btnAddUnit, gridBagConstraints);
 
-        btnEditUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/edit.png"))); // NOI18N
+        btnEditUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/edit.png"))); // NOI18N
         btnEditUnit.setToolTipText("Edit Unit");
         btnEditUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,7 +269,7 @@ public class frmMain extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(btnEditUnit, gridBagConstraints);
 
-        btnRemoveUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/delete2.png"))); // NOI18N
+        btnRemoveUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/delete2.png"))); // NOI18N
         btnRemoveUnit.setToolTipText("Delete Unit");
         btnRemoveUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,7 +315,7 @@ public class frmMain extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(101, 30));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        btnAddUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/add2.png"))); // NOI18N
+        btnAddUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/add2.png"))); // NOI18N
         btnAddUnit1.setToolTipText("Add Unit");
         btnAddUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -325,7 +329,7 @@ public class frmMain extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(btnAddUnit1, gridBagConstraints);
 
-        btnEditUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/edit.png"))); // NOI18N
+        btnEditUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/edit.png"))); // NOI18N
         btnEditUnit1.setToolTipText("Edit Unit");
         btnEditUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,7 +342,7 @@ public class frmMain extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel4.add(btnEditUnit1, gridBagConstraints);
 
-        btnRemoveUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/delete2.png"))); // NOI18N
+        btnRemoveUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/delete2.png"))); // NOI18N
         btnRemoveUnit1.setToolTipText("Delete Unit");
         btnRemoveUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

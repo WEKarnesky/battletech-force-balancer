@@ -24,14 +24,18 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package bvcalc;
+package BFB.IO;
 
+import BFB.GUI.frmMain2;
+import BFB.*;
+import BFB.Common.CommonTools;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
+
+import ssw.filehandlers.XMLReader;
+import ssw.components.*;
 /**
  *
  * @author gblouin
@@ -39,6 +43,18 @@ import org.w3c.dom.*;
 public class SSWReader {
     frmMain2 Parent;
     Force force;
+
+    public void ReadFile( Force f, String filename ) throws Exception {
+        XMLReader r = new XMLReader();
+        try
+        {
+            Mech m = r.ReadMech(filename);
+            f.Units.add(BuildUnit(m));
+            f.RefreshBV();
+        } catch (Exception e) {
+            throw new Exception("ReadFile error using SSW Mech Loader. [" + e.getMessage() + "]");
+        }
+    }
 
     public void ReadFile(frmMain2 p, Force f, String filename ) throws Exception {
         Parent = p;
@@ -53,6 +69,16 @@ public class SSWReader {
         force.Units.add(BuildUnit(load));
         force.RefreshBV();
         Parent.RefreshDisplay();
+    }
+
+    private Unit BuildUnit( ssw.components.Mech m ) {
+        Unit u = new Unit();
+        u.TypeModel = m.GetFullName();
+        u.BaseBV = m.GetCurrentBV();
+        u.Tonnage = m.GetTonnage();
+        u.UnitType = BFB.Common.Constants.BattleMech;
+        u.Refresh();
+        return u;
     }
 
     private Unit BuildUnit( Document d ) throws Exception {

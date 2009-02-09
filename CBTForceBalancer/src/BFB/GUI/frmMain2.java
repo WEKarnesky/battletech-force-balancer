@@ -31,8 +31,14 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF TH
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package bvcalc;
+package BFB.GUI;
 
+import BFB.*;
+import BFB.IO.PrintSheet;
+import BFB.IO.XMLWriter;
+import BFB.IO.SSWReader;
+import BFB.IO.XMLReader;
+import BFB.Common.CommonTools;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
@@ -266,7 +272,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(101, 30));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        btnAddUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/add2.png"))); // NOI18N
+        btnAddUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
         btnAddUnit.setToolTipText("Add Unit");
         btnAddUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,7 +286,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(btnAddUnit, gridBagConstraints);
 
-        btnEditUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/edit.png"))); // NOI18N
+        btnEditUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
         btnEditUnit.setToolTipText("Edit Unit");
         btnEditUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -293,7 +299,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(btnEditUnit, gridBagConstraints);
 
-        btnRemoveUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/delete2.png"))); // NOI18N
+        btnRemoveUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
         btnRemoveUnit.setToolTipText("Delete Unit");
         btnRemoveUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -334,7 +340,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(txtForceName, gridBagConstraints);
 
-        btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/export1.png"))); // NOI18N
+        btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
         btnLoadFromFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadFromFileActionPerformed(evt);
@@ -357,7 +363,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(101, 30));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        btnAddUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/add2.png"))); // NOI18N
+        btnAddUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
         btnAddUnit1.setToolTipText("Add Unit");
         btnAddUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,7 +377,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(btnAddUnit1, gridBagConstraints);
 
-        btnEditUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/edit.png"))); // NOI18N
+        btnEditUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
         btnEditUnit1.setToolTipText("Edit Unit");
         btnEditUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -384,7 +390,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel4.add(btnEditUnit1, gridBagConstraints);
 
-        btnRemoveUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/delete2.png"))); // NOI18N
+        btnRemoveUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
         btnRemoveUnit1.setToolTipText("Delete Unit");
         btnRemoveUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,7 +431,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txtForceName1, gridBagConstraints);
 
-        btnLoadFromFile1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bvcalc/export1.png"))); // NOI18N
+        btnLoadFromFile1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
         btnLoadFromFile1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadFromFile1ActionPerformed(evt);
@@ -1131,110 +1137,74 @@ private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
   }
 }//GEN-LAST:event_mnuPrintActionPerformed
 
+private void LoadFromFile(Force f){
+    SSWReader reader = new SSWReader();
+    File[] files = SelectFiles();
+    if (files.length > 0)
+    {
+        for (int i = 0; i<= files.length-1; i++) {
+            try {
+               reader.ReadFile(f, files[i].getCanonicalPath());
+               RefreshDisplay();
+               //reader.ReadFile(this, this.leftForce, filename);
+            } catch (Exception e) {
+               javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
+               return;
+            }
+        }
+    }
+}
+
+private File[] SelectFiles(){
+    File[] files = null;
+    File tempFile = new File(Prefs.get("LastOpenDirectory", ""));
+    JFileChooser fc = new JFileChooser();
+    fc.setMultiSelectionEnabled(true);
+    fc.addChoosableFileFilter( new javax.swing.filechooser.FileFilter() {
+        public boolean accept( File f ) {
+            if (f.isDirectory()) {
+                return true;
+            }
+
+            String extension = "" + CommonTools.getExtension(f);
+            if ( extension != null ) {
+                if ( extension.equals( "ssw" ) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        //The description of this filter
+        public String getDescription() {
+            return "*.ssw";
+        }
+    } );
+    fc.setAcceptAllFileFilterUsed( false );
+    fc.setCurrentDirectory(tempFile);
+    int returnVal = fc.showDialog( this, "Select File(s)" );
+    if( returnVal == JFileChooser.APPROVE_OPTION ) {
+        files = fc.getSelectedFiles();
+        try {
+            Prefs.put("LastLoadDirectory", files[0].getCanonicalPath().replace(files[0].getName(), ""));
+        } catch(Exception e) {
+        }
+    }
+    return files;
+}
+
 private void fileDropped(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileDropped
 
 }//GEN-LAST:event_fileDropped
 
 private void btnLoadFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFileActionPerformed
-    File tempFile = new File(Prefs.get("LastLoadDirectory", ""));
-    JFileChooser fc = new JFileChooser();
-    fc.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()){
-                    return true;
-                }
-
-                if (f.getName().indexOf(".") > 0) {
-                    String extension = "" + f.getName().substring(f.getName().indexOf("."));
-                    if (extension.equals(".ssw")){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-
-            @Override
-            public String getDescription() {
-                return "*.ssw";
-            }
-        });
-     fc.setAcceptAllFileFilterUsed( false );
-     fc.setCurrentDirectory(tempFile);
-     int returnVal = fc.showDialog( this, "Load SSW File" );
-       if( returnVal != JFileChooser.APPROVE_OPTION ) { return; }
-       File ForceFile = fc.getSelectedFile();
-       String filename = "";
-       try {
-           filename = ForceFile.getCanonicalPath();
-           Prefs.put("LastLoadDirectory", ForceFile.getCanonicalPath().replace(ForceFile.getName(), ""));
-       } catch( Exception e ) {
-           javax.swing.JOptionPane.showMessageDialog( this, "There was a problem opening the file:\n" + e.getMessage() );
-           return;
-       }
-
-       SSWReader reader = new SSWReader();
-       try {
-           reader.ReadFile(this, this.leftForce, filename);
-       } catch (Exception e) {
-           javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
-           return;
-       }
+    LoadFromFile(this.leftForce);
 }//GEN-LAST:event_btnLoadFromFileActionPerformed
 
 private void btnLoadFromFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFile1ActionPerformed
-    File tempFile = new File(Prefs.get("LastLoadDirectory", ""));
-    JFileChooser fc = new JFileChooser();
-    fc.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()){
-                    return true;
-                }
-
-                if (f.getName().indexOf(".") > 0) {
-                    String extension = "" + f.getName().substring(f.getName().indexOf("."));
-                    if (extension.equals(".ssw")){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-
-            @Override
-            public String getDescription() {
-                return "*.ssw";
-            }
-        });
-     fc.setAcceptAllFileFilterUsed( false );
-     fc.setCurrentDirectory(tempFile);
-     int returnVal = fc.showDialog( this, "Load SSW File" );
-       if( returnVal != JFileChooser.APPROVE_OPTION ) { return; }
-       File ForceFile = fc.getSelectedFile();
-       String filename = "";
-       try {
-           filename = ForceFile.getCanonicalPath();
-           Prefs.put("LastLoadDirectory", ForceFile.getCanonicalPath().replace(ForceFile.getName(), ""));
-       } catch( Exception e ) {
-           javax.swing.JOptionPane.showMessageDialog( this, "There was a problem opening the file:\n" + e.getMessage() );
-           return;
-       }
-
-       SSWReader reader = new SSWReader();
-       try {
-           reader.ReadFile(this, this.rightForce, filename);
-       } catch (Exception e) {
-           javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
-           return;
-       }
+    LoadFromFile(this.rightForce);
 }//GEN-LAST:event_btnLoadFromFile1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

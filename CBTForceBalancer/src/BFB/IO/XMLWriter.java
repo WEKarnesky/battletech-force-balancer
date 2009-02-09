@@ -25,8 +25,10 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF TH
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package bvcalc;
+package BFB.IO;
 
+import BFB.*;
+import BFB.Common.CommonTools;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;

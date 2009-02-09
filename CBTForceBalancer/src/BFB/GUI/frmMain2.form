@@ -217,7 +217,7 @@
         <Component class="javax.swing.JButton" name="btnAddUnit">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/add2.png"/>
+              <Image iconType="3" name="/BFB/Images/add2.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Add Unit"/>
           </Properties>
@@ -233,7 +233,7 @@
         <Component class="javax.swing.JButton" name="btnEditUnit">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/edit.png"/>
+              <Image iconType="3" name="/BFB/Images/edit.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Edit Unit"/>
           </Properties>
@@ -249,7 +249,7 @@
         <Component class="javax.swing.JButton" name="btnRemoveUnit">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/delete2.png"/>
+              <Image iconType="3" name="/BFB/Images/delete2.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Delete Unit"/>
           </Properties>
@@ -308,7 +308,7 @@
         <Component class="javax.swing.JButton" name="btnLoadFromFile">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/export1.png"/>
+              <Image iconType="3" name="/BFB/Images/export1.png"/>
             </Property>
           </Properties>
           <Events>
@@ -339,7 +339,7 @@
         <Component class="javax.swing.JButton" name="btnAddUnit1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/add2.png"/>
+              <Image iconType="3" name="/BFB/Images/add2.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Add Unit"/>
           </Properties>
@@ -355,7 +355,7 @@
         <Component class="javax.swing.JButton" name="btnEditUnit1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/edit.png"/>
+              <Image iconType="3" name="/BFB/Images/edit.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Edit Unit"/>
           </Properties>
@@ -371,7 +371,7 @@
         <Component class="javax.swing.JButton" name="btnRemoveUnit1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/delete2.png"/>
+              <Image iconType="3" name="/BFB/Images/delete2.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Delete Unit"/>
           </Properties>
@@ -430,7 +430,7 @@
         <Component class="javax.swing.JButton" name="btnLoadFromFile1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/bvcalc/export1.png"/>
+              <Image iconType="3" name="/BFB/Images/export1.png"/>
             </Property>
           </Properties>
           <Events>
