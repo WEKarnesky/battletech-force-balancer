@@ -33,6 +33,8 @@ import BFB.Common.Constants;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import org.w3c.dom.Node;
+import ssw.components.Mech;
+import ssw.filehandlers.XMLReader;
 
 /**
  *
@@ -40,7 +42,8 @@ import org.w3c.dom.Node;
  */
 public class Unit {
     public String TypeModel = "",
-                  Mechwarrior = "";
+                  Mechwarrior = "",
+                  Filename = "";
     public float BaseBV = 0.0f,
                  MiscMod = 1.0f,
                  Tonnage = 20.0f,
@@ -52,6 +55,7 @@ public class Unit {
                Gunnery = 4,
                UnitType = Constants.BattleMech;
     public boolean UsingC3 = false;
+    public Mech m = new Mech();
 
     public Unit(){
     }
@@ -68,6 +72,16 @@ public class Unit {
             if (nodeName.equals("unittype")) {UnitType = Integer.parseInt(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("usingc3")) {UsingC3 = Boolean.parseBoolean(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent();}
+            if (nodeName.equals("ssw")) {
+                Filename = n.getChildNodes().item(i).getTextContent();
+                ssw.filehandlers.XMLReader read = new XMLReader();
+                try
+                {
+                    m = read.ReadMech(Filename);
+                } catch (Exception e) {
+                    //do nothing
+                }
+            }
         }
         this.Refresh();
     }
@@ -120,6 +134,8 @@ public class Unit {
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<unittype>" + this.UnitType + "</unittype>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<usingc3>" + this.UsingC3 + "</usingc3>");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename + "</ssw>");
         file.newLine();
     }
 

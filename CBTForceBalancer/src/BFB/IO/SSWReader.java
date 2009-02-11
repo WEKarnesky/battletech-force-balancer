@@ -49,7 +49,7 @@ public class SSWReader {
         try
         {
             Mech m = r.ReadMech(filename);
-            f.Units.add(BuildUnit(m));
+            f.Units.add(BuildUnit(m, filename));
             f.RefreshBV();
         } catch (Exception e) {
             throw new Exception("ReadFile error using SSW Mech Loader. [" + e.getMessage() + "]");
@@ -71,12 +71,14 @@ public class SSWReader {
         Parent.RefreshDisplay();
     }
 
-    private Unit BuildUnit( ssw.components.Mech m ) {
+    private Unit BuildUnit( ssw.components.Mech m, String filename ) {
         Unit u = new Unit();
+        u.m = m;
         u.TypeModel = m.GetFullName();
         u.BaseBV = m.GetCurrentBV();
         u.Tonnage = m.GetTonnage();
         u.UnitType = BFB.Common.Constants.BattleMech;
+        u.Filename = filename;
         u.Refresh();
         return u;
     }

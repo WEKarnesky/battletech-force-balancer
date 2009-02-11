@@ -41,17 +41,18 @@ import BFB.IO.XMLReader;
 import BFB.Common.CommonTools;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
+import java.awt.print.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import java.util.prefs.*;
+import ssw.components.*;
+import ssw.filehandlers.Media;
+import ssw.print.*;
 
 /**
  *
@@ -181,6 +182,7 @@ public class frmMain2 extends javax.swing.JFrame {
         mnuLoad = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JSeparator();
         mnuPrint = new javax.swing.JMenuItem();
+        mnuPrintDesigns = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
         mnuExit = new javax.swing.JMenuItem();
         mnuAbout = new javax.swing.JMenu();
@@ -273,6 +275,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         btnAddUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
+        btnAddUnit.setText("Add");
         btnAddUnit.setToolTipText("Add Unit");
         btnAddUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,6 +290,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel1.add(btnAddUnit, gridBagConstraints);
 
         btnEditUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
+        btnEditUnit.setText("Edit");
         btnEditUnit.setToolTipText("Edit Unit");
         btnEditUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,6 +304,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel1.add(btnEditUnit, gridBagConstraints);
 
         btnRemoveUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
+        btnRemoveUnit.setText("Delete");
         btnRemoveUnit.setToolTipText("Delete Unit");
         btnRemoveUnit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -341,6 +346,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel1.add(txtForceName, gridBagConstraints);
 
         btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
+        btnLoadFromFile.setText("Load");
         btnLoadFromFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadFromFileActionPerformed(evt);
@@ -364,6 +370,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         btnAddUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
+        btnAddUnit1.setText("Add");
         btnAddUnit1.setToolTipText("Add Unit");
         btnAddUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,6 +385,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel4.add(btnAddUnit1, gridBagConstraints);
 
         btnEditUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
+        btnEditUnit1.setText("Edit");
         btnEditUnit1.setToolTipText("Edit Unit");
         btnEditUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -391,6 +399,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel4.add(btnEditUnit1, gridBagConstraints);
 
         btnRemoveUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
+        btnRemoveUnit1.setText("Delete");
         btnRemoveUnit1.setToolTipText("Delete Unit");
         btnRemoveUnit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,6 +441,7 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel4.add(txtForceName1, gridBagConstraints);
 
         btnLoadFromFile1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
+        btnLoadFromFile1.setText("Load");
         btnLoadFromFile1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadFromFile1ActionPerformed(evt);
@@ -835,6 +845,15 @@ public class frmMain2 extends javax.swing.JFrame {
             }
         });
         mnuFile.add(mnuPrint);
+
+        mnuPrintDesigns.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuPrintDesigns.setText("Print Designs");
+        mnuPrintDesigns.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPrintDesignsActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuPrintDesigns);
         mnuFile.add(jSeparator2);
 
         mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
@@ -1139,7 +1158,8 @@ private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void LoadFromFile(Force f){
     SSWReader reader = new SSWReader();
-    File[] files = SelectFiles();
+    File[] files = null;
+    files = SelectFiles();
     if (files.length > 0)
     {
         for (int i = 0; i<= files.length-1; i++) {
@@ -1207,6 +1227,47 @@ private void btnLoadFromFile1ActionPerformed(java.awt.event.ActionEvent evt) {//
     LoadFromFile(this.rightForce);
 }//GEN-LAST:event_btnLoadFromFile1ActionPerformed
 
+private void mnuPrintDesignsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintDesignsActionPerformed
+    Vector forces = new Vector();
+    forces.add(leftForce);
+    forces.add(rightForce);
+    
+    for (int f = 0; f <= forces.size()-1; f++){
+        Force printForce = (Force) forces.get(f);
+    
+        Media media = new Media();
+        Book pages = new Book();
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName(printForce.ForceName);
+        Paper paper = new Paper();
+        paper.setImageableArea( 18, 18, 576, 756 );
+        PageFormat page = new PageFormat();
+        page.setPaper( paper );
+
+        for (int i = 0; i < printForce.Units.size(); ++i) {
+            Unit u = (Unit) printForce.Units.get(i);
+            Mech m = u.m;
+            if (m != null) {
+                PrintMech p = new PrintMech( m, media.GetImage( m.GetSSWImage() ), false, false);
+                p.SetPilotData( u.Mechwarrior, u.Gunnery, u.Piloting);
+                p.SetOptions( true, true, u.TotalBV );
+                pages.append(p, page);
+            }
+        }
+
+        job.setPageable(pages);
+        boolean DoPrint = job.printDialog();
+        if( DoPrint ) {
+            try {
+                job.print();
+            } catch( PrinterException e ) {
+                System.err.println( e.getMessage() );
+                System.out.println( e.getStackTrace() );
+            }
+        }
+    }
+}//GEN-LAST:event_mnuPrintDesignsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUnit;
     private javax.swing.JButton btnAddUnit1;
@@ -1272,6 +1333,7 @@ private void btnLoadFromFile1ActionPerformed(java.awt.event.ActionEvent evt) {//
     private javax.swing.JMenuItem mnuLoad;
     private javax.swing.JPopupMenu mnuPopUp;
     private javax.swing.JMenuItem mnuPrint;
+    private javax.swing.JMenuItem mnuPrintDesigns;
     private javax.swing.JMenuItem mnuSave;
     private javax.swing.JTable tblForce;
     private javax.swing.JTable tblForce2;
