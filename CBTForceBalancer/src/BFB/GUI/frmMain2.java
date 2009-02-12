@@ -1233,38 +1233,21 @@ private void mnuPrintDesignsActionPerformed(java.awt.event.ActionEvent evt) {//G
     forces.add(rightForce);
     
     for (int f = 0; f <= forces.size()-1; f++){
+        Printer printer = new Printer();
         Force printForce = (Force) forces.get(f);
-    
-        Media media = new Media();
-        Book pages = new Book();
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setJobName(printForce.ForceName);
-        Paper paper = new Paper();
-        paper.setImageableArea( 18, 18, 576, 756 );
-        PageFormat page = new PageFormat();
-        page.setPaper( paper );
+
+        printer.setJobName(printForce.ForceName);
 
         for (int i = 0; i < printForce.Units.size(); ++i) {
             Unit u = (Unit) printForce.Units.get(i);
             Mech m = u.m;
             if (m != null) {
-                PrintMech p = new PrintMech( m, media.GetImage( m.GetSSWImage() ), false, false);
-                p.SetPilotData( u.Mechwarrior, u.Gunnery, u.Piloting);
-                p.SetOptions( true, true, u.TotalBV );
-                pages.append(p, page);
+                printer.AddMech(m, u.Mechwarrior, u.Gunnery, u.Piloting);
             }
         }
 
-        job.setPageable(pages);
-        boolean DoPrint = job.printDialog();
-        if( DoPrint ) {
-            try {
-                job.print();
-            } catch( PrinterException e ) {
-                System.err.println( e.getMessage() );
-                System.out.println( e.getStackTrace() );
-            }
-        }
+        printer.Print();
+
     }
 }//GEN-LAST:event_mnuPrintDesignsActionPerformed
 
