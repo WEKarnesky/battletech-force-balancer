@@ -3,7 +3,7 @@ Copyright (c) 2008, George Blouin Jr. (skyhigh@solaris7.com)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
-permitted provided that the following conditions are met:
+permitted provided that the followsing conditions are met:
 
     * Redistributions of source code must retain the above copyright notice, this list of
 conditions and the following disclaimer.
@@ -29,7 +29,7 @@ package BFB.IO;
 import BFB.GUI.frmMain2;
 import BFB.*;
 import BFB.Common.CommonTools;
-import java.io.IOException;
+import BFB.GUI.dlgOmnis;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
@@ -49,6 +49,14 @@ public class SSWReader {
         try
         {
             Mech m = r.ReadMech(filename);
+            if (m.IsOmnimech()) {
+                dlgOmnis dOmni = new dlgOmnis(Parent, true, m);
+                dOmni.setLocationRelativeTo(Parent);
+                dOmni.setVisible(true);
+                if (dOmni.result) {
+                    m.SetCurLoadout(dOmni.Variant);
+                }
+            }
             f.Units.add(BuildUnit(m, filename));
             f.RefreshBV();
         } catch (Exception e) {
@@ -71,7 +79,7 @@ public class SSWReader {
         Parent.RefreshDisplay();
     }
 
-    private Unit BuildUnit( ssw.components.Mech m, String filename ) {
+    private Unit BuildUnit( Mech m, String filename ) {
         Unit u = new Unit();
         u.m = m;
         u.TypeModel = m.GetFullName();

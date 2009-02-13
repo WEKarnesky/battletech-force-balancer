@@ -51,7 +51,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import java.util.prefs.*;
 import ssw.components.*;
-import ssw.filehandlers.Media;
 import ssw.print.*;
 
 /**
@@ -178,6 +177,7 @@ public class frmMain2 extends javax.swing.JFrame {
         lblForceMult = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
+        mnuNew = new javax.swing.JMenuItem();
         mnuSave = new javax.swing.JMenuItem();
         mnuLoad = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JSeparator();
@@ -185,6 +185,8 @@ public class frmMain2 extends javax.swing.JFrame {
         mnuPrintDesigns = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JSeparator();
         mnuExit = new javax.swing.JMenuItem();
+        mnuDesign = new javax.swing.JMenu();
+        mnuDesignMech = new javax.swing.JMenuItem();
         mnuAbout = new javax.swing.JMenu();
         mnuAboutCalc = new javax.swing.JMenuItem();
 
@@ -817,6 +819,14 @@ public class frmMain2 extends javax.swing.JFrame {
 
         mnuFile.setText("File");
 
+        mnuNew.setText("New");
+        mnuNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuNewActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuNew);
+
         mnuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
         mnuSave.setText("Save");
         mnuSave.setName("mnuSave"); // NOI18N
@@ -867,6 +877,18 @@ public class frmMain2 extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuFile);
 
+        mnuDesign.setText("Design");
+
+        mnuDesignMech.setText("BattleMech");
+        mnuDesignMech.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDesignMechActionPerformed(evt);
+            }
+        });
+        mnuDesign.add(mnuDesignMech);
+
+        jMenuBar1.add(mnuDesign);
+
         mnuAbout.setText("Help");
 
         mnuAboutCalc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
@@ -908,7 +930,10 @@ private void btnEditUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_btnEditUnitActionPerformed
 
 private void btnRemoveUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUnitActionPerformed
-    leftForce.RemoveUnit((Unit) leftForce.Units.get(tblForce.getSelectedRow()));
+    int[] rows = tblForce.getSelectedRows();
+    for (int i=0; i <= rows.length; i++ ) {
+        leftForce.RemoveUnit((Unit) leftForce.Units.get(rows[i]));
+    }
     RefreshDisplay();
 }//GEN-LAST:event_btnRemoveUnitActionPerformed
 
@@ -977,7 +1002,11 @@ private void btnEditUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_btnEditUnit1ActionPerformed
 
 private void btnRemoveUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUnit1ActionPerformed
-    rightForce.RemoveUnit((Unit) rightForce.Units.get(tblForce2.getSelectedRow()));
+    int[] rows = tblForce2.getSelectedRows();
+    for (int i=0; i <= rows.length; i++ ) {
+        rightForce.RemoveUnit((Unit) rightForce.Units.get(rows[i]));
+    }
+    
     RefreshDisplay();
 }//GEN-LAST:event_btnRemoveUnit1ActionPerformed
 
@@ -1159,23 +1188,28 @@ private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void LoadFromFile(Force f){
     SSWReader reader = new SSWReader();
     File[] files = null;
-    files = SelectFiles();
-    if (files.length > 0)
+    try
     {
-        for (int i = 0; i<= files.length-1; i++) {
-            try {
-               reader.ReadFile(f, files[i].getCanonicalPath());
-               RefreshDisplay();
-               //reader.ReadFile(this, this.leftForce, filename);
-            } catch (Exception e) {
-               javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
-               return;
+        files = SelectFiles();
+        if (files.length > 0)
+        {
+            for (int i = 0; i<= files.length-1; i++) {
+                try {
+                   reader.ReadFile(f, files[i].getCanonicalPath());
+                   RefreshDisplay();
+                   //reader.ReadFile(this, this.leftForce, filename);
+                } catch (Exception e) {
+                   javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
+                   return;
+                }
             }
         }
+    } catch (IOException ie) {
+
     }
 }
 
-private File[] SelectFiles(){
+private File[] SelectFiles() throws IOException {
     File[] files = null;
     File tempFile = new File(Prefs.get("LastOpenDirectory", ""));
     JFileChooser fc = new JFileChooser();
@@ -1207,10 +1241,7 @@ private File[] SelectFiles(){
     int returnVal = fc.showDialog( this, "Select File(s)" );
     if( returnVal == JFileChooser.APPROVE_OPTION ) {
         files = fc.getSelectedFiles();
-        try {
-            Prefs.put("LastLoadDirectory", files[0].getCanonicalPath().replace(files[0].getName(), ""));
-        } catch(Exception e) {
-        }
+        Prefs.put("LastOpenDirectory", fc.getCurrentDirectory().getCanonicalPath());
     }
     return files;
 }
@@ -1242,7 +1273,7 @@ private void mnuPrintDesignsActionPerformed(java.awt.event.ActionEvent evt) {//G
             Unit u = (Unit) printForce.Units.get(i);
             Mech m = u.m;
             if (m != null) {
-                printer.AddMech(m, u.Mechwarrior, u.Gunnery, u.Piloting);
+                printer.AddMech(m, u.Mechwarrior, u.Gunnery, u.Piloting, true, true, true);
             }
         }
 
@@ -1250,6 +1281,18 @@ private void mnuPrintDesignsActionPerformed(java.awt.event.ActionEvent evt) {//G
 
     }
 }//GEN-LAST:event_mnuPrintDesignsActionPerformed
+
+private void mnuNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNewActionPerformed
+    this.leftForce.Clear();
+    this.rightForce.Clear();
+    this.RefreshDisplay();
+}//GEN-LAST:event_mnuNewActionPerformed
+
+private void mnuDesignMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDesignMechActionPerformed
+    ssw.gui.frmMain SSW = new ssw.gui.frmMain();
+    SSW.setLocationRelativeTo(null);
+    SSW.setVisible(true);
+}//GEN-LAST:event_mnuDesignMechActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUnit;
@@ -1310,10 +1353,13 @@ private void mnuPrintDesignsActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JMenuItem mnuAboutCalc;
     private javax.swing.JMenuItem mnuAdd;
     private javax.swing.JMenuItem mnuDelete;
+    private javax.swing.JMenu mnuDesign;
+    private javax.swing.JMenuItem mnuDesignMech;
     private javax.swing.JMenuItem mnuEdit;
     private javax.swing.JMenuItem mnuExit;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuItem mnuLoad;
+    private javax.swing.JMenuItem mnuNew;
     private javax.swing.JPopupMenu mnuPopUp;
     private javax.swing.JMenuItem mnuPrint;
     private javax.swing.JMenuItem mnuPrintDesigns;

@@ -203,6 +203,11 @@ public class Force extends AbstractTableModel {
         p.setFont(CommonTools.PlainFont);
     }
 
+    public void Clear() {
+        Units.removeAllElements();
+        RefreshBV();
+    }
+
     @Override
     public String getColumnName( int col ) {
         switch( col ) {
