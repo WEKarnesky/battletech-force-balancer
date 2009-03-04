@@ -36,6 +36,7 @@ import org.w3c.dom.*;
 
 import ssw.filehandlers.XMLReader;
 import ssw.components.*;
+import ssw.filehandlers.MechListData;
 /**
  *
  * @author gblouin
@@ -48,15 +49,17 @@ public class SSWReader {
         XMLReader r = new XMLReader();
         try
         {
-            Mech m = r.ReadMech(filename);
-            if (m.IsOmnimech()) {
-                dlgOmnis dOmni = new dlgOmnis(Parent, true, m);
-                dOmni.setLocationRelativeTo(Parent);
-                dOmni.setVisible(true);
-                if (dOmni.result) {
-                    m.SetCurLoadout(dOmni.Variant);
-                }
-            }
+            MechListData m = r.ReadMechData(filename);
+           
+            //Mech m = r.ReadMech(filename);
+//            if (m.IsOmnimech()) {
+//                dlgOmnis dOmni = new dlgOmnis(Parent, true, m);
+//                dOmni.setLocationRelativeTo(Parent);
+//                dOmni.setVisible(true);
+//                if (dOmni.result) {
+//                    m.SetCurLoadout(dOmni.Variant);
+//                }
+//            }
             f.Units.add(BuildUnit(m, filename));
             f.RefreshBV();
         } catch (Exception e) {
@@ -77,6 +80,17 @@ public class SSWReader {
         force.Units.add(BuildUnit(load));
         force.RefreshBV();
         Parent.RefreshDisplay();
+    }
+
+    private Unit BuildUnit( MechListData m, String filename ) {
+        Unit u = new Unit();
+        u.TypeModel = m.getName() + " " + m.getModel();
+        u.BaseBV = Float.parseFloat(m.getBV() + "");
+        u.Tonnage = m.getTonnage();
+        u.UnitType = BFB.Common.Constants.BattleMech;
+        u.Filename = filename;
+        u.Refresh();
+        return u;
     }
 
     private Unit BuildUnit( Mech m, String filename ) {

@@ -34,10 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.GUI;
 
 import BFB.*;
-import BFB.IO.PrintSheet;
-import BFB.IO.XMLWriter;
-import BFB.IO.SSWReader;
-import BFB.IO.XMLReader;
+import BFB.IO.*;
 import BFB.Common.CommonTools;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -45,13 +42,17 @@ import java.awt.print.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import java.util.prefs.*;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableRowSorter;
 import ssw.components.*;
-import ssw.print.*;
+import ssw.print.Printer;
 
 /**
  *
@@ -73,8 +74,42 @@ public class frmMain2 extends javax.swing.JFrame {
         tblForce.setModel( leftForce );
         tblForce2.setModel ( rightForce );
 
-        txtForceName.setText(leftForce.ForceName);
-        txtForceName1.setText(rightForce.ForceName);
+        txtForceNameTop.setText(leftForce.ForceName);
+        txtForceNameBottom.setText(rightForce.ForceName);
+
+        //Create a sorting class and apply it to the list
+        TableRowSorter Leftsorter = new TableRowSorter<Force>(leftForce);
+        List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(7, SortOrder.ASCENDING));
+        Leftsorter.setSortKeys(sortKeys);
+        tblForce.setRowSorter(Leftsorter);
+
+        tblForce.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tblForce.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tblForce.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tblForce.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tblForce.getColumnModel().getColumn(4).setPreferredWidth(20);
+        tblForce.getColumnModel().getColumn(5).setPreferredWidth(20);
+        tblForce.getColumnModel().getColumn(6).setPreferredWidth(20);
+        tblForce.getColumnModel().getColumn(7).setPreferredWidth(20);
+
+                //Create a sorting class and apply it to the list
+        TableRowSorter Rightsorter = new TableRowSorter<Force>(rightForce);
+        List <RowSorter.SortKey> sortKeys2 = new ArrayList<RowSorter.SortKey>();
+        sortKeys2.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
+        sortKeys2.add(new RowSorter.SortKey(7, SortOrder.ASCENDING));
+        Rightsorter.setSortKeys(sortKeys2);
+        tblForce2.setRowSorter(Rightsorter);
+
+        tblForce2.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tblForce2.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tblForce2.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tblForce2.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tblForce2.getColumnModel().getColumn(4).setPreferredWidth(20);
+        tblForce2.getColumnModel().getColumn(5).setPreferredWidth(20);
+        tblForce2.getColumnModel().getColumn(6).setPreferredWidth(20);
+        tblForce2.getColumnModel().getColumn(7).setPreferredWidth(20);
     }
 
     public void RefreshDisplay() {
@@ -123,21 +158,21 @@ public class frmMain2 extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblForce = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        btnAddUnit = new javax.swing.JButton();
-        btnEditUnit = new javax.swing.JButton();
-        btnRemoveUnit = new javax.swing.JButton();
+        btnAddUnitTop = new javax.swing.JButton();
+        btnEditUnitTop = new javax.swing.JButton();
+        btnRemoveUnitTop = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
         lblForceName = new javax.swing.JLabel();
-        txtForceName = new javax.swing.JTextField();
-        btnLoadFromFile = new javax.swing.JButton();
+        txtForceNameTop = new javax.swing.JTextField();
+        btnLoadFromFileTop = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        btnAddUnit1 = new javax.swing.JButton();
-        btnEditUnit1 = new javax.swing.JButton();
-        btnRemoveUnit1 = new javax.swing.JButton();
+        btnAddUnitBottom = new javax.swing.JButton();
+        btnEditUnitBottom = new javax.swing.JButton();
+        btnRemoveUnitBottom = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         lblForceName1 = new javax.swing.JLabel();
-        txtForceName1 = new javax.swing.JTextField();
-        btnLoadFromFile1 = new javax.swing.JButton();
+        txtForceNameBottom = new javax.swing.JTextField();
+        btnLoadFromFileBottom = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblForce2 = new javax.swing.JTable();
         lblTotalBaseBV = new javax.swing.JPanel();
@@ -175,6 +210,12 @@ public class frmMain2 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblForceMultVal = new javax.swing.JLabel();
         lblForceMult = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        lblSelectedMech = new javax.swing.JLabel();
+        txtMechwarrior1 = new javax.swing.JTextField();
+        txtGunnery1 = new javax.swing.JTextField();
+        txtPiloting1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuNew = new javax.swing.JMenuItem();
@@ -276,12 +317,12 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(101, 30));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        btnAddUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
-        btnAddUnit.setText("Add");
-        btnAddUnit.setToolTipText("Add Unit");
-        btnAddUnit.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUnitTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
+        btnAddUnitTop.setText("Add");
+        btnAddUnitTop.setToolTipText("Add Unit");
+        btnAddUnitTop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddUnitActionPerformed(evt);
+                btnAddUnitTopActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -289,28 +330,28 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel1.add(btnAddUnit, gridBagConstraints);
+        jPanel1.add(btnAddUnitTop, gridBagConstraints);
 
-        btnEditUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
-        btnEditUnit.setText("Edit");
-        btnEditUnit.setToolTipText("Edit Unit");
-        btnEditUnit.addActionListener(new java.awt.event.ActionListener() {
+        btnEditUnitTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
+        btnEditUnitTop.setText("Edit");
+        btnEditUnitTop.setToolTipText("Edit Unit");
+        btnEditUnitTop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditUnitActionPerformed(evt);
+                btnEditUnitTopActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel1.add(btnEditUnit, gridBagConstraints);
+        jPanel1.add(btnEditUnitTop, gridBagConstraints);
 
-        btnRemoveUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
-        btnRemoveUnit.setText("Delete");
-        btnRemoveUnit.setToolTipText("Delete Unit");
-        btnRemoveUnit.addActionListener(new java.awt.event.ActionListener() {
+        btnRemoveUnitTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
+        btnRemoveUnitTop.setText("Delete");
+        btnRemoveUnitTop.setToolTipText("Delete Unit");
+        btnRemoveUnitTop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveUnitActionPerformed(evt);
+                btnRemoveUnitTopActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -318,7 +359,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel1.add(btnRemoveUnit, gridBagConstraints);
+        jPanel1.add(btnRemoveUnitTop, gridBagConstraints);
 
         jSeparator4.setForeground(java.awt.SystemColor.control);
         jSeparator4.setPreferredSize(new java.awt.Dimension(50, 1));
@@ -334,30 +375,30 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(lblForceName, gridBagConstraints);
 
-        txtForceName.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtForceName.setPreferredSize(new java.awt.Dimension(200, 20));
-        txtForceName.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtForceNameTop.setMinimumSize(new java.awt.Dimension(150, 20));
+        txtForceNameTop.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtForceNameTop.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtForceNameFocusLost(evt);
+                txtForceNameTopFocusLost(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel1.add(txtForceName, gridBagConstraints);
+        jPanel1.add(txtForceNameTop, gridBagConstraints);
 
-        btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
-        btnLoadFromFile.setText("Load");
-        btnLoadFromFile.addActionListener(new java.awt.event.ActionListener() {
+        btnLoadFromFileTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
+        btnLoadFromFileTop.setText("Load");
+        btnLoadFromFileTop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoadFromFileActionPerformed(evt);
+                btnLoadFromFileTopActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(btnLoadFromFile, gridBagConstraints);
+        jPanel1.add(btnLoadFromFileTop, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -371,12 +412,12 @@ public class frmMain2 extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(101, 30));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        btnAddUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
-        btnAddUnit1.setText("Add");
-        btnAddUnit1.setToolTipText("Add Unit");
-        btnAddUnit1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUnitBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/add2.png"))); // NOI18N
+        btnAddUnitBottom.setText("Add");
+        btnAddUnitBottom.setToolTipText("Add Unit");
+        btnAddUnitBottom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddUnit1ActionPerformed(evt);
+                btnAddUnitBottomActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,28 +425,28 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(btnAddUnit1, gridBagConstraints);
+        jPanel4.add(btnAddUnitBottom, gridBagConstraints);
 
-        btnEditUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
-        btnEditUnit1.setText("Edit");
-        btnEditUnit1.setToolTipText("Edit Unit");
-        btnEditUnit1.addActionListener(new java.awt.event.ActionListener() {
+        btnEditUnitBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/edit.png"))); // NOI18N
+        btnEditUnitBottom.setText("Edit");
+        btnEditUnitBottom.setToolTipText("Edit Unit");
+        btnEditUnitBottom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditUnit1ActionPerformed(evt);
+                btnEditUnitBottomActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel4.add(btnEditUnit1, gridBagConstraints);
+        jPanel4.add(btnEditUnitBottom, gridBagConstraints);
 
-        btnRemoveUnit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
-        btnRemoveUnit1.setText("Delete");
-        btnRemoveUnit1.setToolTipText("Delete Unit");
-        btnRemoveUnit1.addActionListener(new java.awt.event.ActionListener() {
+        btnRemoveUnitBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/delete2.png"))); // NOI18N
+        btnRemoveUnitBottom.setText("Delete");
+        btnRemoveUnitBottom.setToolTipText("Delete Unit");
+        btnRemoveUnitBottom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveUnit1ActionPerformed(evt);
+                btnRemoveUnitBottomActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -413,7 +454,7 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        jPanel4.add(btnRemoveUnit1, gridBagConstraints);
+        jPanel4.add(btnRemoveUnitBottom, gridBagConstraints);
 
         jSeparator5.setForeground(new java.awt.Color(236, 233, 216));
         jSeparator5.setPreferredSize(new java.awt.Dimension(50, 1));
@@ -429,34 +470,34 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel4.add(lblForceName1, gridBagConstraints);
 
-        txtForceName1.setMinimumSize(new java.awt.Dimension(150, 20));
-        txtForceName1.setPreferredSize(new java.awt.Dimension(200, 20));
-        txtForceName1.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtForceNameBottom.setMinimumSize(new java.awt.Dimension(150, 20));
+        txtForceNameBottom.setPreferredSize(new java.awt.Dimension(200, 20));
+        txtForceNameBottom.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtForceName1FocusLost(evt);
+                txtForceNameBottomFocusLost(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(txtForceName1, gridBagConstraints);
+        jPanel4.add(txtForceNameBottom, gridBagConstraints);
 
-        btnLoadFromFile1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
-        btnLoadFromFile1.setText("Load");
-        btnLoadFromFile1.addActionListener(new java.awt.event.ActionListener() {
+        btnLoadFromFileBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/export1.png"))); // NOI18N
+        btnLoadFromFileBottom.setText("Load");
+        btnLoadFromFileBottom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoadFromFile1ActionPerformed(evt);
+                btnLoadFromFileBottomActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        jPanel4.add(btnLoadFromFile1, gridBagConstraints);
+        jPanel4.add(btnLoadFromFileBottom, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 6;
         gridBagConstraints.ipady = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -501,7 +542,7 @@ public class frmMain2 extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 10;
         gridBagConstraints.ipady = 5;
@@ -775,7 +816,7 @@ public class frmMain2 extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.ipadx = 6;
         gridBagConstraints.ipady = 6;
@@ -808,7 +849,7 @@ public class frmMain2 extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 2;
@@ -816,6 +857,39 @@ public class frmMain2 extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
         getContentPane().add(jSplitPane1, gridBagConstraints);
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        getContentPane().add(jPanel2, gridBagConstraints);
+
+        lblSelectedMech.setText("Selected Mech");
+        jPanel5.add(lblSelectedMech);
+
+        txtMechwarrior1.setText("Mechwarrior");
+        txtMechwarrior1.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel5.add(txtMechwarrior1);
+
+        txtGunnery1.setText("Gunnery");
+        txtGunnery1.setMaximumSize(new java.awt.Dimension(100, 20));
+        txtGunnery1.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtGunnery1.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel5.add(txtGunnery1);
+
+        txtPiloting1.setText("Piloting");
+        txtPiloting1.setMaximumSize(new java.awt.Dimension(100, 20));
+        txtPiloting1.setMinimumSize(new java.awt.Dimension(100, 20));
+        txtPiloting1.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel5.add(txtPiloting1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        getContentPane().add(jPanel5, gridBagConstraints);
 
         mnuFile.setText("File");
 
@@ -907,7 +981,7 @@ public class frmMain2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void btnAddUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUnitActionPerformed
+    private void btnAddUnitTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUnitTopActionPerformed
     dlgAddEdit Editor = new dlgAddEdit( this, true );
     Editor.setLocationRelativeTo( this );
     Editor.setVisible( true );
@@ -915,10 +989,10 @@ private void btnAddUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         leftForce.AddUnit(Editor.GetUnit());
         RefreshDisplay();
     }
-}//GEN-LAST:event_btnAddUnitActionPerformed
+}//GEN-LAST:event_btnAddUnitTopActionPerformed
 
-private void btnEditUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUnitActionPerformed
-    Unit u = (Unit) leftForce.Units.get( tblForce.getSelectedRow() );
+private void btnEditUnitTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUnitTopActionPerformed
+    Unit u = (Unit) leftForce.Units.get( tblForce.convertRowIndexToModel(tblForce.getSelectedRow() ) );
     dlgAddEdit Editor = new dlgAddEdit( this, true, u );
     Editor.setTitle("Edit Unit");
     Editor.setLocationRelativeTo( this );
@@ -927,24 +1001,30 @@ private void btnEditUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         leftForce.AddUnit(Editor.GetUnit());
         RefreshDisplay();
     }
-}//GEN-LAST:event_btnEditUnitActionPerformed
+}//GEN-LAST:event_btnEditUnitTopActionPerformed
 
-private void btnRemoveUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUnitActionPerformed
+private void btnRemoveUnitTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUnitTopActionPerformed
     int[] rows = tblForce.getSelectedRows();
     for (int i=0; i <= rows.length; i++ ) {
-        leftForce.RemoveUnit((Unit) leftForce.Units.get(rows[i]));
+        leftForce.RemoveUnit((Unit) leftForce.Units.get(tblForce.convertRowIndexToModel(rows[i])));
     }
     RefreshDisplay();
-}//GEN-LAST:event_btnRemoveUnitActionPerformed
+}//GEN-LAST:event_btnRemoveUnitTopActionPerformed
 
 private void tblForceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblForceMouseClicked
-    if (evt.getClickCount() >= 2) { btnEditUnitActionPerformed(null); }
+    if (evt.getClickCount() >= 2) { btnEditUnitTopActionPerformed(null); }
     if (evt.getButton() == MouseEvent.BUTTON3) {
         mnuPopUp.setLocation(evt.getLocationOnScreen());
         mnuPopUp.setInvoker(evt.getComponent());
         mnuEdit.setEnabled(true);
         mnuDelete.setEnabled(true);
         mnuPopUp.setVisible(true);
+    } else {
+        Unit u = (Unit) leftForce.Units.get(tblForce.convertRowIndexToModel(tblForce.getSelectedRow()));
+        lblSelectedMech.setText(u.TypeModel);
+        txtMechwarrior1.setText(u.Mechwarrior);
+        txtGunnery1.setText(u.Gunnery + "");
+        txtPiloting1.setText(u.Piloting + "");
     }
 }//GEN-LAST:event_tblForceMouseClicked
 
@@ -969,7 +1049,7 @@ private void mnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 }//GEN-LAST:event_mnuExitActionPerformed
 
 private void tblForce2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblForce2MouseClicked
-    if (evt.getClickCount() >= 2) { btnEditUnit1ActionPerformed(null); }
+    if (evt.getClickCount() >= 2) { btnEditUnitBottomActionPerformed(null); }
     if (evt.getButton() == MouseEvent.BUTTON3) {
         mnuPopUp.setLocation(evt.getLocationOnScreen());
         mnuPopUp.setInvoker(evt.getComponent());
@@ -979,7 +1059,7 @@ private void tblForce2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:e
     }
 }//GEN-LAST:event_tblForce2MouseClicked
 
-private void btnAddUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUnit1ActionPerformed
+private void btnAddUnitBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUnitBottomActionPerformed
     dlgAddEdit Editor = new dlgAddEdit( this, true );
     Editor.setLocationRelativeTo( this );
     Editor.setVisible( true );
@@ -987,10 +1067,10 @@ private void btnAddUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         rightForce.AddUnit( Editor.GetUnit() );
         RefreshDisplay();
     }
-}//GEN-LAST:event_btnAddUnit1ActionPerformed
+}//GEN-LAST:event_btnAddUnitBottomActionPerformed
 
-private void btnEditUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUnit1ActionPerformed
-    Unit u = (Unit) rightForce.Units.get( tblForce2.getSelectedRow() );
+private void btnEditUnitBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUnitBottomActionPerformed
+    Unit u = (Unit) rightForce.Units.get( tblForce2.convertRowIndexToModel(tblForce2.getSelectedRow() ) );
     dlgAddEdit Editor = new dlgAddEdit( this, true, u );
     Editor.setTitle("Edit Unit");
     Editor.setLocationRelativeTo( this );
@@ -999,16 +1079,16 @@ private void btnEditUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         rightForce.AddUnit( Editor.GetUnit() );
         RefreshDisplay();
     }
-}//GEN-LAST:event_btnEditUnit1ActionPerformed
+}//GEN-LAST:event_btnEditUnitBottomActionPerformed
 
-private void btnRemoveUnit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUnit1ActionPerformed
+private void btnRemoveUnitBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUnitBottomActionPerformed
     int[] rows = tblForce2.getSelectedRows();
     for (int i=0; i <= rows.length; i++ ) {
-        rightForce.RemoveUnit((Unit) rightForce.Units.get(rows[i]));
+        rightForce.RemoveUnit((Unit) rightForce.Units.get(tblForce2.convertRowIndexToModel(rows[i])));
     }
     
     RefreshDisplay();
-}//GEN-LAST:event_btnRemoveUnit1ActionPerformed
+}//GEN-LAST:event_btnRemoveUnitBottomActionPerformed
 
 private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
     if (evt.getButton() == MouseEvent.BUTTON3) {
@@ -1018,13 +1098,13 @@ private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRS
         mnuDelete.setEnabled(false);
         mnuPopUp.setVisible(true);
     } else {
-        btnAddUnitActionPerformed(null);
+        btnAddUnitTopActionPerformed(null);
     }
 }//GEN-LAST:event_jScrollPane1MouseClicked
 
 private void tblForceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblForceKeyPressed
     if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-        btnRemoveUnitActionPerformed(null);
+        btnRemoveUnitTopActionPerformed(null);
     }
 }//GEN-LAST:event_tblForceKeyPressed
 
@@ -1036,53 +1116,51 @@ private void jScrollPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRS
         mnuDelete.setEnabled(false);
         mnuPopUp.setVisible(true);
     } else {
-       btnAddUnit1ActionPerformed(null);
+       btnAddUnitBottomActionPerformed(null);
     }
 }//GEN-LAST:event_jScrollPane2MouseClicked
 
 private void tblForce2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblForce2KeyPressed
     if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-        btnRemoveUnit1ActionPerformed(null);
+        btnRemoveUnitBottomActionPerformed(null);
     }
 }//GEN-LAST:event_tblForce2KeyPressed
 
 private void mnuAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAddActionPerformed
     if (mnuPopUp.getInvoker().equals(tblForce)) {
-        btnAddUnitActionPerformed(evt);
+        btnAddUnitTopActionPerformed(evt);
     } else if (mnuPopUp.getInvoker().equals(tblForce2)) {
-        btnAddUnit1ActionPerformed(evt);
+        btnAddUnitBottomActionPerformed(evt);
     } else if (mnuPopUp.getInvoker().equals(jScrollPane1)) {
-        btnAddUnitActionPerformed(evt);
+        btnAddUnitTopActionPerformed(evt);
     } else if (mnuPopUp.getInvoker().equals(jScrollPane2)) {
-        btnAddUnit1ActionPerformed(evt);
+        btnAddUnitBottomActionPerformed(evt);
     }
 }//GEN-LAST:event_mnuAddActionPerformed
 
 private void mnuEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuEditActionPerformed
      if (mnuPopUp.getInvoker().equals(tblForce)) {
-         btnEditUnitActionPerformed(evt);
+         btnEditUnitTopActionPerformed(evt);
     } else if (mnuPopUp.getInvoker().equals(tblForce2)) {
-        btnEditUnit1ActionPerformed(evt);
+        btnEditUnitBottomActionPerformed(evt);
     }
 }//GEN-LAST:event_mnuEditActionPerformed
 
 private void mnuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDeleteActionPerformed
     if (mnuPopUp.getInvoker().equals(tblForce)) {
-        btnRemoveUnitActionPerformed(evt);
+        btnRemoveUnitTopActionPerformed(evt);
     } else if (mnuPopUp.getInvoker().equals(tblForce2)) {
-        btnRemoveUnit1ActionPerformed(evt);
+        btnRemoveUnitBottomActionPerformed(evt);
     }
 }//GEN-LAST:event_mnuDeleteActionPerformed
 
 private void mnuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveActionPerformed
-    if ((!txtForceName.getText().isEmpty()) && (!txtForceName1.getText().isEmpty())) {
+    if ((!txtForceNameTop.getText().isEmpty()) && (!txtForceNameBottom.getText().isEmpty())) {
         try {
-            String filename = (Prefs.get("LastOpenDirectory", "") + CommonTools.FormatFileName(txtForceName.getText() + "_vs_" + txtForceName1.getText() + ".xml"));
+            String filename = (Prefs.get("LastOpenBFBDirectory", "") + CommonTools.FormatFileName(txtForceNameTop.getText() + "_vs_" + txtForceNameBottom.getText() + ".xml"));
             XMLWriter write = new XMLWriter(this.leftForce, this.rightForce);
             write.WriteXML(filename);
-            //write.SerializeForce(leftForce);
-            //write.SerializeForce(rightForce);
-            Prefs.put("LastOpenFile", filename);
+            Prefs.put("LastOpenBFBFile", filename);
             javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
@@ -1099,67 +1177,32 @@ private void mnuAboutCalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     About.setVisible(true);
 }//GEN-LAST:event_mnuAboutCalcActionPerformed
 
-private void txtForceNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtForceNameFocusLost
-    leftForce.ForceName = txtForceName.getText();
+private void txtForceNameTopFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtForceNameTopFocusLost
+    leftForce.ForceName = txtForceNameTop.getText();
     leftForce.isDirty = true;
-}//GEN-LAST:event_txtForceNameFocusLost
+}//GEN-LAST:event_txtForceNameTopFocusLost
 
-private void txtForceName1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtForceName1FocusLost
-    rightForce.ForceName = txtForceName1.getText();
+private void txtForceNameBottomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtForceNameBottomFocusLost
+    rightForce.ForceName = txtForceNameBottom.getText();
     rightForce.isDirty = true;
-}//GEN-LAST:event_txtForceName1FocusLost
+}//GEN-LAST:event_txtForceNameBottomFocusLost
 
 private void mnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLoadActionPerformed
-    File tempFile = new File(Prefs.get("LastOpenDirectory", ""));
-    JFileChooser fc = new JFileChooser();
-    fc.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
+    FileSelector openFile = new FileSelector();
+    File forceFile = openFile.SelectFile(Prefs.get("LastOpenBFBDirectory", ""), "xml", "Load Force List");
 
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()){
-                    return true;
-                }
+    if (forceFile != null) {
+        XMLReader reader = new XMLReader();
+        try {
+           reader.ReadFile(this, forceFile.getCanonicalPath());
 
-                if (f.getName().indexOf(".") > 0) {
-                    String extension = "" + f.getName().substring(f.getName().indexOf("."));
-                    if (extension.equals(".xml")){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-
-            @Override
-            public String getDescription() {
-                return "*.xml";
-            }
-        });
-     fc.setAcceptAllFileFilterUsed( false );
-     fc.setCurrentDirectory(tempFile);
-     int returnVal = fc.showDialog( this, "Load Force Listing" );
-       if( returnVal != JFileChooser.APPROVE_OPTION ) { return; }
-       File ForceFile = fc.getSelectedFile();
-       String filename = "";
-       try {
-           filename = ForceFile.getCanonicalPath();
-           Prefs.put("LastOpenDirectory", ForceFile.getCanonicalPath().replace(ForceFile.getName(), ""));
-           Prefs.put("LastOpenFile", ForceFile.getName());
-       } catch( Exception e ) {
-           javax.swing.JOptionPane.showMessageDialog( this, "There was a problem opening the file:\n" + e.getMessage() );
-           return;
-       }
-
-       XMLReader reader = new XMLReader();
-       try {
-           reader.ReadFile(this, filename);
-       } catch (Exception e) {
+           Prefs.put("LastOpenBFBDirectory", forceFile.getCanonicalPath().replace(forceFile.getName(), ""));
+           Prefs.put("LastOpenBFBFile", forceFile.getName());
+        } catch (Exception e) {
            javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
            return;
-       }
-
+        }
+    }
 }//GEN-LAST:event_mnuLoadActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -1186,21 +1229,24 @@ private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_mnuPrintActionPerformed
 
 private void LoadFromFile(Force f){
+    FileSelector openFile = new FileSelector();
     SSWReader reader = new SSWReader();
     File[] files = null;
     try
     {
-        files = SelectFiles();
-        if (files.length > 0)
-        {
-            for (int i = 0; i<= files.length-1; i++) {
-                try {
-                   reader.ReadFile(f, files[i].getCanonicalPath());
-                   RefreshDisplay();
-                   //reader.ReadFile(this, this.leftForce, filename);
-                } catch (Exception e) {
-                   javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
-                   return;
+        files = openFile.SelectFiles(Prefs.get("LastOpenSSWDirectory", ""), "ssw", "Select File(s)");
+        if (files != null) {
+            if (files.length > 0)
+            {
+                Prefs.put("LastOpenSSWDirectory", files[0].getCanonicalPath());
+                for (int i = 0; i<= files.length-1; i++) {
+                    try {
+                       reader.ReadFile(f, files[i].getCanonicalPath());
+                       RefreshDisplay();
+                    } catch (Exception e) {
+                       javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
+                       return;
+                    }
                 }
             }
         }
@@ -1209,54 +1255,17 @@ private void LoadFromFile(Force f){
     }
 }
 
-private File[] SelectFiles() throws IOException {
-    File[] files = null;
-    File tempFile = new File(Prefs.get("LastOpenDirectory", ""));
-    JFileChooser fc = new JFileChooser();
-    fc.setMultiSelectionEnabled(true);
-    fc.addChoosableFileFilter( new javax.swing.filechooser.FileFilter() {
-        public boolean accept( File f ) {
-            if (f.isDirectory()) {
-                return true;
-            }
-
-            String extension = "" + CommonTools.getExtension(f);
-            if ( extension != null ) {
-                if ( extension.equals( "ssw" ) ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        //The description of this filter
-        public String getDescription() {
-            return "*.ssw";
-        }
-    } );
-    fc.setAcceptAllFileFilterUsed( false );
-    fc.setCurrentDirectory(tempFile);
-    int returnVal = fc.showDialog( this, "Select File(s)" );
-    if( returnVal == JFileChooser.APPROVE_OPTION ) {
-        files = fc.getSelectedFiles();
-        Prefs.put("LastOpenDirectory", fc.getCurrentDirectory().getCanonicalPath());
-    }
-    return files;
-}
-
 private void fileDropped(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileDropped
 
 }//GEN-LAST:event_fileDropped
 
-private void btnLoadFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFileActionPerformed
+private void btnLoadFromFileTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFileTopActionPerformed
     LoadFromFile(this.leftForce);
-}//GEN-LAST:event_btnLoadFromFileActionPerformed
+}//GEN-LAST:event_btnLoadFromFileTopActionPerformed
 
-private void btnLoadFromFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFile1ActionPerformed
+private void btnLoadFromFileBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFileBottomActionPerformed
     LoadFromFile(this.rightForce);
-}//GEN-LAST:event_btnLoadFromFile1ActionPerformed
+}//GEN-LAST:event_btnLoadFromFileBottomActionPerformed
 
 private void mnuPrintDesignsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintDesignsActionPerformed
     Vector forces = new Vector();
@@ -1295,19 +1304,21 @@ private void mnuDesignMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_mnuDesignMechActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddUnit;
-    private javax.swing.JButton btnAddUnit1;
-    private javax.swing.JButton btnEditUnit;
-    private javax.swing.JButton btnEditUnit1;
-    private javax.swing.JButton btnLoadFromFile;
-    private javax.swing.JButton btnLoadFromFile1;
-    private javax.swing.JButton btnRemoveUnit;
-    private javax.swing.JButton btnRemoveUnit1;
+    private javax.swing.JButton btnAddUnitBottom;
+    private javax.swing.JButton btnAddUnitTop;
+    private javax.swing.JButton btnEditUnitBottom;
+    private javax.swing.JButton btnEditUnitTop;
+    private javax.swing.JButton btnLoadFromFileBottom;
+    private javax.swing.JButton btnLoadFromFileTop;
+    private javax.swing.JButton btnRemoveUnitBottom;
+    private javax.swing.JButton btnRemoveUnitTop;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
@@ -1332,6 +1343,7 @@ private void mnuDesignMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JLabel lblForceMultiplierAdjustedVal1;
     private javax.swing.JLabel lblForceName;
     private javax.swing.JLabel lblForceName1;
+    private javax.swing.JLabel lblSelectedMech;
     private javax.swing.JLabel lblTotalBV;
     private javax.swing.JLabel lblTotalBV1;
     private javax.swing.JLabel lblTotalBVVal;
@@ -1366,8 +1378,11 @@ private void mnuDesignMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JMenuItem mnuSave;
     private javax.swing.JTable tblForce;
     private javax.swing.JTable tblForce2;
-    private javax.swing.JTextField txtForceName;
-    private javax.swing.JTextField txtForceName1;
+    private javax.swing.JTextField txtForceNameBottom;
+    private javax.swing.JTextField txtForceNameTop;
+    private javax.swing.JTextField txtGunnery1;
+    private javax.swing.JTextField txtMechwarrior1;
+    private javax.swing.JTextField txtPiloting1;
     // End of variables declaration//GEN-END:variables
 
 }

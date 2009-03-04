@@ -234,6 +234,14 @@ public class Force extends AbstractTableModel {
     }
     public int getRowCount() { return Units.size(); }
     public int getColumnCount() { return 9; }
+    @Override
+    public Class getColumnClass(int c) {
+        if (Units.size() > 0) {
+            return getValueAt(0, c).getClass();
+        } else {
+            return String.class;
+        }
+    }
     public Object getValueAt( int row, int col ) {
         Unit u = (Unit) Units.get( row );
         switch( col ) {
