@@ -34,16 +34,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import org.w3c.dom.Node;
 import ssw.components.Mech;
+import ssw.filehandlers.MechListData;
 import ssw.filehandlers.XMLReader;
 
-/**
- *
- * @author justin
- */
 public class Unit {
     public String TypeModel = "",
                   Mechwarrior = "",
-                  Filename = "";
+                  Filename = "",
+                  Configuration = "";
     public float BaseBV = 0.0f,
                  MiscMod = 1.0f,
                  Tonnage = 20.0f,
@@ -59,11 +57,20 @@ public class Unit {
 
     public Unit(){
     }
-    
-    public Unit(Node n) throws Exception {
+
+    public Unit( MechListData m ) {
+        this.TypeModel = m.getName() + " "  + m.getModel();
+        this.Tonnage = m.getTonnage();
+        this.BaseBV = m.getBV();
+        this.Filename = m.getFilename();
+        this.Configuration = m.getConfig();
+    }
+
+    public Unit( Node n ) throws Exception {
         for (int i=0; i < n.getChildNodes().getLength(); i++) {
             String nodeName = n.getChildNodes().item(i).getNodeName();
             if (nodeName.equals("model")) {TypeModel = n.getChildNodes().item(i).getTextContent();}
+            if (nodeName.equals("config")) {Configuration = n.getChildNodes().item(i).getTextContent();}
             if (nodeName.equals("tonnage")) {Tonnage = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("basebv")) {BaseBV = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("modifier")) {MiscMod = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
@@ -96,12 +103,19 @@ public class Unit {
         if (UsingC3) { C3BV += TotalBV * .05;}
     }
 
+    public void UpdateByMech() {
+        TypeModel = m.GetFullName();
+        Configuration = m.GetLoadout().GetName();
+        BaseBV = m.GetCurrentBV();
+        Refresh();
+    }
+
     public String GetSkills(){
         return Gunnery + "/" + Piloting;
     }
 
     public void RenderPrint(PrintSheet p) {
-        p.WriteStr(TypeModel, 60);
+        p.WriteStr(TypeModel, 120);
         p.WriteStr(Mechwarrior, 140);
         p.WriteStr(Constants.UnitTypes[UnitType], 60);
         p.WriteStr(String.format("%1$,.2f", Tonnage), 50);
@@ -118,6 +132,8 @@ public class Unit {
 
     public void SerializeXML(BufferedWriter file) throws IOException {
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<model>" + this.TypeModel + "</model>");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<config>" + this.Configuration + "</config>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<tonnage>" + this.Tonnage + "</tonnage>");
         file.newLine();
@@ -137,6 +153,18 @@ public class Unit {
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename + "</ssw>");
         file.newLine();
+    }
+
+    public void LoadMech() {
+        try {
+            XMLReader reader = new XMLReader();
+            this.m = reader.ReadMech(this.Filename);
+            if ( ! this.Configuration.isEmpty() ) {
+                this.m.SetCurLoadout(this.Configuration.trim());
+            }
+        } catch (Exception ex) {
+            //do nothing
+        }
     }
 
 }

@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB;
 
-import BFB.GUI.frmMain2;
+import BFB.GUI.frmBase;
 import java.awt.Font;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
@@ -80,7 +80,9 @@ public class Main {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                frmMain2 MainFrame = new frmMain2();
+                frmBase MainFrame = new frmBase();
+
+                //frmMain2 MainFrame = new frmMain2();
                 //MainFrame.setTitle( Constants.AppDescription + " " + Constants.Version );
                 //MainFrame.setSize( 760, 575 );
                 MainFrame.setLocationRelativeTo( null );

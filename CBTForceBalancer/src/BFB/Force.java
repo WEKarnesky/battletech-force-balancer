@@ -26,13 +26,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package BFB;
+
 import BFB.IO.PrintSheet;
 import BFB.Common.CommonTools;
 import BFB.Common.Constants;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableRowSorter;
 import org.w3c.dom.Node;
 
 /**
@@ -41,7 +48,8 @@ import org.w3c.dom.Node;
  */
 public class Force extends AbstractTableModel {
     public Vector Units = new Vector();
-    public String ForceName = "";
+    public String ForceName = "",
+                  LogoPath = "";
     public float TotalBaseBV = 0.0f,
                  TotalModifier = 0.0f,
                  TotalTonnage = 0.0f,
@@ -57,12 +65,13 @@ public class Force extends AbstractTableModel {
     public boolean isDirty = false,
                     useUnevenForceMod = false;
 
-    public Force(){
-    
+    public Force( ){
+
     }
 
     public Force(Node ForceNode) throws Exception {
         this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent();
+        this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent();
         for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
             Node n = ForceNode.getChildNodes().item(i);
             if (n.getNodeName().equals("unit")) {
@@ -133,7 +142,7 @@ public class Force extends AbstractTableModel {
         String tab = "    ";
         Unit u = null;
 
-        file.write( tab + "<force name=\"" + this.ForceName + "\">" );
+        file.write( tab + "<force name=\"" + this.ForceName + "\" logo=\"" + this.LogoPath + "\">" );
         file.newLine();
 
         for (int i = 0; i <= this.Units.size() - 1; i++) {
@@ -160,8 +169,8 @@ public class Force extends AbstractTableModel {
         p.setFont(CommonTools.ItalicFont);
         
         //Output column Headers
-        p.WriteStr("Name", 60);
-        p.WriteStr("Pilot", 140);
+        p.WriteStr("Units", 120);
+        p.WriteStr("Mechwarrior", 140);
         p.WriteStr("Type", 60);
         p.WriteStr("Tonnage", 50);
         p.WriteStr("Base BV", 50);
@@ -185,7 +194,7 @@ public class Force extends AbstractTableModel {
 
         //Outut Totals
         p.setFont(CommonTools.ItalicFont);
-        p.WriteStr(Units.size() + " Units", 60);
+        p.WriteStr(Units.size() + " Units", 120);
         p.WriteStr("", 140);
         p.WriteStr("", 60);
         p.WriteStr(String.format("%1$,.2f", TotalTonnage), 50);
@@ -205,7 +214,44 @@ public class Force extends AbstractTableModel {
 
     public void Clear() {
         Units.removeAllElements();
+        ForceName = "";
+        LogoPath = "";
+        TotalBaseBV = 0.0f;
+        TotalModifier = 0.0f;
+        TotalTonnage = 0.0f;
+        TotalC3BV = 0.0f;
+        TotalSkillBV = 0.0f;
+        TotalModifierBV = 0.0f;
+        TotalAdjustedBV = 0.0f;
+        TotalForceBV = 0.0f;
+        UnevenForceMod = 0.0f;
+        TotalForceBVAdjusted = 0.0f;
+        NumC3 = 0;
+        OpForSize = 0;
+        isDirty = false;
+        useUnevenForceMod = false;
         RefreshBV();
+    }
+
+    public void setupTable( JTable tbl ) {
+        tbl.setModel(this);
+
+        //Create a sorting class and apply it to the list
+        TableRowSorter Leftsorter = new TableRowSorter<Force>(this);
+        List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(7, SortOrder.ASCENDING));
+        Leftsorter.setSortKeys(sortKeys);
+        tbl.setRowSorter(Leftsorter);
+
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tbl.getColumnModel().getColumn(4).setPreferredWidth(20);
+        tbl.getColumnModel().getColumn(5).setPreferredWidth(20);
+        tbl.getColumnModel().getColumn(6).setPreferredWidth(20);
+        tbl.getColumnModel().getColumn(7).setPreferredWidth(20);
     }
 
     @Override
@@ -237,10 +283,34 @@ public class Force extends AbstractTableModel {
     @Override
     public Class getColumnClass(int c) {
         if (Units.size() > 0) {
-            return getValueAt(0, c).getClass();
+            return getClassOf(0, c).getClass();
         } else {
             return String.class;
         }
+    }
+    public Object getClassOf( int row, int col ) {
+        Unit u = (Unit) Units.get( row );
+        switch( col ) {
+            case 0:
+                return u.TypeModel;
+            case 1:
+                return "";
+            case 2:
+                return u.Mechwarrior;
+            case 3:
+                return u.Tonnage;
+            case 4:
+                return u.Gunnery;
+            case 5:
+                return u.Piloting;
+            case 6:
+                return u.MiscMod;
+            case 7:
+                return "";
+            case 8:
+                return "";
+        }
+        return "";
     }
     public Object getValueAt( int row, int col ) {
         Unit u = (Unit) Units.get( row );
@@ -272,10 +342,36 @@ public class Force extends AbstractTableModel {
     }
     @Override
     public boolean isCellEditable( int row, int col ) {
+        switch( col ) {
+            case 2:
+                return true;
+            case 4:
+                return true;
+            case 5:
+                return true;
+            case 6:
+                return true;
+        }
         return false;
     }
     @Override
     public void setValueAt( Object value, int row, int col ) {
-        return;
+        Unit u = (Unit) Units.get( row );
+        switch( col ) {
+            case 2:
+                u.Mechwarrior = value.toString();
+                break;
+            case 4:
+                u.Gunnery = Integer.parseInt(value.toString());
+                break;
+            case 5:
+                u.Piloting = Integer.parseInt(value.toString());
+                break;
+            case 6:
+                u.MiscMod = Float.parseFloat(value.toString());
+                break;
+        }
+        u.Refresh();
+        RefreshBV();
     }
 }

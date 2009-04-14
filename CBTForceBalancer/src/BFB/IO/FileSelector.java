@@ -33,15 +33,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.IO;
 
-import BFB.GUI.frmMain2;
+import BFB.Common.CommonTools;
+import BFB.GUI.frmBase;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import ssw.gui.ImageFilter;
+import ssw.gui.ImagePreview;
 
 public class FileSelector {
+    MediaTracker Tracker = new MediaTracker(new JLabel());
+    Toolkit toolkit = Toolkit.getDefaultToolkit();
     JFileChooser fileChooser = new JFileChooser();
-    frmMain2 Parent = null;
+    frmBase Parent = null;
 
-    public void FileSelector(frmMain2 parent) {
+    public void FileSelector(frmBase parent) {
         Parent = parent;
     }
 
@@ -70,6 +79,50 @@ public class FileSelector {
             files = fileChooser.getSelectedFiles();
         }
         return files;
+    }
+
+    public File SelectImage(String defaultDirectory, String commandName) {
+        File tempFile = new File(defaultDirectory);
+        fileChooser.addChoosableFileFilter(new ImageFilter());
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setCurrentDirectory(tempFile);
+        fileChooser.setAccessory(new ImagePreview(fileChooser));
+        int returnVal = fileChooser.showDialog(null, commandName);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            return null;
+        }
+        return fileChooser.getSelectedFile();
+    }
+
+    public Image GetImage(String filename) {
+        Image retval = toolkit.getImage( filename );
+        Tracker.addImage( retval, 0 );
+        try {
+            Tracker.waitForID( 0 );
+        } catch (InterruptedException ie) {
+            // do nothing
+        }
+        return retval;
+    }
+    public String GetDirectorySelection( ) {
+        return GetDirectorySelection( "" );
+    }
+
+    public String GetDirectorySelection( String defaultPath ) {
+        String path = defaultPath;
+
+        fileChooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setCurrentDirectory(new File(CommonTools.GetSafeFilename(defaultPath)));
+
+        //Show it.
+        int returnVal = fileChooser.showDialog( null, "Choose directory");
+
+        //Process the results.  If no file is chosen, the default is used.
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            path = fileChooser.getSelectedFile().getPath();
+        }
+        return path;
     }
     
     private class ExtensionFilter extends javax.swing.filechooser.FileFilter {

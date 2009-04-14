@@ -28,10 +28,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.GUI;
 
 import ssw.components.*;
+import ssw.filehandlers.MechListData;
 
 public class dlgOmnis extends javax.swing.JDialog {
-    private frmMain2 parent;
-    public Mech m;
+    private frmBase parent;
+    public MechListData m;
     public String Variant;
 
     public Boolean result = false;
@@ -40,14 +41,14 @@ public class dlgOmnis extends javax.swing.JDialog {
     public dlgOmnis(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.parent = (frmMain2) parent;
+        this.parent = (frmBase) parent;
     }
 
-    public dlgOmnis(java.awt.Frame parent, boolean modal, Mech m) {
+    public dlgOmnis(java.awt.Frame parent, boolean modal, MechListData m) {
         this(parent, modal);
-        for (int i=0; i < m.GetLoadouts().size(); i++) {
-            ifLoadout l = (ifLoadout) m.GetLoadouts().get(i);
-            cboVariants.addItem(l.GetName());
+        for (int i=0; i < m.Configurations.size(); i++) {
+            MechListData l = (MechListData) m.Configurations.get(i);
+            cboVariants.addItem(l.getConfig());
         }
     }
 

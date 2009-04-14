@@ -26,10 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package BFB.IO;
 
-import BFB.GUI.frmMain2;
 import BFB.*;
 import BFB.Common.CommonTools;
 import BFB.GUI.dlgOmnis;
+import BFB.GUI.frmBase;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
@@ -42,7 +42,7 @@ import ssw.filehandlers.MechListData;
  * @author gblouin
  */
 public class SSWReader {
-    frmMain2 Parent;
+    frmBase Parent;
     Force force;
 
     public void ReadFile( Force f, String filename ) throws Exception {
@@ -52,14 +52,19 @@ public class SSWReader {
             MechListData m = r.ReadMechData(filename);
            
             //Mech m = r.ReadMech(filename);
-//            if (m.IsOmnimech()) {
-//                dlgOmnis dOmni = new dlgOmnis(Parent, true, m);
-//                dOmni.setLocationRelativeTo(Parent);
-//                dOmni.setVisible(true);
-//                if (dOmni.result) {
-//                    m.SetCurLoadout(dOmni.Variant);
-//                }
-//            }
+            if (m.isOmni()) {
+                dlgOmnis dOmni = new dlgOmnis(Parent, true, m);
+                dOmni.setLocationRelativeTo(Parent);
+                dOmni.setVisible(true);
+                if (dOmni.result) {
+                    for (int i=0; i < m.Configurations.size(); i++) {
+                        MechListData l = (MechListData) m.Configurations.get(i);
+                        if (l.getConfig().equals(dOmni.Variant)) {
+                            m = l;
+                        }
+                    }
+                }
+            }
             f.Units.add(BuildUnit(m, filename));
             f.RefreshBV();
         } catch (Exception e) {
@@ -67,7 +72,7 @@ public class SSWReader {
         }
     }
 
-    public void ReadFile(frmMain2 p, Force f, String filename ) throws Exception {
+    public void ReadFile(frmBase p, Force f, String filename ) throws Exception {
         Parent = p;
         force = f;
         Document load;
@@ -79,7 +84,7 @@ public class SSWReader {
         load = db.parse( filename );
         force.Units.add(BuildUnit(load));
         force.RefreshBV();
-        Parent.RefreshDisplay();
+        Parent.Refresh();
     }
 
     private Unit BuildUnit( MechListData m, String filename ) {
@@ -89,6 +94,9 @@ public class SSWReader {
         u.Tonnage = m.getTonnage();
         u.UnitType = BFB.Common.Constants.BattleMech;
         u.Filename = filename;
+        if (m.isOmni()) {
+            u.Configuration = m.getConfig();
+        }
         u.Refresh();
         return u;
     }
