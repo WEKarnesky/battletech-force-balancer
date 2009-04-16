@@ -27,9 +27,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.IO;
 
-import BFB.GUI.frmMain2;
-import BFB.*;
 import BFB.Common.CommonTools;
+import BFB.GUI.frmBase;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -41,7 +40,7 @@ import java.awt.print.PrinterException;
  * @author gblouin
  */
 public class PrintSheet implements Printable {
-    private frmMain2 Parent;
+    private frmBase Parent;
     private Graphics2D Graphic;
 
     public int pageWidth = 0;
@@ -49,8 +48,14 @@ public class PrintSheet implements Printable {
     public int currentX = 0;
     public int currentY = 0;
 
-    public PrintSheet(frmMain2 parent, int Width, int Height){
+    public PrintSheet(frmBase parent, int Width, int Height){
         Parent = parent;
+        pageWidth = Width;
+        pageHeight = Height;
+    }
+
+    public PrintSheet(int Width, int Height){
+        Parent = null;
         pageWidth = Width;
         pageHeight = Height;
     }
@@ -67,16 +72,16 @@ public class PrintSheet implements Printable {
         Reset();
         currentY += 15;
         setFont(CommonTools.TitleFont);
-        WriteStr("Battle Value Calculator", 0);
+        WriteStr("Battletech Force Balancer", 0);
         NewLine();
         setFont(CommonTools.PlainFont);
         WriteLine();
         NewLine();
         NewLine();
-        Parent.leftForce.RenderPrint(this);
+        Parent.topForce.RenderPrint(this);
         NewLine();
         NewLine();
-        Parent.rightForce.RenderPrint(this);
+        Parent.bottomForce.RenderPrint(this);
     }
 
     public void WriteStr(String line, int changeX) {

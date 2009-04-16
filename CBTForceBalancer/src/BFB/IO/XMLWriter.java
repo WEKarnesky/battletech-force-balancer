@@ -39,10 +39,18 @@ import java.io.OutputStreamWriter;
  * @author justin
  */
 public class XMLWriter {
+    private String Scenario = "";
     private Force leftForce;
     private Force rightForce;
 
+    public XMLWriter( String Scenario, Force left, Force right ) {
+        this.Scenario = Scenario;
+        leftForce = left;
+        rightForce = right;
+    }
+
     public XMLWriter( Force left, Force right ) {
+        this.Scenario = "";
         leftForce = left;
         rightForce = right;
     }
@@ -54,7 +62,7 @@ public class XMLWriter {
         FR.write( "<?xml version=\"1.0\" encoding =\"UTF-8\"?>" );
         FR.newLine();
 
-        FR.write( "<forcelist>" );
+        FR.write( "<forces scenario=\"" + this.Scenario + "\">" );
         FR.newLine();
 
         // start parsing the forces
@@ -62,7 +70,7 @@ public class XMLWriter {
         leftForce.SerializeXML(FR);
         rightForce.SerializeXML(FR);
 
-        FR.write( "</forcelist>" );
+        FR.write( "</forces>" );
         FR.newLine();
 
         FR.close();
