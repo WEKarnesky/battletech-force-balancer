@@ -1,0 +1,4 @@
+4-22-09
+- Reworked the GUI again, removed most of the numbers as they were not necessary, highlighted the main BV totals
+- Added the ability to save and load individual force files per section
+- Added the ability to select whether or not to use the Uneven Force Modifier
