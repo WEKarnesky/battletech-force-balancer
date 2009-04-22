@@ -33,15 +33,8 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author justin
- */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         try {
             // added code to turn off the boldface of Metal L&F.
@@ -81,10 +74,6 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 frmBase MainFrame = new frmBase();
-
-                //frmMain2 MainFrame = new frmMain2();
-                //MainFrame.setTitle( Constants.AppDescription + " " + Constants.Version );
-                //MainFrame.setSize( 760, 575 );
                 MainFrame.setLocationRelativeTo( null );
                 MainFrame.setResizable( false );
                 MainFrame.setDefaultCloseOperation( javax.swing.JFrame.DISPOSE_ON_CLOSE );

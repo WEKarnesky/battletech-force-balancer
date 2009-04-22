@@ -154,17 +154,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jToolBar1" alignment="1" pref="946" max="32767" attributes="0"/>
+          <Component id="jToolBar1" alignment="1" pref="895" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblScenarioName" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtScenarioName" min="-2" pref="298" max="-2" attributes="0"/>
-              <EmptySpace pref="518" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="chkUseForceModifier" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblForceMod" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="296" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="pnlTop" pref="926" max="32767" attributes="1"/>
+              <Component id="pnlTop" max="32767" attributes="1"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
@@ -182,12 +186,14 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblScenarioName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtScenarioName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="chkUseForceModifier" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblForceMod" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlTop" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlBottom" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -270,6 +276,22 @@
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JToolBar$Separator" name="jSeparator4">
+        </Component>
+        <Component class="javax.swing.JButton" name="btnMULExport">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/list_packages.gif"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Export Forces to MUL"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMULExportActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="lblScenarioName">
@@ -286,7 +308,10 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Force"/>
+            <TitledBorder title="Primary Force Listing">
+              <Font PropertyName="font" name="Trebuchet MS" size="12" style="1"/>
+              <Color PropertyName="color" blue="cc" green="33" red="0" type="rgb"/>
+            </TitledBorder>
           </Border>
         </Property>
       </Properties>
@@ -295,7 +320,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="lblUnitLogoTop" min="-2" pref="83" max="-2" attributes="0"/>
                       <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
@@ -304,27 +329,41 @@
                           <Component id="btnAddTop" alignment="1" max="32767" attributes="1"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="spnTop" pref="750" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="1">
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Component id="lblUnitsTop" min="-2" pref="19" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="307" max="-2" attributes="0"/>
+                          <Component id="lblTonnageTop" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="lblBaseBVTop" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="177" max="32767" attributes="0"/>
+                          <Component id="lblTotalBVTop" min="-2" pref="74" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Component id="lblUnitNameTop" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtUnitNameTop" min="-2" pref="148" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="spnTop" min="-2" pref="670" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtUnitNameTop" min="-2" pref="255" max="-2" attributes="0"/>
+                          <EmptySpace pref="390" max="32767" attributes="0"/>
+                          <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="lblUnitLogoTop" min="-2" pref="75" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -334,19 +373,29 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnDeleteTop" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblUnitNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtUnitNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="1">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="lblUnitNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtUnitNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="spnTop" min="0" pref="0" max="32767" attributes="1"/>
-                              <Component id="jPanel2" alignment="0" max="32767" attributes="1"/>
-                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="spnTop" min="0" pref="0" max="32767" attributes="1"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblUnitsTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTonnageTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblBaseBVTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTotalBVTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -427,179 +476,81 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblUnitLogoTopMouseClicked"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JPanel" name="jPanel2">
+        <Component class="javax.swing.JLabel" name="lblTotalBVTop">
           <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                <EtchetBorder/>
-              </Border>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Verdana" size="12" style="1"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0,000 BV"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblUnitsTop">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Units"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTonnageTop">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tons"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblBaseBVTop">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0,000"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="BV"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JToolBar" name="tlbTop">
+          <Properties>
+            <Property name="floatable" type="boolean" value="false"/>
+            <Property name="rollover" type="boolean" value="true"/>
           </Properties>
 
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblForceBVTop" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                                  <Component id="lblModBVTop" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                                  <Component id="lblTonnageTop" alignment="0" pref="28" max="32767" attributes="1"/>
-                                  <Component id="lblUnitsTop" alignment="0" pref="28" max="32767" attributes="1"/>
-                                  <Component id="lblC3BVTop" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="lblTotalBVTop" alignment="1" pref="28" max="32767" attributes="1"/>
-                              </Group>
-                          </Group>
-                          <Component id="lblBaseBVTop" min="0" pref="0" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lblUnitsTop7" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop8" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop9" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop10" alignment="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop11" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblTonnageTop1" alignment="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop1" alignment="0" min="-2" pref="63" max="-2" attributes="1"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblUnitsTop1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblTonnageTop1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblUnitsTop11" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblBaseBVTop" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop10" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop9" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop8" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop7" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                      <Component id="lblC3BVTop" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblUnitsTop" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lblTonnageTop" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                      <Component id="lblModBVTop" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lblForceBVTop" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="lblTotalBVTop" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop">
+            <Component class="javax.swing.JButton" name="btnOpenTop">
               <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/BFB/Images/folder.gif"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenTopActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblTonnageTop">
+            <Component class="javax.swing.JButton" name="btnSaveTop">
               <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/BFB/Images/action_save.gif"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBaseBVTop">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblC3BVTop">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblModBVTop">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblForceBVTop">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblTotalBVTop">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop7">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Adjusted BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop8">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Force BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop9">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Mod BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop10">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="C3 BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop11">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Base BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblTonnageTop1">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Tons"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop1">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Units"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveTopActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -609,7 +560,10 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Force"/>
+            <TitledBorder title="Secondary Force Listing">
+              <Font PropertyName="font" name="Trebuchet MS" size="12" style="1"/>
+              <Color PropertyName="color" blue="cc" green="33" red="0" type="rgb"/>
+            </TitledBorder>
           </Border>
         </Property>
       </Properties>
@@ -617,36 +571,54 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="lblUnitLogoBottom" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
-                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnEditBottom" alignment="1" max="32767" attributes="1"/>
-                          <Component id="btnDeleteBottom" alignment="1" max="32767" attributes="1"/>
-                          <Component id="btnAddBottom" alignment="1" max="32767" attributes="1"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="lblUnitNameBottom" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtUnitNameBottom" min="-2" pref="148" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="lblUnitLogoBottom" alignment="1" min="-2" pref="83" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnEditBottom" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="btnDeleteBottom" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="btnAddBottom" alignment="1" min="-2" max="-2" attributes="1"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="1">
+                                  <Component id="lblUnitNameBottom" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtUnitNameBottom" min="-2" pref="255" max="-2" attributes="0"/>
+                                  <EmptySpace pref="390" max="32767" attributes="0"/>
+                                  <Component id="tlbBottom" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="spnBottom" alignment="0" pref="750" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="spnBottom" min="-2" pref="667" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
+                          <Component id="lblUnitsBottom" min="-2" pref="19" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="313" max="-2" attributes="0"/>
+                          <Component id="lblTonnageBottom" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="lblBaseBVBottom" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="172" max="32767" attributes="0"/>
+                          <Component id="lblTotalBVBottom" min="-2" pref="73" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="lblUnitLogoBottom" min="-2" pref="75" max="-2" attributes="0"/>
@@ -658,16 +630,26 @@
                           <Component id="btnDeleteBottom" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblUnitNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtUnitNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="lblUnitNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtUnitNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="tlbBottom" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel3" alignment="0" pref="171" max="32767" attributes="0"/>
-                              <Component id="spnBottom" alignment="0" pref="171" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="spnBottom" min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblUnitsBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTonnageBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblBaseBVBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTotalBVBottom" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -747,174 +729,99 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblUnitLogoBottomMouseClicked"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JPanel" name="jPanel3">
+        <Component class="javax.swing.JLabel" name="lblTotalBVBottom">
           <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                <EtchetBorder/>
-              </Border>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Verdana" size="12" style="1"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0,000 BV"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblUnitsBottom">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Units"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTonnageBottom">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tons"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel7">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="BV"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblBaseBVBottom">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0,000"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JToolBar" name="tlbBottom">
+          <Properties>
+            <Property name="floatable" type="boolean" value="false"/>
+            <Property name="rollover" type="boolean" value="true"/>
           </Properties>
 
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTotalBVBottom" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblForceBVBottom" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblModBVBottom" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblBaseBVBottom" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblTonnageBottom" alignment="0" pref="28" max="32767" attributes="1"/>
-                          <Component id="lblUnitsBottom" alignment="0" pref="28" max="32767" attributes="1"/>
-                          <Component id="lblC3BVBottom" alignment="0" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lblUnitsTop18" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop19" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop20" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop21" alignment="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop22" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblTonnageTop3" alignment="0" max="32767" attributes="1"/>
-                          <Component id="lblUnitsTop23" alignment="0" min="-2" pref="63" max="-2" attributes="1"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblUnitsTop23" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblTonnageTop3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop22" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop21" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop20" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop19" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblUnitsTop18" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                              <Component id="lblC3BVBottom" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblUnitsBottom" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblTonnageBottom" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblBaseBVBottom" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="lblModBVBottom" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblForceBVBottom" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="lblTotalBVBottom" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="lblUnitsBottom">
+            <Component class="javax.swing.JButton" name="btnOpenBottom">
               <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/BFB/Images/folder.gif"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenBottomActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblTonnageBottom">
+            <Component class="javax.swing.JButton" name="btnSaveBottom">
               <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/BFB/Images/action_save.gif"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblBaseBVBottom">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblC3BVBottom">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblModBVBottom">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblForceBVBottom">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblTotalBVBottom">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0,000"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop18">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Adjusted BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop19">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Force BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop20">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Mod BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop21">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="C3 BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop22">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Base BV"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblTonnageTop3">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Tons"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblUnitsTop23">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="2"/>
-                <Property name="text" type="java.lang.String" value="Units"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveBottomActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JCheckBox" name="chkUseForceModifier">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="Use Force Size Modifier"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkUseForceModifierActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblForceMod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0.00"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

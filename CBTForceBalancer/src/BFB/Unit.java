@@ -39,6 +39,8 @@ import ssw.filehandlers.XMLReader;
 
 public class Unit {
     public String TypeModel = "",
+                  Type = "",
+                  Model = "",
                   Mechwarrior = "",
                   Filename = "",
                   Configuration = "";
@@ -53,12 +55,14 @@ public class Unit {
                Gunnery = 4,
                UnitType = Constants.BattleMech;
     public boolean UsingC3 = false;
-    public Mech m = new Mech();
+    public Mech m = null;
 
     public Unit(){
     }
 
     public Unit( MechListData m ) {
+        this.Type = m.getName();
+        this.Model = m.getModel();
         this.TypeModel = m.getName() + " "  + m.getModel();
         this.Tonnage = m.getTonnage();
         this.BaseBV = m.getBV();
@@ -69,7 +73,9 @@ public class Unit {
     public Unit( Node n ) throws Exception {
         for (int i=0; i < n.getChildNodes().getLength(); i++) {
             String nodeName = n.getChildNodes().item(i).getNodeName();
-            if (nodeName.equals("model")) {TypeModel = n.getChildNodes().item(i).getTextContent();}
+            if (nodeName.equals("type")) {Type = n.getChildNodes().item(i).getTextContent();}
+            if (nodeName.equals("model")) {Model = n.getChildNodes().item(i).getTextContent();}
+            TypeModel = Type + " " + Model;
             if (nodeName.equals("config")) {Configuration = n.getChildNodes().item(i).getTextContent();}
             if (nodeName.equals("tonnage")) {Tonnage = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("basebv")) {BaseBV = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
@@ -81,13 +87,13 @@ public class Unit {
             if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent();}
             if (nodeName.equals("ssw")) {
                 Filename = n.getChildNodes().item(i).getTextContent();
-                ssw.filehandlers.XMLReader read = new XMLReader();
-                try
-                {
-                    m = read.ReadMech(Filename);
-                } catch (Exception e) {
-                    //do nothing
-                }
+//                ssw.filehandlers.XMLReader read = new XMLReader();
+//                try
+//                {
+//                    m = read.ReadMech(Filename);
+//                } catch (Exception e) {
+//                    //do nothing
+//                }
             }
         }
         this.Refresh();
@@ -131,7 +137,9 @@ public class Unit {
     }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<model>" + this.TypeModel + "</model>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<type>" + this.Type + "</type>");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<model>" + this.Model + "</model>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<config>" + this.Configuration + "</config>");
         file.newLine();
@@ -155,15 +163,35 @@ public class Unit {
         file.newLine();
     }
 
+    public void SerializeMUL(BufferedWriter file) throws IOException {
+        if ( this.Type.contains("(") && this.Type.contains(")") ) {
+            this.Type = this.Type.substring(0, this.Type.indexOf(" (")).trim();
+        }
+
+        this.Model.replace("Alternate Configuration", "");
+        this.Model.replace("Alternate", "");
+        this.Model.replace("Alt", "");
+        this.Model.trim();
+
+        file.write(CommonTools.tab + "<entity chassis=\"" + this.Type + "\" model=\"" + this.Model + "\">");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + "<pilot name=\"" + this.Mechwarrior + "\" gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" />");
+        file.newLine();
+        file.write(CommonTools.tab + "</entity>");
+        file.newLine();
+    }
+
     public void LoadMech() {
-        try {
-            XMLReader reader = new XMLReader();
-            this.m = reader.ReadMech(this.Filename);
-            if ( ! this.Configuration.isEmpty() ) {
-                this.m.SetCurLoadout(this.Configuration.trim());
+        if ( m == null ) {
+            try {
+                XMLReader reader = new XMLReader();
+                this.m = reader.ReadMech(this.Filename);
+                if ( ! this.Configuration.isEmpty() ) {
+                    this.m.SetCurLoadout(this.Configuration.trim());
+                }
+            } catch (Exception ex) {
+                //do nothing
             }
-        } catch (Exception ex) {
-            //do nothing
         }
     }
 

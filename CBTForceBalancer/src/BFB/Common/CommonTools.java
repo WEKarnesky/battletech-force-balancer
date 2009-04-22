@@ -88,7 +88,6 @@ public class CommonTools {
         s = s.replaceAll("[{(}]", "%28");
         s = s.replaceAll("[{)}]", "%29");
         s = s.replaceAll("[{;}]", "%3B");
-        s = s.replaceAll("[{:}]", "%3A");
         s = s.replaceAll("[{@}]", "%40");
         s = s.replaceAll("[{&}]", "%26");
         s = s.replaceAll("[{=}]", "%3D");

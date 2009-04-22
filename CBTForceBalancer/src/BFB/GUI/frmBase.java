@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.GUI;
 
 import BFB.*;
+import BFB.Common.CommonTools;
 import BFB.IO.*;
 import java.awt.Cursor;
 import java.awt.Image;
@@ -64,6 +65,10 @@ public class frmBase extends javax.swing.JFrame {
     public frmBase() {
         initComponents();
         Prefs = Preferences.userNodeForPackage(this.getClass());
+
+        //Clear tracking data
+        Prefs.put("CurrentBFBFile", "");
+
         Refresh();
     }
 
@@ -73,6 +78,9 @@ public class frmBase extends javax.swing.JFrame {
 
         topForce.addTableModelListener(ForceChanged);
         bottomForce.addTableModelListener(ForceChanged);
+
+        topForce.OpForSize = bottomForce.Units.size();
+        bottomForce.OpForSize = topForce.Units.size();
         
         setLogo( lblUnitLogoTop, new File(topForce.LogoPath) );
         setLogo( lblUnitLogoBottom, new File(bottomForce.LogoPath) );
@@ -80,28 +88,26 @@ public class frmBase extends javax.swing.JFrame {
         txtUnitNameTop.setText(topForce.ForceName);
         txtUnitNameBottom.setText(bottomForce.ForceName);
 
+        lblForceMod.setText( String.format( "%1$,.2f", CommonTools.GetForceSizeMultiplier( topForce.Units.size(), bottomForce.Units.size() )) );
+
         topForce.OpForSize = bottomForce.Units.size();
         bottomForce.OpForSize = topForce.Units.size();
         
         lblUnitsTop.setText(topForce.Units.size()+"");
         lblTonnageTop.setText( String.format("%1$,.0f", topForce.TotalTonnage) );
         lblBaseBVTop.setText( String.format("%1$,.0f", topForce.TotalBaseBV) );
-        lblC3BVTop.setText( String.format("%1$,.0f", topForce.TotalC3BV) );
-        lblModBVTop.setText( String.format("%1$,.0f", topForce.TotalModifierBV) );
-        lblForceBVTop.setText( String.format("%1$,.0f", topForce.TotalAdjustedBV) );
+//        lblC3BVTop.setText( String.format("%1$,.0f", topForce.TotalC3BV) );
+//        lblModBVTop.setText( String.format("%1$,.0f", topForce.TotalModifierBV) );
+//        lblForceBVTop.setText( String.format("%1$,.0f", topForce.TotalAdjustedBV) );
         lblTotalBVTop.setText( String.format("%1$,.0f", topForce.TotalForceBV) );
 
         lblUnitsBottom.setText(bottomForce.Units.size()+"");
         lblTonnageBottom.setText( String.format("%1$,.0f", bottomForce.TotalTonnage) );
         lblBaseBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalBaseBV) );
-        lblC3BVBottom.setText( String.format("%1$,.0f", bottomForce.TotalC3BV) );
-        lblModBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalModifierBV) );
-        lblForceBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalAdjustedBV) );
+//        lblC3BVBottom.setText( String.format("%1$,.0f", bottomForce.TotalC3BV) );
+//        lblModBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalModifierBV) );
+//        lblForceBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalAdjustedBV) );
         lblTotalBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalForceBV) );
-    }
-
-    private void UpdatePanelTitle( javax.swing.JPanel pnl, String title ) {
-        pnl.setBorder(javax.swing.BorderFactory.createTitledBorder(title));
     }
 
     private void updateLogo( javax.swing.JLabel lblLogo, Force force ) {
@@ -168,6 +174,46 @@ public class frmBase extends javax.swing.JFrame {
         txtScenarioName.setText(scenario);
     }
 
+    public void openForce( Force force ) {
+        FileSelector openFile = new FileSelector();
+        File forceFile = openFile.SelectFile(Prefs.get("LastOpenUnit", ""), "force", "Load Force");
+
+        if (forceFile != null) {
+            XMLReader reader = new XMLReader();
+            try {
+                this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                reader.ReadUnit( force, forceFile.getCanonicalPath() );
+                force.RefreshBV();
+                Refresh();
+
+               Prefs.put("LastOpenUnit", forceFile.getCanonicalPath());
+               this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            } catch (Exception e) {
+               javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
+               return;
+            }
+        }
+    }
+
+    public void saveForce( Force force ) {
+        if ( ! force.isSaveable() ) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a unit name and at least one unit before saving.");
+            return;
+        }
+        FileSelector fs = new FileSelector();
+        String dirPath = fs.GetDirectorySelection(Prefs.get("LastOpenUnit", ""));
+        if ( dirPath.isEmpty() ) { return;}
+
+        XMLWriter write = new XMLWriter();
+        try {
+            String filename = dirPath + File.separator + CommonTools.FormatFileName(force.ForceName) + ".force";
+            write.SerializeForce(force, filename);
+            javax.swing.JOptionPane.showMessageDialog( this, "Force written to " + filename );
+        } catch (IOException ex) {
+            Logger.getLogger(frmBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -179,6 +225,8 @@ public class frmBase extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnPrint = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
+        btnMULExport = new javax.swing.JButton();
         lblScenarioName = new javax.swing.JLabel();
         txtScenarioName = new javax.swing.JTextField();
         pnlTop = new javax.swing.JPanel();
@@ -190,21 +238,16 @@ public class frmBase extends javax.swing.JFrame {
         lblUnitNameTop = new javax.swing.JLabel();
         txtUnitNameTop = new javax.swing.JTextField();
         lblUnitLogoTop = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        lblUnitsTop = new javax.swing.JLabel();
-        lblTonnageTop = new javax.swing.JLabel();
-        lblBaseBVTop = new javax.swing.JLabel();
-        lblC3BVTop = new javax.swing.JLabel();
-        lblModBVTop = new javax.swing.JLabel();
-        lblForceBVTop = new javax.swing.JLabel();
         lblTotalBVTop = new javax.swing.JLabel();
-        lblUnitsTop7 = new javax.swing.JLabel();
-        lblUnitsTop8 = new javax.swing.JLabel();
-        lblUnitsTop9 = new javax.swing.JLabel();
-        lblUnitsTop10 = new javax.swing.JLabel();
-        lblUnitsTop11 = new javax.swing.JLabel();
-        lblTonnageTop1 = new javax.swing.JLabel();
-        lblUnitsTop1 = new javax.swing.JLabel();
+        lblUnitsTop = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblTonnageTop = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblBaseBVTop = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        tlbTop = new javax.swing.JToolBar();
+        btnOpenTop = new javax.swing.JButton();
+        btnSaveTop = new javax.swing.JButton();
         pnlBottom = new javax.swing.JPanel();
         spnBottom = new javax.swing.JScrollPane();
         tblBottom = new javax.swing.JTable();
@@ -214,21 +257,18 @@ public class frmBase extends javax.swing.JFrame {
         lblUnitNameBottom = new javax.swing.JLabel();
         txtUnitNameBottom = new javax.swing.JTextField();
         lblUnitLogoBottom = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        lblUnitsBottom = new javax.swing.JLabel();
-        lblTonnageBottom = new javax.swing.JLabel();
-        lblBaseBVBottom = new javax.swing.JLabel();
-        lblC3BVBottom = new javax.swing.JLabel();
-        lblModBVBottom = new javax.swing.JLabel();
-        lblForceBVBottom = new javax.swing.JLabel();
         lblTotalBVBottom = new javax.swing.JLabel();
-        lblUnitsTop18 = new javax.swing.JLabel();
-        lblUnitsTop19 = new javax.swing.JLabel();
-        lblUnitsTop20 = new javax.swing.JLabel();
-        lblUnitsTop21 = new javax.swing.JLabel();
-        lblUnitsTop22 = new javax.swing.JLabel();
-        lblTonnageTop3 = new javax.swing.JLabel();
-        lblUnitsTop23 = new javax.swing.JLabel();
+        lblUnitsBottom = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblTonnageBottom = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblBaseBVBottom = new javax.swing.JLabel();
+        tlbBottom = new javax.swing.JToolBar();
+        btnOpenBottom = new javax.swing.JButton();
+        btnSaveBottom = new javax.swing.JButton();
+        chkUseForceModifier = new javax.swing.JCheckBox();
+        lblForceMod = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnuNew = new javax.swing.JMenuItem();
@@ -311,12 +351,25 @@ public class frmBase extends javax.swing.JFrame {
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton7);
+        jToolBar1.add(jSeparator4);
+
+        btnMULExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/list_packages.gif"))); // NOI18N
+        btnMULExport.setToolTipText("Export Forces to MUL");
+        btnMULExport.setFocusable(false);
+        btnMULExport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnMULExport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnMULExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMULExportActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnMULExport);
 
         lblScenarioName.setText("Scenario / Event Name: ");
 
         txtScenarioName.setToolTipText("Enter the name of the scenario or event");
 
-        pnlTop.setBorder(javax.swing.BorderFactory.createTitledBorder("Force"));
+        pnlTop.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Primary Force Listing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 1, 12), new java.awt.Color(0, 51, 204))); // NOI18N
 
         tblTop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -381,115 +434,49 @@ public class frmBase extends javax.swing.JFrame {
             }
         });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblTotalBVTop.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        lblTotalBVTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotalBVTop.setText("0,000 BV");
 
         lblUnitsTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblUnitsTop.setText("0");
 
+        jLabel2.setText("Units");
+
         lblTonnageTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTonnageTop.setText("0");
+
+        jLabel4.setText("Tons");
 
         lblBaseBVTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblBaseBVTop.setText("0,000");
 
-        lblC3BVTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblC3BVTop.setText("0,000");
+        jLabel6.setText("BV");
 
-        lblModBVTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblModBVTop.setText("0,000");
+        tlbTop.setFloatable(false);
+        tlbTop.setRollover(true);
 
-        lblForceBVTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblForceBVTop.setText("0,000");
+        btnOpenTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder.gif"))); // NOI18N
+        btnOpenTop.setFocusable(false);
+        btnOpenTop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenTop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenTop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenTopActionPerformed(evt);
+            }
+        });
+        tlbTop.add(btnOpenTop);
 
-        lblTotalBVTop.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTotalBVTop.setText("0,000");
-
-        lblUnitsTop7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop7.setText("Adjusted BV");
-
-        lblUnitsTop8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop8.setText("Force BV");
-
-        lblUnitsTop9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop9.setText("Mod BV");
-
-        lblUnitsTop10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop10.setText("C3 BV");
-
-        lblUnitsTop11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop11.setText("Base BV");
-
-        lblTonnageTop1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTonnageTop1.setText("Tons");
-
-        lblUnitsTop1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop1.setText("Units");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblForceBVTop, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(lblModBVTop, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(lblTonnageTop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                            .addComponent(lblUnitsTop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                            .addComponent(lblC3BVTop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTotalBVTop, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
-                    .addComponent(lblBaseBVTop, 0, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblUnitsTop7, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop8, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop9, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop11, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblTonnageTop1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblUnitsTop1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTonnageTop1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUnitsTop11)
-                            .addComponent(lblBaseBVTop))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop7))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addComponent(lblC3BVTop))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblUnitsTop)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblTonnageTop)
-                                .addGap(46, 46, 46)
-                                .addComponent(lblModBVTop)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblForceBVTop)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotalBVTop)))
-                .addContainerGap())
-        );
+        btnSaveTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/action_save.gif"))); // NOI18N
+        btnSaveTop.setFocusable(false);
+        btnSaveTop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSaveTop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSaveTop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveTopActionPerformed(evt);
+            }
+        });
+        tlbTop.add(btnSaveTop);
 
         javax.swing.GroupLayout pnlTopLayout = new javax.swing.GroupLayout(pnlTop);
         pnlTop.setLayout(pnlTopLayout);
@@ -505,20 +492,34 @@ public class frmBase extends javax.swing.JFrame {
                         .addComponent(btnAddTop, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+                    .addGroup(pnlTopLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lblUnitsTop, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addGap(307, 307, 307)
+                        .addComponent(lblTonnageTop, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblBaseBVTop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                        .addComponent(lblTotalBVTop, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlTopLayout.createSequentialGroup()
                         .addComponent(lblUnitNameTop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtUnitNameTop, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlTopLayout.createSequentialGroup()
-                        .addComponent(spnTop, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtUnitNameTop, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 390, Short.MAX_VALUE)
+                        .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnlTopLayout.setVerticalGroup(
             pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
-                .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTopLayout.createSequentialGroup()
                         .addComponent(lblUnitLogoTop, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -528,17 +529,26 @@ public class frmBase extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDeleteTop))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTopLayout.createSequentialGroup()
-                        .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUnitNameTop)
-                            .addComponent(txtUnitNameTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblUnitNameTop)
+                                .addComponent(txtUnitNameTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spnTop, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                        .addComponent(spnTop, 0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUnitsTop)
+                    .addComponent(jLabel2)
+                    .addComponent(lblTonnageTop)
+                    .addComponent(jLabel4)
+                    .addComponent(lblBaseBVTop)
+                    .addComponent(jLabel6)
+                    .addComponent(lblTotalBVTop))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlBottom.setBorder(javax.swing.BorderFactory.createTitledBorder("Force"));
+        pnlBottom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Secondary Force Listing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 1, 12), new java.awt.Color(0, 51, 204))); // NOI18N
 
         tblBottom.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -603,139 +613,93 @@ public class frmBase extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblTotalBVBottom.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        lblTotalBVBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTotalBVBottom.setText("0,000 BV");
 
         lblUnitsBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblUnitsBottom.setText("0");
 
+        jLabel3.setText("Units");
+
         lblTonnageBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTonnageBottom.setText("0");
+
+        jLabel5.setText("Tons");
+
+        jLabel7.setText("BV");
 
         lblBaseBVBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblBaseBVBottom.setText("0,000");
 
-        lblC3BVBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblC3BVBottom.setText("0,000");
+        tlbBottom.setFloatable(false);
+        tlbBottom.setRollover(true);
 
-        lblModBVBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblModBVBottom.setText("0,000");
+        btnOpenBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder.gif"))); // NOI18N
+        btnOpenBottom.setFocusable(false);
+        btnOpenBottom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenBottom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenBottom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenBottomActionPerformed(evt);
+            }
+        });
+        tlbBottom.add(btnOpenBottom);
 
-        lblForceBVBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblForceBVBottom.setText("0,000");
-
-        lblTotalBVBottom.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTotalBVBottom.setText("0,000");
-
-        lblUnitsTop18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop18.setText("Adjusted BV");
-
-        lblUnitsTop19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop19.setText("Force BV");
-
-        lblUnitsTop20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop20.setText("Mod BV");
-
-        lblUnitsTop21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop21.setText("C3 BV");
-
-        lblUnitsTop22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop22.setText("Base BV");
-
-        lblTonnageTop3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTonnageTop3.setText("Tons");
-
-        lblUnitsTop23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUnitsTop23.setText("Units");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTotalBVBottom, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblForceBVBottom, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblModBVBottom, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblBaseBVBottom, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblTonnageBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(lblUnitsBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(lblC3BVBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblUnitsTop18, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop19, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop20, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop22, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                    .addComponent(lblTonnageTop3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblUnitsTop23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblUnitsTop23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTonnageTop3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop22)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop21)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop20)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUnitsTop18))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(lblC3BVBottom))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblUnitsBottom)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTonnageBottom)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblBaseBVBottom)
-                        .addGap(26, 26, 26)
-                        .addComponent(lblModBVBottom)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblForceBVBottom)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotalBVBottom)))
-                .addContainerGap())
-        );
+        btnSaveBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/action_save.gif"))); // NOI18N
+        btnSaveBottom.setFocusable(false);
+        btnSaveBottom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSaveBottom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSaveBottom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveBottomActionPerformed(evt);
+            }
+        });
+        tlbBottom.add(btnSaveBottom);
 
         javax.swing.GroupLayout pnlBottomLayout = new javax.swing.GroupLayout(pnlBottom);
         pnlBottom.setLayout(pnlBottomLayout);
         pnlBottomLayout.setHorizontalGroup(
             pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBottomLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblUnitLogoBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnEditBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDeleteBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAddBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlBottomLayout.createSequentialGroup()
-                        .addComponent(lblUnitNameBottom)
+                        .addContainerGap()
+                        .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblUnitLogoBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnEditBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDeleteBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAddBottom, javax.swing.GroupLayout.Alignment.TRAILING)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtUnitNameBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlBottomLayout.createSequentialGroup()
-                        .addComponent(spnBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 667, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlBottomLayout.createSequentialGroup()
+                                .addComponent(lblUnitNameBottom)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtUnitNameBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 390, Short.MAX_VALUE)
+                                .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(lblUnitsBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addGap(313, 313, 313)
+                        .addComponent(lblTonnageBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblBaseBVBottom)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                        .addComponent(lblTotalBVBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         pnlBottomLayout.setVerticalGroup(
             pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlBottomLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
                 .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlBottomLayout.createSequentialGroup()
                         .addComponent(lblUnitLogoBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -746,15 +710,34 @@ public class frmBase extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDeleteBottom))
                     .addGroup(pnlBottomLayout.createSequentialGroup()
-                        .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUnitNameBottom)
-                            .addComponent(txtUnitNameBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblUnitNameBottom)
+                                .addComponent(txtUnitNameBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))))
+                        .addComponent(spnBottom, 0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUnitsBottom)
+                    .addComponent(jLabel3)
+                    .addComponent(lblTonnageBottom)
+                    .addComponent(jLabel5)
+                    .addComponent(lblBaseBVBottom)
+                    .addComponent(jLabel7)
+                    .addComponent(lblTotalBVBottom))
                 .addContainerGap())
         );
+
+        chkUseForceModifier.setSelected(true);
+        chkUseForceModifier.setText("Use Force Size Modifier");
+        chkUseForceModifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkUseForceModifierActionPerformed(evt);
+            }
+        });
+
+        lblForceMod.setText("0.00");
 
         jMenu1.setText("File");
 
@@ -856,16 +839,20 @@ public class frmBase extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 946, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 891, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblScenarioName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtScenarioName, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(518, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkUseForceModifier)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblForceMod)
+                .addContainerGap(292, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlTop, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+                .addComponent(pnlTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -879,7 +866,9 @@ public class frmBase extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblScenarioName)
-                    .addComponent(txtScenarioName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtScenarioName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkUseForceModifier)
+                    .addComponent(lblForceMod))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -891,19 +880,17 @@ public class frmBase extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUnitNameTopKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitNameTopKeyTyped
-        UpdatePanelTitle(pnlTop, txtUnitNameTop.getText());
     }//GEN-LAST:event_txtUnitNameTopKeyTyped
 
     private void txtUnitNameBottomKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitNameBottomKeyTyped
-        UpdatePanelTitle(pnlBottom, txtUnitNameBottom.getText());
     }//GEN-LAST:event_txtUnitNameBottomKeyTyped
 
     private void mnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLoadActionPerformed
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         FileSelector openFile = new FileSelector();
         File forceFile = openFile.SelectFile(Prefs.get("LastOpenBFBDirectory", ""), "bfb", "Load Force List");
 
         if (forceFile != null) {
+            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             XMLReader reader = new XMLReader();
             try {
                reader.ReadFile(this, forceFile.getCanonicalPath());
@@ -915,8 +902,8 @@ public class frmBase extends javax.swing.JFrame {
                javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
                return;
             }
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 }//GEN-LAST:event_mnuLoadActionPerformed
 
     private void lblUnitLogoBottomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUnitLogoBottomMouseClicked
@@ -958,11 +945,11 @@ public class frmBase extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void txtUnitNameTopFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUnitNameTopFocusLost
-        UpdatePanelTitle(pnlTop, txtUnitNameTop.getText());
+        topForce.ForceName = txtUnitNameTop.getText();
     }//GEN-LAST:event_txtUnitNameTopFocusLost
 
     private void txtUnitNameBottomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUnitNameBottomFocusLost
-        UpdatePanelTitle(pnlTop, txtUnitNameBottom.getText());
+        bottomForce.ForceName = txtUnitNameBottom.getText();
     }//GEN-LAST:event_txtUnitNameBottomFocusLost
 
     private void mnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExitActionPerformed
@@ -978,31 +965,37 @@ public class frmBase extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuNewActionPerformed
 
     private void mnuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveActionPerformed
-        if ((!txtUnitNameTop.getText().isEmpty()) && (!txtUnitNameBottom.getText().isEmpty())) {
-            try {
-                File file;
-                if ( !Prefs.get("CurrentBFBFile", "").isEmpty() ) {
-                    file = new File(Prefs.get("CurrentBFBFile", ""));
-                } else {
-                    FileSelector selector = new FileSelector();
-                    file = selector.SelectFile(Prefs.get("CurrentBFBFile", ""), "bfb", "Save");
-                    if (file == null) {
-                        return;
-                    }
+        if ( txtScenarioName.getText().isEmpty() ) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a scenario name before saving.");
+            return;
+        }
+        
+        if ( !topForce.isSaveable() || !bottomForce.isSaveable() ) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a force name and at least one unit in each list before saving.");
+            return;
+        }
+        
+        try {
+            File file;
+            if ( !Prefs.get("CurrentBFBFile", "").isEmpty() ) {
+                file = new File(Prefs.get("CurrentBFBFile", ""));
+            } else {
+                FileSelector selector = new FileSelector();
+                file = selector.SelectFile(txtScenarioName.getText() + ".bfb", "bfb", "Save");
+                if (file == null) {
+                    return;
                 }
-                String filename = file.getCanonicalPath();
-                if ( ! filename.endsWith(".bfb") ) { filename += ".bfb";}
-
-                XMLWriter write = new XMLWriter(txtScenarioName.getText(), this.topForce, this.bottomForce);
-                write.WriteXML(filename);
-                Prefs.put("LastOpenBFBFile", filename);
-                Prefs.put("CurrentBFBFile", filename);
-                javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
-            } catch (java.io.IOException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter Unit Names before saving.");
+            String filename = file.getCanonicalPath();
+            if ( ! filename.endsWith(".bfb") ) { filename += ".bfb";}
+
+            XMLWriter write = new XMLWriter(txtScenarioName.getText(), this.topForce, this.bottomForce);
+            write.WriteXML(filename);
+            Prefs.put("LastOpenBFBFile", filename);
+            Prefs.put("CurrentBFBFile", filename);
+            javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
+        } catch (java.io.IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_mnuSaveActionPerformed
 
@@ -1116,6 +1109,60 @@ public class frmBase extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblBottomMouseClicked
 
+    private void btnMULExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMULExportActionPerformed
+        MULWriter mw = new MULWriter();
+        FileSelector fs = new FileSelector();
+        String dir = "";
+        dir = fs.GetDirectorySelection(Prefs.get("MULDirectory", ""));
+        if ( dir.isEmpty() ) { return; }
+
+        Prefs.put("MULDirectory", dir);
+        mw.setForce(topForce);
+        try {
+            mw.WriteXML( dir + topForce.ForceName );
+        } catch (IOException ex) {
+            //do nothing
+            javax.swing.JOptionPane.showMessageDialog(this, "Unable to save " + topForce.ForceName + "\n" + ex.getMessage() );
+        }
+
+        mw.setForce(bottomForce);
+        try {
+            mw.WriteXML( dir + bottomForce.ForceName );
+        } catch ( IOException ex ) {
+            //do nothing
+            javax.swing.JOptionPane.showMessageDialog(this, "Unable to save " + bottomForce.ForceName + "\n" + ex.getMessage() );
+        }
+
+        javax.swing.JOptionPane.showMessageDialog(this, "Your forces have been exported to " + dir);
+}//GEN-LAST:event_btnMULExportActionPerformed
+
+    private void chkUseForceModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUseForceModifierActionPerformed
+        lblForceMod.setVisible( chkUseForceModifier.isSelected() );
+        topForce.useUnevenForceMod = chkUseForceModifier.isSelected();
+        topForce.RefreshBV();
+        bottomForce.useUnevenForceMod = chkUseForceModifier.isSelected();
+        bottomForce.RefreshBV();
+        Refresh();
+    }//GEN-LAST:event_chkUseForceModifierActionPerformed
+
+    private void btnOpenBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenBottomActionPerformed
+        openForce( bottomForce );
+    }//GEN-LAST:event_btnOpenBottomActionPerformed
+
+    private void btnSaveBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveBottomActionPerformed
+        bottomForce.ForceName = txtUnitNameBottom.getText();
+        saveForce( bottomForce );
+    }//GEN-LAST:event_btnSaveBottomActionPerformed
+
+    private void btnOpenTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenTopActionPerformed
+        openForce( topForce );
+}//GEN-LAST:event_btnOpenTopActionPerformed
+
+    private void btnSaveTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTopActionPerformed
+        topForce.ForceName = txtUnitNameTop.getText();
+        saveForce( topForce );
+}//GEN-LAST:event_btnSaveTopActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBottom;
     private javax.swing.JButton btnAddTop;
@@ -1124,33 +1171,37 @@ public class frmBase extends javax.swing.JFrame {
     private javax.swing.JButton btnEditBottom;
     private javax.swing.JButton btnEditTop;
     private javax.swing.JButton btnLoad;
+    private javax.swing.JButton btnMULExport;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnOpenBottom;
+    private javax.swing.JButton btnOpenTop;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveBottom;
+    private javax.swing.JButton btnSaveTop;
+    private javax.swing.JCheckBox chkUseForceModifier;
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lblBaseBVBottom;
     private javax.swing.JLabel lblBaseBVTop;
-    private javax.swing.JLabel lblC3BVBottom;
-    private javax.swing.JLabel lblC3BVTop;
-    private javax.swing.JLabel lblForceBVBottom;
-    private javax.swing.JLabel lblForceBVTop;
-    private javax.swing.JLabel lblModBVBottom;
-    private javax.swing.JLabel lblModBVTop;
+    private javax.swing.JLabel lblForceMod;
     private javax.swing.JLabel lblScenarioName;
     private javax.swing.JLabel lblTonnageBottom;
     private javax.swing.JLabel lblTonnageTop;
-    private javax.swing.JLabel lblTonnageTop1;
-    private javax.swing.JLabel lblTonnageTop3;
     private javax.swing.JLabel lblTotalBVBottom;
     private javax.swing.JLabel lblTotalBVTop;
     private javax.swing.JLabel lblUnitLogoBottom;
@@ -1159,18 +1210,6 @@ public class frmBase extends javax.swing.JFrame {
     private javax.swing.JLabel lblUnitNameTop;
     private javax.swing.JLabel lblUnitsBottom;
     private javax.swing.JLabel lblUnitsTop;
-    private javax.swing.JLabel lblUnitsTop1;
-    private javax.swing.JLabel lblUnitsTop10;
-    private javax.swing.JLabel lblUnitsTop11;
-    private javax.swing.JLabel lblUnitsTop18;
-    private javax.swing.JLabel lblUnitsTop19;
-    private javax.swing.JLabel lblUnitsTop20;
-    private javax.swing.JLabel lblUnitsTop21;
-    private javax.swing.JLabel lblUnitsTop22;
-    private javax.swing.JLabel lblUnitsTop23;
-    private javax.swing.JLabel lblUnitsTop7;
-    private javax.swing.JLabel lblUnitsTop8;
-    private javax.swing.JLabel lblUnitsTop9;
     private javax.swing.JMenuItem mnuAbout;
     private javax.swing.JMenuItem mnuDesignBattleMech;
     private javax.swing.JMenuItem mnuExit;
@@ -1186,6 +1225,8 @@ public class frmBase extends javax.swing.JFrame {
     private javax.swing.JScrollPane spnTop;
     private javax.swing.JTable tblBottom;
     private javax.swing.JTable tblTop;
+    private javax.swing.JToolBar tlbBottom;
+    private javax.swing.JToolBar tlbTop;
     private javax.swing.JTextField txtScenarioName;
     private javax.swing.JTextField txtUnitNameBottom;
     private javax.swing.JTextField txtUnitNameTop;

@@ -121,6 +121,8 @@ public class FileSelector {
         //Process the results.  If no file is chosen, the default is used.
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             path = fileChooser.getSelectedFile().getPath();
+        } else {
+            path = "";
         }
         return path;
     }
