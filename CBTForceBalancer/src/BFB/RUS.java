@@ -27,10 +27,63 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB;
 
-/**
- *
- * @author gblouin
- */
-public class RUS {
+import java.util.Random;
+import java.util.Vector;
+import javax.swing.DefaultListModel;
 
+public class RUS {
+    private DefaultListModel DisplayList = new DefaultListModel();
+    private Vector Choices = new Vector();
+    private DefaultListModel Selection = new DefaultListModel();
+
+    public RUS() {
+
+    }
+
+    public DefaultListModel getDisplay() {
+        return DisplayList;
+    }
+
+    /**
+     * AddItem creates the entries in the RUS object for later random selection
+     *
+     * @param Name Any data input in the file about the item to be selected
+     * @param Value The numeric value assigned to the item,
+     *              determines how often it is available to be selected
+     */
+    public void AddItem( String Line, String Name, int Value ) {
+        DisplayList.addElement(Line);
+        for (int i=0; i < Value; i++ ) {
+            Choices.add(Name);
+        }
+    }
+
+    public void ClearItems() {
+        DisplayList = new DefaultListModel();
+        Choices.removeAllElements();
+    }
+
+    public DefaultListModel Generate( int Selections, int AddOn ) {
+        java.util.Random random = new Random();
+
+        for (int i=0; i < Selections; i++ ) {
+            int Row = random.nextInt(Choices.size());
+            if ( (Row + AddOn) <= Choices.size() ) { Row += AddOn; }
+            getSelection().addElement(Choices.get(Row).toString());
+        }
+
+        return getSelection();
+    }
+
+    public DefaultListModel ClearSelection() {
+        Selection = new DefaultListModel();
+        return Selection;
+    }
+
+    /**
+     * @return the Selection
+     */
+    public DefaultListModel getSelection() {
+        return Selection;
+    }
 }

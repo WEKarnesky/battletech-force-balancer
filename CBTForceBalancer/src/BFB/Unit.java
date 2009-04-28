@@ -73,10 +73,10 @@ public class Unit {
     public Unit( Node n ) throws Exception {
         for (int i=0; i < n.getChildNodes().getLength(); i++) {
             String nodeName = n.getChildNodes().item(i).getNodeName();
-            if (nodeName.equals("type")) {Type = n.getChildNodes().item(i).getTextContent();}
-            if (nodeName.equals("model")) {Model = n.getChildNodes().item(i).getTextContent();}
+            if (nodeName.equals("type")) {Type = n.getChildNodes().item(i).getTextContent().trim();}
+            if (nodeName.equals("model")) {Model = n.getChildNodes().item(i).getTextContent().trim();}
             TypeModel = Type + " " + Model;
-            if (nodeName.equals("config")) {Configuration = n.getChildNodes().item(i).getTextContent();}
+            if (nodeName.equals("config")) {Configuration = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("tonnage")) {Tonnage = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("basebv")) {BaseBV = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("modifier")) {MiscMod = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
@@ -84,17 +84,8 @@ public class Unit {
             if (nodeName.equals("gunnery")) {Gunnery = Integer.parseInt(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("unittype")) {UnitType = Integer.parseInt(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("usingc3")) {UsingC3 = Boolean.parseBoolean(n.getChildNodes().item(i).getTextContent());}
-            if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent();}
-            if (nodeName.equals("ssw")) {
-                Filename = n.getChildNodes().item(i).getTextContent();
-//                ssw.filehandlers.XMLReader read = new XMLReader();
-//                try
-//                {
-//                    m = read.ReadMech(Filename);
-//                } catch (Exception e) {
-//                    //do nothing
-//                }
-            }
+            if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent().trim();}
+            if (nodeName.equals("ssw")) {Filename = n.getChildNodes().item(i).getTextContent().trim();}
         }
         this.Refresh();
     }
@@ -137,15 +128,15 @@ public class Unit {
     }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<type>" + this.Type + "</type>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<type>" + this.Type.trim() + "</type>");
         file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<model>" + this.Model + "</model>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<model>" + this.Model.trim() + "</model>");
         file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<config>" + this.Configuration + "</config>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<config>" + this.Configuration.trim() + "</config>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<tonnage>" + this.Tonnage + "</tonnage>");
         file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<mechwarrior>" + this.Mechwarrior + "</mechwarrior>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<mechwarrior>" + this.Mechwarrior.trim() + "</mechwarrior>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<basebv>" + this.BaseBV + "</basebv>");
         file.newLine();
@@ -159,7 +150,7 @@ public class Unit {
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<usingc3>" + this.UsingC3 + "</usingc3>");
         file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename + "</ssw>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename.trim() + "</ssw>");
         file.newLine();
     }
 
@@ -185,7 +176,7 @@ public class Unit {
         if ( m == null ) {
             try {
                 XMLReader reader = new XMLReader();
-                this.m = reader.ReadMech(this.Filename);
+                this.m = reader.ReadMech( this.Filename );
                 if ( ! this.Configuration.isEmpty() ) {
                     this.m.SetCurLoadout(this.Configuration.trim());
                 }

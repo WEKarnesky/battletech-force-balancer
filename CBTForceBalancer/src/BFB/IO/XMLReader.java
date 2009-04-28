@@ -40,17 +40,17 @@ import org.w3c.dom.*;
  */
 public class XMLReader {
     frmBase Parent;
-    //frmMain2 Parent;
-    //frmMain Parent1;
 
-    public void ReadFile( frmBase parent, String filename ) throws Exception {
+    Document load;
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db;
+
+    public Force[] ReadFile( frmBase parent, String filename ) throws Exception {
         Parent = parent;
-        Document load;
+        Force[] forces = new Force[2];
         filename = CommonTools.SafeFileName( filename );
-
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-
+        
+        db = dbf.newDocumentBuilder();
         load = db.parse( filename );
         NodeList s = load.getElementsByTagName("forces");
         if ( s.getLength() > 0 ) {
@@ -58,10 +58,17 @@ public class XMLReader {
         }
         NodeList n = load.getElementsByTagName("force");
 
-        Parent.topForce = new Force(n.item(0));
-        Parent.bottomForce = new Force(n.item(1));
-        Parent.topForce.RefreshBV();
-        Parent.bottomForce.RefreshBV();
-        Parent.Refresh();
+        forces[0] = new Force(n.item(0));
+        forces[1] = new Force(n.item(1));
+        return forces;
+    }
+
+    public void ReadUnit( Force force, String filename ) throws Exception {
+        filename = CommonTools.SafeFileName( filename );
+
+        db = dbf.newDocumentBuilder();
+        load = db.parse( filename );
+        NodeList n = load.getElementsByTagName("force");
+        if ( n.getLength() > 0 ) { force.Load(n.item(0)); }
     }
 }

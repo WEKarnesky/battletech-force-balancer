@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.IO;
 
 import BFB.*;
-import BFB.Common.CommonTools;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,6 +41,10 @@ public class XMLWriter {
     private String Scenario = "";
     private Force leftForce;
     private Force rightForce;
+
+    public XMLWriter() {
+        
+    }
 
     public XMLWriter( String Scenario, Force left, Force right ) {
         this.Scenario = Scenario;
@@ -76,9 +79,7 @@ public class XMLWriter {
         FR.close();
     }
 
-    public void SerializeForce(Force f) throws IOException {
-        String filename = CommonTools.FormatFileName(f.ForceName) + ".xml";
-
+    public void SerializeForce( Force f, String filename ) throws IOException {
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
         // beginning of an XML file:
