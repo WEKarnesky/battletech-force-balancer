@@ -172,6 +172,19 @@ public class Unit {
         file.newLine();
     }
 
+    public String SerializeClipboard() {
+        String data = "";
+
+        data += this.TypeModel.trim() + Constants.Tab + Constants.Tab;
+        data += String.format("%1$,.0f", Tonnage) + Constants.Tab;
+        data += String.format("%1$,.0f", BaseBV) + "" + Constants.Tab;
+        data += this.Mechwarrior + Constants.Tab + Constants.Tab;
+        data += this.Gunnery + "/" + this.Piloting + Constants.Tab;
+        data += String.format("%1$,.0f", TotalBV) + "";
+
+        return data;
+    }
+
     public void LoadMech() {
         if ( m == null ) {
             try {

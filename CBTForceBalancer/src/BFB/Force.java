@@ -33,6 +33,7 @@ import BFB.Common.Constants;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JTable;
@@ -63,7 +64,7 @@ public class Force extends AbstractTableModel {
     public int  NumC3 = 0,
                 OpForSize = 0;
     public boolean isDirty = false,
-                    useUnevenForceMod = false;
+                    useUnevenForceMod = true;
 
     public Force( ){
 
@@ -74,8 +75,8 @@ public class Force extends AbstractTableModel {
     }
     
     public void Load( Node ForceNode ) throws Exception {
-        this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent();
-        this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent();
+        this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
+        this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
         for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
             Node n = ForceNode.getChildNodes().item(i);
             if (n.getNodeName().equals("unit")) {
@@ -86,6 +87,7 @@ public class Force extends AbstractTableModel {
                 }
             }
         }
+        RefreshBV();
     }
 
     public void RefreshBV() {
@@ -128,11 +130,11 @@ public class Force extends AbstractTableModel {
     }
     
     public void AddUnit( Unit u ) {
-        if( ! Units.contains( u ) ) {
+        //if( ! Units.contains( u ) ) {
             u.Refresh();
             Units.add( u );
             RefreshBV();
-        }
+        //}
         isDirty = true;
     }
     
@@ -149,7 +151,7 @@ public class Force extends AbstractTableModel {
         file.write( tab + "<force name=\"" + this.ForceName + "\" logo=\"" + this.LogoPath + "\">" );
         file.newLine();
 
-        for (int i = 0; i <= this.Units.size() - 1; i++) {
+        for (int i = 0; i < this.Units.size(); i++) {
             u = (Unit) Units.get(i);
             file.write(CommonTools.tab + CommonTools.tab + "<unit>");
             file.newLine();
@@ -169,13 +171,33 @@ public class Force extends AbstractTableModel {
         file.write("<unit>");
         file.newLine();
 
-        for (int i = 0; i <= this.Units.size() - 1; i++) {
+        for (int i = 0; i < this.Units.size(); i++) {
             Unit u = (Unit) Units.get(i);
             u.SerializeMUL(file);
         }
 
         file.write("</unit>");
         file.newLine();
+    }
+
+    public String SerializeClipboard() {
+        String data = "";
+
+        data += this.ForceName + Constants.NL;
+        for (int s=0; s < 80; s++ ) { data += "-"; }
+        data += Constants.NL;
+        data += "Unit" + Constants.Tab + Constants.Tab +
+                "Tons" + Constants.Tab +
+                "BV" + Constants.Tab +
+                "Mechwarrior" + Constants.Tab + Constants.Tab +
+                "G/P" + Constants.Tab +
+                "Adj BV" + Constants.NL;
+
+        for ( int i=0; i < this.Units.size(); i++ ) {
+            data += ((Unit) Units.get(i)).SerializeClipboard() + Constants.NL;
+        }
+
+        return data;
     }
 
     public void RenderPrint(PrintSheet p) {

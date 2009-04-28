@@ -28,13 +28,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
+import BFB.Common.Constants;
 import BFB.Force;
 import BFB.IO.FileSelector;
 import BFB.IO.RUSReader;
 import BFB.RUS;
 import BFB.Unit;
 import java.awt.Cursor;
-import java.awt.RenderingHints.Key;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
@@ -904,9 +904,14 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_btnClearSelectionActionPerformed
 
     private void btnClipboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardActionPerformed
-        String NL = System.getProperty( "line.separator" );
+        String data = "";
         
-        java.awt.datatransfer.StringSelection export = new java.awt.datatransfer.StringSelection( "" );
+        for (int i=0; i < lstSelected.getModel().getSize(); i++ ) {
+            if ( !data.isEmpty() ) { data += Constants.NL; }
+            data += lstSelected.getModel().getElementAt(i).toString();
+        }
+        
+        java.awt.datatransfer.StringSelection export = new java.awt.datatransfer.StringSelection( data );
         java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents( export, this );
     }//GEN-LAST:event_btnClipboardActionPerformed

@@ -292,6 +292,19 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMULExportActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="btnClipboard">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/clipboard.png"/>
+            </Property>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClipboardActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="lblScenarioName">
@@ -330,7 +343,7 @@
                                   <Component id="lblUnitNameTop" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txtUnitNameTop" min="-2" pref="255" max="-2" attributes="0"/>
-                                  <EmptySpace pref="327" max="32767" attributes="0"/>
+                                  <EmptySpace pref="296" max="32767" attributes="0"/>
                                   <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="spnTop" pref="764" max="32767" attributes="0"/>
@@ -371,7 +384,7 @@
                               <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="spnTop" pref="163" max="32767" attributes="1"/>
+                          <Component id="spnTop" pref="181" max="32767" attributes="1"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -562,6 +575,21 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveTopActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JToolBar$Separator" name="jSeparator7">
+            </Component>
+            <Component class="javax.swing.JButton" name="btnClipboardTop">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/BFB/Images/clipboard.png"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClipboardTopActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -592,7 +620,7 @@
                                   <Component id="lblUnitNameBottom" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txtUnitNameBottom" min="-2" pref="255" max="-2" attributes="0"/>
-                                  <EmptySpace pref="326" max="32767" attributes="0"/>
+                                  <EmptySpace pref="295" max="32767" attributes="0"/>
                                   <Component id="tlbBottom" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="spnBottom" pref="763" max="32767" attributes="0"/>
@@ -633,7 +661,7 @@
                               <Component id="tlbBottom" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="spnBottom" pref="163" max="32767" attributes="0"/>
+                          <Component id="spnBottom" pref="181" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -819,6 +847,21 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveBottomActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToolBar$Separator" name="jSeparator8">
+            </Component>
+            <Component class="javax.swing.JButton" name="btnClipboardBottom">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/BFB/Images/clipboard.png"/>
+                </Property>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClipboardBottomActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

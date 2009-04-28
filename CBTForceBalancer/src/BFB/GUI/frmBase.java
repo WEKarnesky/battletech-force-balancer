@@ -35,9 +35,12 @@ package BFB.GUI;
 
 import BFB.*;
 import BFB.Common.CommonTools;
+import BFB.Common.Constants;
 import BFB.IO.*;
 import java.awt.Cursor;
 import java.awt.Image;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.Transferable;
 import java.awt.print.*;
 import java.io.*;
 import java.util.Vector;
@@ -49,7 +52,7 @@ import javax.swing.event.TableModelListener;
 import ssw.components.Mech;
 import ssw.print.Printer;
 
-public class frmBase extends javax.swing.JFrame {
+public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     public Force topForce = new Force();
     public Force bottomForce = new Force();
     public Preferences Prefs;
@@ -229,6 +232,18 @@ public class frmBase extends javax.swing.JFrame {
         }
     }
 
+    public void toClipboard( Force[] forces ) {
+        String data = "";
+
+        for (Force force : forces ) {
+            data += force.SerializeClipboard() + Constants.NL + Constants.NL;
+        }
+
+        java.awt.datatransfer.StringSelection export = new java.awt.datatransfer.StringSelection( data );
+        java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents( export, this );
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -242,6 +257,7 @@ public class frmBase extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btnMULExport = new javax.swing.JButton();
+        btnClipboard = new javax.swing.JButton();
         lblScenarioName = new javax.swing.JLabel();
         txtScenarioName = new javax.swing.JTextField();
         pnlTop = new javax.swing.JPanel();
@@ -264,6 +280,8 @@ public class frmBase extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JToolBar.Separator();
         btnOpenTop = new javax.swing.JButton();
         btnSaveTop = new javax.swing.JButton();
+        jSeparator7 = new javax.swing.JToolBar.Separator();
+        btnClipboardTop = new javax.swing.JButton();
         pnlBottom = new javax.swing.JPanel();
         spnBottom = new javax.swing.JScrollPane();
         tblBottom = new javax.swing.JTable();
@@ -284,6 +302,8 @@ public class frmBase extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JToolBar.Separator();
         btnOpenBottom = new javax.swing.JButton();
         btnSaveBottom = new javax.swing.JButton();
+        jSeparator8 = new javax.swing.JToolBar.Separator();
+        btnClipboardBottom = new javax.swing.JButton();
         chkUseForceModifier = new javax.swing.JCheckBox();
         lblForceMod = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -381,6 +401,17 @@ public class frmBase extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnMULExport);
+
+        btnClipboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/clipboard.png"))); // NOI18N
+        btnClipboard.setFocusable(false);
+        btnClipboard.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClipboard.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClipboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClipboardActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnClipboard);
 
         lblScenarioName.setText("Scenario / Event Name: ");
 
@@ -512,6 +543,18 @@ public class frmBase extends javax.swing.JFrame {
             }
         });
         tlbTop.add(btnSaveTop);
+        tlbTop.add(jSeparator7);
+
+        btnClipboardTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/clipboard.png"))); // NOI18N
+        btnClipboardTop.setFocusable(false);
+        btnClipboardTop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClipboardTop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClipboardTop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClipboardTopActionPerformed(evt);
+            }
+        });
+        tlbTop.add(btnClipboardTop);
 
         javax.swing.GroupLayout pnlTopLayout = new javax.swing.GroupLayout(pnlTop);
         pnlTop.setLayout(pnlTopLayout);
@@ -528,7 +571,7 @@ public class frmBase extends javax.swing.JFrame {
                                 .addComponent(lblUnitNameTop)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtUnitNameTop, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
@@ -560,7 +603,7 @@ public class frmBase extends javax.swing.JFrame {
                                 .addComponent(txtUnitNameTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
+                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsTop)
@@ -698,6 +741,18 @@ public class frmBase extends javax.swing.JFrame {
             }
         });
         tlbBottom.add(btnSaveBottom);
+        tlbBottom.add(jSeparator8);
+
+        btnClipboardBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/clipboard.png"))); // NOI18N
+        btnClipboardBottom.setFocusable(false);
+        btnClipboardBottom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClipboardBottom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClipboardBottom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClipboardBottomActionPerformed(evt);
+            }
+        });
+        tlbBottom.add(btnClipboardBottom);
 
         javax.swing.GroupLayout pnlBottomLayout = new javax.swing.GroupLayout(pnlBottom);
         pnlBottom.setLayout(pnlBottomLayout);
@@ -714,7 +769,7 @@ public class frmBase extends javax.swing.JFrame {
                                 .addComponent(lblUnitNameBottom)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtUnitNameBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
                                 .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
@@ -746,7 +801,7 @@ public class frmBase extends javax.swing.JFrame {
                                 .addComponent(txtUnitNameBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
+                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsBottom)
@@ -1215,9 +1270,27 @@ public class frmBase extends javax.swing.JFrame {
         removeUnits( tblBottom, bottomForce );
     }//GEN-LAST:event_btnDeleteBottom1ActionPerformed
 
+    private void btnClipboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardActionPerformed
+        Force[] forces = { topForce, bottomForce };
+        toClipboard( forces );
+    }//GEN-LAST:event_btnClipboardActionPerformed
+
+    private void btnClipboardTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardTopActionPerformed
+        Force[] forces = { topForce };
+        toClipboard( forces );
+    }//GEN-LAST:event_btnClipboardTopActionPerformed
+
+    private void btnClipboardBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardBottomActionPerformed
+        Force[] forces = { bottomForce };
+        toClipboard( forces );
+    }//GEN-LAST:event_btnClipboardBottomActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBottom1;
     private javax.swing.JButton btnAddTop1;
+    private javax.swing.JButton btnClipboard;
+    private javax.swing.JButton btnClipboardBottom;
+    private javax.swing.JButton btnClipboardTop;
     private javax.swing.JButton btnDeleteBottom1;
     private javax.swing.JButton btnDeleteTop1;
     private javax.swing.JButton btnEditBottom1;
@@ -1249,6 +1322,8 @@ public class frmBase extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JToolBar.Separator jSeparator7;
+    private javax.swing.JToolBar.Separator jSeparator8;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lblBaseBVBottom;
     private javax.swing.JLabel lblBaseBVTop;
@@ -1285,5 +1360,9 @@ public class frmBase extends javax.swing.JFrame {
     private javax.swing.JTextField txtUnitNameBottom;
     private javax.swing.JTextField txtUnitNameTop;
     // End of variables declaration//GEN-END:variables
+
+    public void lostOwnership(Clipboard clipboard, Transferable contents) {
+        //do nothing
+    }
 
 }

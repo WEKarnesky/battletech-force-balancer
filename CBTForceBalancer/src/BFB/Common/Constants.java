@@ -55,4 +55,6 @@ public class Constants {
                                  "Battle Armor", "Conventional Fighter",
                                  "Aerospace Fighter", "Small Craft", "Dropship",
                                  "Support Vehicle", "Mobile Structure" };
+    public final static String NL = System.getProperty( "line.separator" );
+    public final static String Tab = "\t";
 }
