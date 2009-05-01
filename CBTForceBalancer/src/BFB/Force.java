@@ -179,17 +179,17 @@ public class Force extends AbstractTableModel {
         file.write("</unit>");
         file.newLine();
     }
-
+    
     public String SerializeClipboard() {
         String data = "";
 
         data += this.ForceName + Constants.NL;
         for (int s=0; s < 80; s++ ) { data += "-"; }
         data += Constants.NL;
-        data += "Unit" + Constants.Tab + Constants.Tab +
+        data += CommonTools.spaceRight("Unit", 30) + Constants.Tab +
                 "Tons" + Constants.Tab +
                 "BV" + Constants.Tab +
-                "Mechwarrior" + Constants.Tab + Constants.Tab +
+                CommonTools.spaceRight("Mechwarrior", 30) + Constants.Tab +
                 "G/P" + Constants.Tab +
                 "Adj BV" + Constants.NL;
 

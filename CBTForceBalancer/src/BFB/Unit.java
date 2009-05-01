@@ -175,10 +175,10 @@ public class Unit {
     public String SerializeClipboard() {
         String data = "";
 
-        data += this.TypeModel.trim() + Constants.Tab + Constants.Tab;
+        data += CommonTools.spaceRight(this.TypeModel.trim(), 30) + Constants.Tab;
         data += String.format("%1$,.0f", Tonnage) + Constants.Tab;
         data += String.format("%1$,.0f", BaseBV) + "" + Constants.Tab;
-        data += this.Mechwarrior + Constants.Tab + Constants.Tab;
+        data += CommonTools.spaceRight(this.Mechwarrior, 30) + Constants.Tab;
         data += this.Gunnery + "/" + this.Piloting + Constants.Tab;
         data += String.format("%1$,.0f", TotalBV) + "";
 

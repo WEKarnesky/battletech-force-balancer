@@ -116,4 +116,22 @@ public class CommonTools {
         }
         return ext;
     }
+
+    public static String spaceRight(String value, int length) {
+        return String.format("%1$-" + length + "s", value);
+    }
+
+    public static String spaceLeft(String value, int length) {
+        return String.format("%1$#" + length + "s", value);
+    }
+    
+    public static String padRight(String value, int length, String character) {
+                if ( value.length() < length ) {
+
+            for ( int i=value.length(); i < length; i++) {
+                value += character;
+            }
+        }
+        return value;
+    }
 }

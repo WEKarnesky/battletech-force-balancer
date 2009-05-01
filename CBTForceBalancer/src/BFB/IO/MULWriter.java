@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.IO;
 
-import BFB.Common.CommonTools;
 import BFB.Force;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -46,7 +45,7 @@ public class MULWriter {
         this.force = force;
     }
 
-    public void WriteXML( String filename ) throws IOException {
+    public void Write( String filename ) throws IOException {
         if ( !filename.endsWith(".mul") ) { filename += ".mul"; }
         //BufferedWriter FR = new BufferedWriter( new FileWriter( filename ) );
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );

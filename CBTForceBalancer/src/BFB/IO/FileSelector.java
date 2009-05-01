@@ -54,6 +54,20 @@ public class FileSelector {
         Parent = parent;
     }
 
+    public File SelectFile(String defaultDirectory, String[] Extensions, String commandName) {
+        File tempFile = new File(defaultDirectory);
+        for (int i=0; i < Extensions.length; i++) {
+            fileChooser.addChoosableFileFilter(new ExtensionFilter(Extensions[i]));
+        }
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setCurrentDirectory(tempFile);
+        int returnVal = fileChooser.showDialog(null, commandName);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            return null;
+        }
+        return fileChooser.getSelectedFile();
+    }
+
     public File SelectFile(String defaultDirectory, String Extension, String commandName) {
         File tempFile = new File(defaultDirectory);
         fileChooser.addChoosableFileFilter(new ExtensionFilter(Extension));
