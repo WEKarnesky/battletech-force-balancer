@@ -73,7 +73,7 @@ public class Force extends AbstractTableModel {
     public Force(Node ForceNode) throws Exception {
         Load( ForceNode );
     }
-    
+
     public void Load( Node ForceNode ) throws Exception {
         this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
         this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
@@ -113,11 +113,11 @@ public class Force extends AbstractTableModel {
                 NumC3++;
             }
         }
-        
+
         if (NumC3 > 0){
             TotalC3BV += (TotalAdjustedBV * 0.05) * NumC3;
         }
-        
+
         TotalForceBV += TotalAdjustedBV + TotalC3BV;
         UnevenForceMod = CommonTools.GetForceSizeMultiplier(OpForSize, Units.size());
         if (Units.size() > OpForSize) {
@@ -128,7 +128,7 @@ public class Force extends AbstractTableModel {
 
         fireTableDataChanged();
     }
-    
+
     public void AddUnit( Unit u ) {
         //if( ! Units.contains( u ) ) {
             u.Refresh();
@@ -137,7 +137,7 @@ public class Force extends AbstractTableModel {
         //}
         isDirty = true;
     }
-    
+
     public void RemoveUnit( Unit u ){
         Units.remove(u);
         RefreshBV();
@@ -179,7 +179,7 @@ public class Force extends AbstractTableModel {
         file.write("</unit>");
         file.newLine();
     }
-    
+
     public String SerializeClipboard() {
         String data = "";
 
@@ -190,6 +190,7 @@ public class Force extends AbstractTableModel {
                 "Tons" + Constants.Tab +
                 "BV" + Constants.Tab +
                 CommonTools.spaceRight("Mechwarrior", 30) + Constants.Tab +
+                CommonTools.spaceRight("Lance/Star", 30) + Constants.Tab +
                 "G/P" + Constants.Tab +
                 "Adj BV" + Constants.NL;
 
@@ -198,6 +199,10 @@ public class Force extends AbstractTableModel {
         }
 
         return data;
+    }
+
+    public String SerializeData() {
+        return SerializeClipboard();
     }
 
     public void RenderPrint(PrintSheet p) {
@@ -212,20 +217,29 @@ public class Force extends AbstractTableModel {
         p.WriteStr("Mechwarrior", 140);
         p.WriteStr("Type", 60);
         p.WriteStr("Tonnage", 50);
-        p.WriteStr("Base BV", 50);
+        p.WriteStr("Base BV", 40);
         p.WriteStr("G/P", 30);
         //p.WriteStr("Skills BV", 50);
         p.WriteStr("Modifier", 40);
         //p.WriteStr("Pre-C3 BV", 50);
-        p.WriteStr("Use C3", 50);
+        p.WriteStr("Use C3", 30);
         //p.WriteStr("C3 BV", 30);
-        p.WriteStr("Total BV", 50);
+        p.WriteStr("Total BV", 40);
         p.WriteStr("Force BV", 0);
         p.NewLine();
         p.setFont(CommonTools.PlainFont);
-        
+
+        String lastGroup = "";
         for (int i=0; i < Units.size(); i++) {
             Unit u = (Unit) Units.get(i);
+            if (!u.Group.equals(lastGroup) && !u.Group.isEmpty()) {
+                p.NewLine();
+                p.setFont(CommonTools.BoldFont);
+                p.WriteStr(u.Group, 200);
+                p.NewLine();
+                p.setFont(CommonTools.PlainFont);
+                lastGroup = u.Group;
+            }
             u.RenderPrint(p);
         }
 
@@ -237,15 +251,15 @@ public class Force extends AbstractTableModel {
         p.WriteStr("", 140);
         p.WriteStr("", 60);
         p.WriteStr(String.format("%1$,.2f", TotalTonnage), 50);
-        p.WriteStr(String.format("%1$,.0f", TotalBaseBV), 50);
+        p.WriteStr(String.format("%1$,.0f", TotalBaseBV), 40);
         p.WriteStr("", 30);
         //p.WriteStr(String.format("%1$,.0f", TotalSkillBV), 50);
         p.WriteStr("", 40);
         //p.WriteStr(String.format("%1$,.0f", TotalAdjustedBV ), 50);
-        p.WriteStr("", 50);
+        p.WriteStr("", 30);
         //p.WriteStr(String.format("%1$,.0f", TotalC3BV), 30);
         p.setFont(CommonTools.BoldFont);
-        p.WriteStr(String.format("%1$,.0f", TotalForceBV), 50);
+        p.WriteStr(String.format("%1$,.0f", TotalForceBV), 40);
         p.WriteStr(String.format("%1$,.0f", TotalForceBVAdjusted), 0);
         p.NewLine();
         p.setFont(CommonTools.PlainFont);
@@ -287,19 +301,21 @@ public class Force extends AbstractTableModel {
         TableRowSorter Leftsorter = new TableRowSorter<Force>(this);
         List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
         sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
-        sortKeys.add(new RowSorter.SortKey(7, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(4, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(8, SortOrder.ASCENDING));
         Leftsorter.setSortKeys(sortKeys);
         tbl.setRowSorter(Leftsorter);
 
         tbl.getColumnModel().getColumn(0).setPreferredWidth(150);
         tbl.getColumnModel().getColumn(1).setPreferredWidth(50);
         tbl.getColumnModel().getColumn(2).setPreferredWidth(150);
-        tbl.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(100);
         tbl.getColumnModel().getColumn(4).setPreferredWidth(40);
         tbl.getColumnModel().getColumn(5).setPreferredWidth(20);
         tbl.getColumnModel().getColumn(6).setPreferredWidth(20);
         tbl.getColumnModel().getColumn(7).setPreferredWidth(20);
         tbl.getColumnModel().getColumn(8).setPreferredWidth(30);
+        tbl.getColumnModel().getColumn(9).setPreferredWidth(30);
     }
 
     @Override
@@ -312,24 +328,26 @@ public class Force extends AbstractTableModel {
             case 2:
                 return "Mechwarrior";
             case 3:
-                return "Tons";
+                return "Lance/Star";
             case 4:
-                return "Base BV";
+                return "Tons";
             case 5:
-                return "G";
+                return "Base BV";
             case 6:
-                return "P";
+                return "G";
             case 7:
-                return "Mod";
+                return "P";
             case 8:
-                return "C3";
+                return "Mod";
             case 9:
+                return "C3";
+            case 10:
                 return "Adj BV";
         }
         return "";
     }
     public int getRowCount() { return Units.size(); }
-    public int getColumnCount() { return 10; }
+    public int getColumnCount() { return 11; }
     @Override
     public Class getColumnClass(int c) {
         if (Units.size() > 0) {
@@ -348,18 +366,20 @@ public class Force extends AbstractTableModel {
             case 2:
                 return u.Mechwarrior;
             case 3:
-                return u.Tonnage;
+                return u.Group;
             case 4:
-                return u.BaseBV;
+                return u.Tonnage;
             case 5:
-                return u.Gunnery;
+                return u.BaseBV;
             case 6:
-                return u.Piloting;
+                return u.Gunnery;
             case 7:
-                return u.MiscMod;
+                return u.Piloting;
             case 8:
-                return "";
+                return u.MiscMod;
             case 9:
+                return "";
+            case 10:
                 return "";
         }
         return "";
@@ -374,22 +394,24 @@ public class Force extends AbstractTableModel {
             case 2:
                 return u.Mechwarrior;
             case 3:
-                return u.Tonnage;
+                return u.Group;
             case 4:
-                return u.BaseBV;
+                return u.Tonnage;
             case 5:
-                return u.Gunnery;
+                return u.BaseBV;
             case 6:
-                return u.Piloting;
+                return u.Gunnery;
             case 7:
-                return u.MiscMod;
+                return u.Piloting;
             case 8:
+                return u.MiscMod;
+            case 9:
                 if( u.UsingC3 ) {
                     return "Yes";
                 } else {
                     return "No";
                 }
-            case 9:
+            case 10:
                 return String.format( "%1$,.0f", u.TotalBV );
         }
         return null;
@@ -399,11 +421,13 @@ public class Force extends AbstractTableModel {
         switch( col ) {
             case 2:
                 return true;
-            case 5:
+            case 3:
                 return true;
             case 6:
                 return true;
             case 7:
+                return true;
+            case 8:
                 return true;
         }
         return false;
@@ -415,16 +439,20 @@ public class Force extends AbstractTableModel {
             case 2:
                 u.Mechwarrior = value.toString();
                 break;
-            case 5:
-                u.Gunnery = Integer.parseInt(value.toString());
+            case 3:
+                u.Group = value.toString();
                 break;
             case 6:
-                u.Piloting = Integer.parseInt(value.toString());
+                u.Gunnery = Integer.parseInt(value.toString());
                 break;
             case 7:
+                u.Piloting = Integer.parseInt(value.toString());
+                break;
+            case 8:
                 u.MiscMod = Float.parseFloat(value.toString());
                 break;
         }
+        isDirty = true;
         u.Refresh();
         RefreshBV();
     }

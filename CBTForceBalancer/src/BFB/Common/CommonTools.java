@@ -134,4 +134,8 @@ public class CommonTools {
         }
         return value;
     }
+
+    public static void Messager(String message) {
+        javax.swing.JOptionPane.showMessageDialog(null, message);
+    }
 }

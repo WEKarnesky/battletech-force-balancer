@@ -43,7 +43,8 @@ public class Unit {
                   Model = "",
                   Mechwarrior = "",
                   Filename = "",
-                  Configuration = "";
+                  Configuration = "",
+                  Group = "";
     public float BaseBV = 0.0f,
                  MiscMod = 1.0f,
                  Tonnage = 20.0f,
@@ -86,6 +87,7 @@ public class Unit {
             if (nodeName.equals("usingc3")) {UsingC3 = Boolean.parseBoolean(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("ssw")) {Filename = n.getChildNodes().item(i).getTextContent().trim();}
+            if (nodeName.equals("group")) {Group = n.getChildNodes().item(i).getTextContent().trim();}
         }
         this.Refresh();
     }
@@ -116,12 +118,12 @@ public class Unit {
         p.WriteStr(Mechwarrior, 140);
         p.WriteStr(Constants.UnitTypes[UnitType], 60);
         p.WriteStr(String.format("%1$,.2f", Tonnage), 50);
-        p.WriteStr(String.format("%1$,.0f", BaseBV), 50);
+        p.WriteStr(String.format("%1$,.0f", BaseBV), 40);
         p.WriteStr(GetSkills(), 30);
         //p.WriteStr(String.format("%1$,.0f", SkillsBV), 50);
         p.WriteStr(String.format("%1$,.2f", MiscMod), 40);
         //p.WriteStr(String.format("%1$,.0f", TotalBV), 50);
-        p.WriteStr(Boolean.valueOf(UsingC3).toString(), 50);
+        p.WriteStr(Boolean.valueOf(UsingC3).toString(), 30);
         //p.WriteStr(String.format("%1$,.0f", C3BV), 30);
         p.WriteStr(String.format("%1$,.0f", TotalBV), 0);
         p.NewLine();
@@ -135,6 +137,8 @@ public class Unit {
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<config>" + this.Configuration.trim() + "</config>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<tonnage>" + this.Tonnage + "</tonnage>");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<group>" + this.Group.trim() + "</group>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<mechwarrior>" + this.Mechwarrior.trim() + "</mechwarrior>");
         file.newLine();
@@ -179,6 +183,7 @@ public class Unit {
         data += String.format("%1$,.0f", Tonnage) + Constants.Tab;
         data += String.format("%1$,.0f", BaseBV) + "" + Constants.Tab;
         data += CommonTools.spaceRight(this.Mechwarrior, 30) + Constants.Tab;
+        data += CommonTools.spaceRight(this.Group, 20) + Constants.Tab;
         data += this.Gunnery + "/" + this.Piloting + Constants.Tab;
         data += String.format("%1$,.0f", TotalBV) + "";
 

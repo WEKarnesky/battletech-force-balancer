@@ -71,4 +71,13 @@ public class XMLReader {
         NodeList n = load.getElementsByTagName("force");
         if ( n.getLength() > 0 ) { force.Load(n.item(0)); }
     }
+
+    public void ReadMUL( Force force, String filename ) throws Exception {
+        filename = CommonTools.SafeFileName( filename );
+
+        db = dbf.newDocumentBuilder();
+        load = db.parse( filename );
+        NodeList n = load.getElementsByTagName("unit");
+        
+    }
 }

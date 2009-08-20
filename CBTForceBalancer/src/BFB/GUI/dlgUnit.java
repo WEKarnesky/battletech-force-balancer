@@ -35,16 +35,18 @@ package BFB.GUI;
 
 import BFB.Unit;
 import java.awt.Color;
-import ssw.Options;
 import ssw.components.ifLoadout;
 import ssw.filehandlers.TXTWriter;
 
 public class dlgUnit extends javax.swing.JDialog {
     private Unit unit;
     private boolean Default = true;
+    private frmBase Parent;
+    public boolean Result = false;
 
     public dlgUnit(java.awt.Frame parent, boolean modal, Unit u) {
         super(parent, modal);
+        Parent = (frmBase) parent;
         unit = u;
         initComponents();
 
@@ -73,6 +75,7 @@ public class dlgUnit extends javax.swing.JDialog {
             } else {
                 pnlConfiguration.setVisible(false);
             }
+            setC3();
             setTRO();
         } else {
             pnlConfiguration.setVisible(false);
@@ -86,10 +89,17 @@ public class dlgUnit extends javax.swing.JDialog {
     }
 
     private void setTRO() {
-        TXTWriter txt = new TXTWriter(unit.m, new Options());
+        TXTWriter txt = new TXTWriter(unit.m);
         txt.CurrentLoadoutOnly = true;
         tpnTRO.setText(txt.GetMiniTextExport());
         tpnTRO.setCaretPosition(0);
+    }
+
+    private void setC3() {
+        if ( ! unit.m.HasC3() ) {
+            chkC3Active.setSelected(false);
+            chkC3Active.setVisible(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -357,11 +367,12 @@ public class dlgUnit extends javax.swing.JDialog {
         spnTRO.setBorder(javax.swing.BorderFactory.createTitledBorder("Technical Readout"));
         spnTRO.setPreferredSize(new java.awt.Dimension(400, 550));
 
-        tpnTRO.setBackground(new java.awt.Color(240, 240, 240));
+        tpnTRO.setBackground(javax.swing.UIManager.getDefaults().getColor("control"));
         tpnTRO.setBorder(null);
         tpnTRO.setEditable(false);
         tpnTRO.setFont(new java.awt.Font("Courier New", 0, 11)); // NOI18N
         tpnTRO.setText("--------------------------------------------------------------------------------");
+        tpnTRO.setCaretPosition(0);
         tpnTRO.setPreferredSize(new java.awt.Dimension(400, 550));
         spnTRO.setViewportView(tpnTRO);
 
@@ -400,6 +411,7 @@ public class dlgUnit extends javax.swing.JDialog {
         unit.MiscMod = Float.parseFloat(txtMod.getText());
         unit.UsingC3 = chkC3Active.isSelected();
         unit.Refresh();
+        Result = true;
         this.setVisible( false );
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -425,6 +437,7 @@ public class dlgUnit extends javax.swing.JDialog {
         if ( Default ) { return; }
         unit.m.SetCurLoadout(cmbConfiguration.getSelectedItem().toString().substring(0, cmbConfiguration.getSelectedItem().toString().indexOf(" ")));
         unit.UpdateByMech();
+        setC3();
         setBV();
         setTRO();
     }//GEN-LAST:event_cmbConfigurationActionPerformed

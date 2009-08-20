@@ -116,8 +116,10 @@ public class FileSelector {
         } catch (InterruptedException ie) {
             // do nothing
         }
+        Tracker.removeImage(retval);
         return retval;
     }
+
     public String GetDirectorySelection( ) {
         return GetDirectorySelection( "" );
     }
@@ -127,7 +129,7 @@ public class FileSelector {
 
         fileChooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
         fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setCurrentDirectory(new File(CommonTools.GetSafeFilename(defaultPath)));
+        fileChooser.setCurrentDirectory(new File(defaultPath));
 
         //Show it.
         int returnVal = fileChooser.showDialog( null, "Choose directory");

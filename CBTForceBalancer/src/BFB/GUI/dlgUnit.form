@@ -40,7 +40,7 @@
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="158" max="-2" attributes="1"/>
                   <Component id="spnTRO" pref="393" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -438,7 +438,7 @@
         <Component class="javax.swing.JTextPane" name="tpnTRO">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f0" green="f0" red="f0" type="rgb"/>
+              <Color blue="d8" green="e9" id="control" palette="3" red="ec" type="palette"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
