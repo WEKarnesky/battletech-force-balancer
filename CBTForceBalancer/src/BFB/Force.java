@@ -30,6 +30,8 @@ package BFB;
 import BFB.IO.PrintSheet;
 import BFB.Common.CommonTools;
 import BFB.Common.Constants;
+import ssw.filehandlers.Media;
+import java.awt.Image;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class Force extends AbstractTableModel {
     public Vector Units = new Vector();
     public String ForceName = "",
                   LogoPath = "";
+    public Image Logo = null;
     public float TotalBaseBV = 0.0f,
                  TotalModifier = 0.0f,
                  TotalTonnage = 0.0f,
@@ -120,7 +123,7 @@ public class Force extends AbstractTableModel {
 
         TotalForceBV += TotalAdjustedBV + TotalC3BV;
         UnevenForceMod = CommonTools.GetForceSizeMultiplier(OpForSize, Units.size());
-        if (Units.size() > OpForSize) {
+        if (Units.size() > OpForSize && OpForSize > 0) {
             TotalForceBVAdjusted = TotalForceBV * UnevenForceMod;
         } else {
             TotalForceBVAdjusted = TotalForceBV;
@@ -207,6 +210,11 @@ public class Force extends AbstractTableModel {
 
     public void RenderPrint(PrintSheet p) {
         p.setFont(CommonTools.SectionHeaderFont);
+        loadLogo();
+        if (Logo != null) {
+            p.Graphic.drawImage(Logo, p.currentX, p.currentY-15, 25, 25, null);
+            p.currentX += 30;
+        }
         p.WriteStr(ForceName, 0);
         p.NewLine();
         p.NewLine();
@@ -292,6 +300,13 @@ public class Force extends AbstractTableModel {
         if ( ForceName.isEmpty() ) { Flag = false; }
         if ( Units.size() == 0 ) { Flag = false; }
         return Flag;
+    }
+
+    public void loadLogo() {
+        if (!LogoPath.isEmpty()) {
+            Media media = new Media();
+            Logo = media.GetImage(LogoPath);
+        }
     }
 
     public void setupTable( JTable tbl ) {

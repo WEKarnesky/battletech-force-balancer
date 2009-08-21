@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.IO;
 
 import BFB.Common.CommonTools;
+import BFB.Force;
 import BFB.GUI.frmBase;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -35,34 +36,48 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-/**
- *
- * @author gblouin
- */
+
+
 public class PrintSheet implements Printable {
     private frmBase Parent;
-    private Graphics2D Graphic;
+    public Graphics2D Graphic;
+    private Force[] forces;
+    private PageFormat format = null;
 
-    public int pageWidth = 0;
-    public int pageHeight = 0;
     public int currentX = 0;
     public int currentY = 0;
 
-    public PrintSheet(frmBase parent, int Width, int Height){
-        Parent = parent;
-        pageWidth = Width;
-        pageHeight = Height;
+    public PrintSheet(frmBase parent, Force[] forces){
+        this.Parent = parent;
+        this.forces = forces;
     }
 
-    public PrintSheet(int Width, int Height){
-        Parent = null;
-        pageWidth = Width;
-        pageHeight = Height;
+    public PrintSheet(){
+        this.Parent = null;
+    }
+
+    public PrintSheet(Force[] forces) {
+        this.Parent = null;
+        this.forces = forces;
+    }
+
+    public void AddForces( Force[] forces ) {
+        this.forces = forces;
+    }
+
+    public void AddForce( Force force ) {
+        if (forces[0] != null) {
+            forces[0] = force;
+        } else {
+            forces[1] = force;
+        }
     }
 
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if( pageIndex >= 1 ) { return Printable.NO_SUCH_PAGE; }
         Graphic = (Graphics2D) graphics;
+        format = pageFormat;
+        Reset();
         Graphic.translate( pageFormat.getImageableX(), pageFormat.getImageableY() );
         PreparePrint();
         return Printable.PAGE_EXISTS;
@@ -70,7 +85,6 @@ public class PrintSheet implements Printable {
 
     private void PreparePrint() {
         Reset();
-        currentY += 15;
         setFont(CommonTools.TitleFont);
         WriteStr("Battletech Force Balancer", 0);
         NewLine();
@@ -78,10 +92,10 @@ public class PrintSheet implements Printable {
         WriteLine();
         NewLine();
         NewLine();
-        Parent.topForce.RenderPrint(this);
+        forces[0].RenderPrint(this);
         NewLine();
         NewLine();
-        Parent.bottomForce.RenderPrint(this);
+        forces[1].RenderPrint(this);
     }
 
     public void WriteStr(String line, int changeX) {
@@ -91,7 +105,7 @@ public class PrintSheet implements Printable {
 
     public void WriteLine() {
         currentY -= 5;
-        Graphic.drawLine(0, currentY, pageWidth, currentY);
+        Graphic.drawLine(0, currentY, (int) format.getImageableWidth(), currentY);
         currentY += 10;
     }
 
@@ -105,16 +119,16 @@ public class PrintSheet implements Printable {
     }
 
     public void ResetX() {
-        currentX = 0;
+        currentX = (int) format.getImageableX();
     }
 
     public void ResetY() {
-        currentY = 0;
+        currentY = (int) format.getImageableY();
     }
 
     public void Reset() {
-        currentX = 0;
-        currentY = 0;
+        currentX = (int) format.getImageableX();
+        currentY = (int) format.getImageableY();
     }
 
 }

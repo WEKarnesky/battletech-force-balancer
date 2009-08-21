@@ -44,7 +44,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
-import java.awt.print.*;
 import java.io.*;
 import java.util.Vector;
 import java.util.logging.*;
@@ -53,7 +52,6 @@ import javax.swing.ImageIcon;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import ssw.components.Mech;
-import ssw.print.Printer;
 
 public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     public Force topForce = new Force();
@@ -111,17 +109,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         lblUnitsTop.setText(topForce.Units.size()+"");
         lblTonnageTop.setText( String.format("%1$,.0f", topForce.TotalTonnage) );
         lblBaseBVTop.setText( String.format("%1$,.0f", topForce.TotalBaseBV) );
-//        lblC3BVTop.setText( String.format("%1$,.0f", topForce.TotalC3BV) );
-//        lblModBVTop.setText( String.format("%1$,.0f", topForce.TotalModifierBV) );
-//        lblForceBVTop.setText( String.format("%1$,.0f", topForce.TotalAdjustedBV) );
         lblTotalBVTop.setText( String.format("%1$,.0f", topForce.TotalForceBVAdjusted) );
 
         lblUnitsBottom.setText(bottomForce.Units.size()+"");
         lblTonnageBottom.setText( String.format("%1$,.0f", bottomForce.TotalTonnage) );
         lblBaseBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalBaseBV) );
-//        lblC3BVBottom.setText( String.format("%1$,.0f", bottomForce.TotalC3BV) );
-//        lblModBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalModifierBV) );
-//        lblForceBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalAdjustedBV) );
         lblTotalBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalForceBVAdjusted) );
     }
 
@@ -1376,23 +1368,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_mnuAboutActionPerformed
 
     private void mnuPrintForceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintForceActionPerformed
-       PrinterJob job = PrinterJob.getPrinterJob();
-       PrintSheet p = new PrintSheet(this, 576, 756);
-       Paper paper = new Paper();
-       paper.setImageableArea(18, 18, 576, 756 );
-       PageFormat page = new PageFormat();
-       page.setPaper( paper );
-       job.setPrintable( p, page );
-       job.setJobName(txtScenarioName.getText() + " Force List");
-       boolean DoPrint = job.printDialog();
-       if( DoPrint ) {
-           try {
-               job.print();
-           } catch( PrinterException e ) {
-               System.err.println( e.getMessage() );
-               System.out.println( e.getStackTrace() );
-           }
-      }
+       Printer printer = new Printer(this);
+       printer.setJobName(this.txtScenarioName.getText());
+       printer.Print();
 }//GEN-LAST:event_mnuPrintForceActionPerformed
 
     private void mnuPrintUnitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintUnitsActionPerformed
@@ -1401,7 +1379,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         forces.add(bottomForce);
 
         for (int f = 0; f <= forces.size()-1; f++){
-            Printer printer = new Printer();
+            ssw.print.Printer printer = new ssw.print.Printer();
             Force printForce = (Force) forces.get(f);
 
             printer.setLogoPath(printForce.LogoPath);
@@ -1657,15 +1635,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_txtBottomPilotKeyReleased
 
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
-        PrintSheet p = new PrintSheet(this, 576, 756);
-        Book pages = new Book();
-        Paper paper = new Paper();
-        paper.setImageableArea(18, 18, 576, 756 );
-        PageFormat page = new PageFormat();
-        page.setPaper( paper );
-        pages.append(p, page);
-       
-        dlgPreview preview = new dlgPreview(lblScenarioName.getText(), this, pages, 0.0);
+        Printer printer = new Printer(this);
+
+        dlgPreview preview = new dlgPreview(lblScenarioName.getText(), this, printer.Preview(), 0.0);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         preview.setSize(dim.width, dim.height-30);
         //preview.setSize(1024, 768);
