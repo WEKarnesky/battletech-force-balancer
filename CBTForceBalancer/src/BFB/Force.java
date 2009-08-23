@@ -35,7 +35,9 @@ import java.awt.Image;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Formatter;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JTable;
@@ -193,7 +195,7 @@ public class Force extends AbstractTableModel {
                 "Tons" + Constants.Tab +
                 "BV" + Constants.Tab +
                 CommonTools.spaceRight("Mechwarrior", 30) + Constants.Tab +
-                CommonTools.spaceRight("Lance/Star", 30) + Constants.Tab +
+                CommonTools.spaceRight("Lance/Star", 20) + Constants.Tab +
                 "G/P" + Constants.Tab +
                 "Adj BV" + Constants.NL;
 
@@ -331,6 +333,51 @@ public class Force extends AbstractTableModel {
         tbl.getColumnModel().getColumn(7).setPreferredWidth(20);
         tbl.getColumnModel().getColumn(8).setPreferredWidth(30);
         tbl.getColumnModel().getColumn(9).setPreferredWidth(30);
+    }
+
+    public void sortForPrinting() {
+        Hashtable<String, Vector> list = new Hashtable<String, Vector>();
+        String group;
+        for( int i = 0; i < Units.size(); i++ ) {
+            group = ((Unit) Units.get( i )).Group;
+            if (list.containsKey(group)) {
+                //Vector v = (Vector) list.get(group);
+                list.get(group).add(Units.get(i));
+            } else {
+                Vector units = new Vector();
+                units.add(Units.get(i));
+                list.put(group, units);
+            }
+        }
+
+        Vector newUnits = new Vector();
+        Enumeration e = list.keys();
+        while( e.hasMoreElements() ) {
+            Vector v = sortByTonnage((Vector) list.get(e.nextElement()));
+            newUnits.addAll(v);
+        }
+        Units = newUnits;
+    }
+
+    public Vector sortByTonnage( Vector v ) {
+        int i = 1, j = 2;
+        Object swap;
+        while( i < v.size() ) {
+            // get the two items we'll be comparing
+            if( ((Unit) v.get( i - 1 )).Tonnage <= ((Unit) v.get( i )).Tonnage ) {
+                i = j;
+                j += 1;
+            } else {
+                swap = v.get( i - 1 );
+                v.setElementAt( v.get( i ), i - 1 );
+                v.setElementAt( swap, i );
+                i -= 1;
+                if( i == 0 ) {
+                    i = 1;
+                }
+            }
+        }
+        return v;
     }
 
     @Override

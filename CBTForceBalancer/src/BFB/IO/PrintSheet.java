@@ -43,6 +43,7 @@ public class PrintSheet implements Printable {
     public Graphics2D Graphic;
     private Force[] forces;
     private PageFormat format = null;
+    private String Title = "Battletech Force Balancer";
 
     public int currentX = 0;
     public int currentY = 0;
@@ -86,7 +87,7 @@ public class PrintSheet implements Printable {
     private void PreparePrint() {
         Reset();
         setFont(CommonTools.TitleFont);
-        WriteStr("Battletech Force Balancer", 0);
+        WriteStr(Title, 0);
         NewLine();
         setFont(CommonTools.PlainFont);
         WriteLine();
@@ -129,6 +130,20 @@ public class PrintSheet implements Printable {
     public void Reset() {
         currentX = (int) format.getImageableX();
         currentY = (int) format.getImageableY();
+    }
+
+    /**
+     * @return the Title
+     */
+    public String getTitle() {
+        return Title;
+    }
+
+    /**
+     * @param Title the Title to set
+     */
+    public void setTitle(String Title) {
+        this.Title = Title;
     }
 
 }

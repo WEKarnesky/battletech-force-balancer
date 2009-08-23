@@ -1145,9 +1145,9 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_txtNameKeyTyped
 
     private void lstSelectedValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstSelectedValueChanged
-        if (( lstSelected.getSelectedValues().length > 0 ) && ( tbpSelections.hasFocus() )) {
+        if (( lstSelected.getSelectedValues().length > 0 )) {
             String Name = ((Object) lstSelected.getSelectedValues()[0]).toString();
-            txtName.setText(Name.split(" ")[1].substring(0, 6).trim());
+            txtName.setText(Name.split(" ")[1].trim());
             Filter(null);
         }
     }//GEN-LAST:event_lstSelectedValueChanged

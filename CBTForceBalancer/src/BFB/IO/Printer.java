@@ -33,7 +33,8 @@ import BFB.GUI.frmBase;
 import java.awt.print.*;
 
 public class Printer {
-    private String jobName = "Battletech Force Balancer";
+    private String jobName = "Battletech Force Balancer",
+                    Title = "Battletech Force Balancer";
     private Boolean useDialog = true;
     private PrintSheet sheet = new PrintSheet();
 
@@ -49,11 +50,13 @@ public class Printer {
     public final static PaperSize Legal = new PaperSize(8.5d, 14.0d);
 
     public Printer() {
-        setPaperSize(Landscape);
+        setPaperSize(Letter);
     }
 
     public Printer( frmBase parent ) {
         this();
+        parent.topForce.sortForPrinting();
+        parent.bottomForce.sortForPrinting();
         sheet.AddForces(new Force[]{parent.topForce, parent.bottomForce});
     }
 
@@ -116,6 +119,21 @@ public class Printer {
         //start building the print objects necessary
         page.setPaper( paper );
         pages.append(sheet, page);
+    }
+
+    /**
+     * @return the Title
+     */
+    public String getTitle() {
+        return Title;
+    }
+
+    /**
+     * @param Title the Title to set
+     */
+    public void setTitle(String Title) {
+        this.Title = Title;
+        sheet.setTitle(Title);
     }
 
 //    private Boolean PrintDialog(PrintMech pMech) {

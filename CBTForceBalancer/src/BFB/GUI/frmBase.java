@@ -1370,6 +1370,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void mnuPrintForceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintForceActionPerformed
        Printer printer = new Printer(this);
        printer.setJobName(this.txtScenarioName.getText());
+       printer.setTitle(this.txtScenarioName.getText());
        printer.Print();
 }//GEN-LAST:event_mnuPrintForceActionPerformed
 
@@ -1635,7 +1636,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_txtBottomPilotKeyReleased
 
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
+        topForce.sortForPrinting();
+        bottomForce.sortForPrinting();
         Printer printer = new Printer(this);
+        printer.setTitle(txtScenarioName.getText());
 
         dlgPreview preview = new dlgPreview(lblScenarioName.getText(), this, printer.Preview(), 0.0);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

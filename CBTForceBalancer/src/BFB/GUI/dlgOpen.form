@@ -408,7 +408,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="spnMechTable" pref="516" max="32767" attributes="2"/>
+                          <Component id="spnMechTable" pref="522" max="32767" attributes="2"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -664,7 +664,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblCurDir" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="552" max="32767" attributes="1"/>
+                          <Component id="jScrollPane2" pref="555" max="32767" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -742,7 +742,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jScrollPane3" pref="511" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" pref="517" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
