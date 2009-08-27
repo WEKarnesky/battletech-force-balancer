@@ -76,7 +76,6 @@ public class Unit {
             String nodeName = n.getChildNodes().item(i).getNodeName();
             if (nodeName.equals("type")) {Type = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("model")) {Model = n.getChildNodes().item(i).getTextContent().trim();}
-            TypeModel = Type + " " + Model;
             if (nodeName.equals("config")) {Configuration = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("tonnage")) {Tonnage = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
             if (nodeName.equals("basebv")) {BaseBV = Float.parseFloat(n.getChildNodes().item(i).getTextContent());}
@@ -90,6 +89,7 @@ public class Unit {
             if (nodeName.equals("group")) {Group = n.getChildNodes().item(i).getTextContent().trim();}
         }
         this.Refresh();
+        TypeModel = Type + " " + Model;
     }
 
     public void Refresh() {
@@ -114,6 +114,7 @@ public class Unit {
     }
 
     public void RenderPrint(PrintSheet p) {
+        p.setFont(CommonTools.PlainFont);
         p.WriteStr(TypeModel, 120);
         p.WriteStr(Mechwarrior, 140);
         p.WriteStr(Constants.UnitTypes[UnitType], 60);

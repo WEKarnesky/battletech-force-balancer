@@ -272,7 +272,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         lstFiles = new javax.swing.JList();
         jToolBar1 = new javax.swing.JToolBar();
         btnDirectory = new javax.swing.JButton();
-        lblCurDir = new javax.swing.JLabel();
+        cmbDirectory = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         lstOptions = new javax.swing.JList();
@@ -694,18 +694,18 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jToolBar1.add(btnDirectory);
 
-        lblCurDir.setText("Selected Directory...");
+        cmbDirectory.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCurDir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbDirectory, 0, 271, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -713,9 +713,9 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCurDir)
+                .addComponent(cmbDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1086,6 +1086,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         String filename = lstFiles.getSelectedValue().toString();
         RUSReader reader = new RUSReader();
         try {
+            javax.swing.JOptionPane.showMessageDialog(this, parent.Prefs.get("RUSPath", "") + File.separator + filename);
             reader.Load( parent.Prefs.get("RUSPath", "") + File.separator + filename, rus);
             lstOptions.setModel(rus.getDisplay());
         } catch ( Exception e ) {
@@ -1220,6 +1221,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JButton btnRoll;
     private javax.swing.JButton btnText;
     private javax.swing.JComboBox cmbClass;
+    private javax.swing.JComboBox cmbDirectory;
     private javax.swing.JComboBox cmbEra;
     private javax.swing.JComboBox cmbFSLEra;
     private javax.swing.JComboBox cmbFaction;
@@ -1255,7 +1257,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JLabel lblCurDir;
     private javax.swing.JLabel lblLoading;
     private javax.swing.JList lstChosen;
     private javax.swing.JList lstFiles;

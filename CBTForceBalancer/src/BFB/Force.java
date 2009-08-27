@@ -36,7 +36,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Formatter;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -219,35 +218,30 @@ public class Force extends AbstractTableModel {
         }
         p.WriteStr(ForceName, 0);
         p.NewLine();
-        p.NewLine();
-        p.setFont(CommonTools.ItalicFont);
-        
-        //Output column Headers
-        p.WriteStr("Units", 120);
-        p.WriteStr("Mechwarrior", 140);
-        p.WriteStr("Type", 60);
-        p.WriteStr("Tonnage", 50);
-        p.WriteStr("Base BV", 40);
-        p.WriteStr("G/P", 30);
-        //p.WriteStr("Skills BV", 50);
-        p.WriteStr("Modifier", 40);
-        //p.WriteStr("Pre-C3 BV", 50);
-        p.WriteStr("Use C3", 30);
-        //p.WriteStr("C3 BV", 30);
-        p.WriteStr("Total BV", 40);
-        p.WriteStr("Force BV", 0);
-        p.NewLine();
-        p.setFont(CommonTools.PlainFont);
 
-        String lastGroup = "";
+        String lastGroup = "~",
+               curGroup = "";
         for (int i=0; i < Units.size(); i++) {
             Unit u = (Unit) Units.get(i);
-            if (!u.Group.equals(lastGroup) && !u.Group.isEmpty()) {
+            if (!u.Group.equals(lastGroup)) {
                 p.NewLine();
+                curGroup = u.Group;
+                
+                //Output column Headers
                 p.setFont(CommonTools.BoldFont);
-                p.WriteStr(u.Group, 200);
+                p.WriteStr(curGroup, 120);
+
+                p.setFont(CommonTools.ItalicFont);
+                p.WriteStr("Mechwarrior", 140);
+                p.WriteStr("Type", 60);
+                p.WriteStr("Tonnage", 50);
+                p.WriteStr("Base BV", 40);
+                p.WriteStr("G/P", 30);
+                p.WriteStr("Modifier", 40);
+                p.WriteStr("Use C3", 30);
+                p.WriteStr("Total BV", 40);
+                p.WriteStr("Force BV", 0);
                 p.NewLine();
-                p.setFont(CommonTools.PlainFont);
                 lastGroup = u.Group;
             }
             u.RenderPrint(p);
