@@ -37,6 +37,7 @@ public class Printer {
                     Title = "Battletech Force Balancer";
     private Boolean useDialog = true;
     private PrintSheet sheet = new PrintSheet();
+    private PrintDeclaration chits = new PrintDeclaration();
 
     private Book pages = new Book();
     private Paper paper = new Paper();
@@ -58,16 +59,19 @@ public class Printer {
         parent.topForce.sortForPrinting();
         parent.bottomForce.sortForPrinting();
         sheet.AddForces(new Force[]{parent.topForce, parent.bottomForce});
+        chits.AddForces(new Force[]{parent.topForce, parent.bottomForce});
     }
 
     public Printer( Force[] forces ) {
         this();
         sheet.AddForces(forces);
+        chits.AddForces(forces);
     }
 
     public Printer( Force force ) {
         this();
         sheet.AddForce(force);
+        chits.AddForce(force);
     }
 
     public String getJobName() {
@@ -119,6 +123,7 @@ public class Printer {
         //start building the print objects necessary
         page.setPaper( paper );
         pages.append(sheet, page);
+        pages.append(chits, page);
     }
 
     /**
@@ -135,59 +140,4 @@ public class Printer {
         this.Title = Title;
         sheet.setTitle(Title);
     }
-
-//    private Boolean PrintDialog(PrintMech pMech) {
-//        dlgPrintSavedMechOptions POptions = new dlgPrintSavedMechOptions(Parent, true, pMech);
-//        POptions.setTitle( "Printing " + pMech.CurMech.GetFullName() );
-//        POptions.setLocationRelativeTo( Parent );
-//
-//        POptions.setVisible( true );
-//
-//        if( ! POptions.Result() ) {
-//            return false;
-//        }
-//
-//        pMech.setPrintPilot(POptions.PrintPilot());
-//        pMech.setCharts(POptions.PrintCharts());
-//        pMech.setGunnery(POptions.GetGunnery());
-//        pMech.setPiloting(POptions.GetPiloting());
-//        pMech.setMechwarrior(POptions.GetWarriorName());
-//        pMech.setMechImage(POptions.getImage());
-//        pMech.setLogoImage(POptions.getLogo());
-//        pMech.setCanon(POptions.getCanon());
-//        if ( POptions.UseMiniConversion() ) { pMech.SetMiniConversion( POptions.GetMiniConversionRate() );}
-//
-//        POptions.dispose();
-//        return true;
-//    }
-//
-//    private Boolean BatchDialog() {
-//        dlgPrintSavedMechOptions POptions = new dlgPrintSavedMechOptions(Parent, true);
-//        POptions.setTitle( "Printing Batched Units");
-//        POptions.setLocationRelativeTo( Parent );
-//
-//        if ( !this.logoPath.isEmpty() ) {
-//            POptions.setLogo(new File(this.logoPath));
-//        }
-//
-//        POptions.setVisible( true );
-//
-//        if( ! POptions.Result() ) {
-//            return false;
-//        }
-//
-//        for ( int m=0; m <= Mechs.size()-1; m++ ) {
-//            PrintMech pMech = (PrintMech) Mechs.get(m);
-//            pMech.setPrintPilot(POptions.PrintPilot());
-//            pMech.setCharts(POptions.PrintCharts());
-//            pMech.setMechImage(POptions.getImage());
-//            pMech.setLogoImage(POptions.getLogo());
-//            pMech.setCanon(POptions.getCanon());
-//            if ( POptions.UseMiniConversion() ) { pMech.SetMiniConversion( POptions.GetMiniConversionRate() );}
-//        }
-//
-//        POptions.dispose();
-//        return true;
-//    }
-
 }

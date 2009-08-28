@@ -35,7 +35,7 @@ public class dlgPreview extends javax.swing.JDialog implements ActionListener {
         btnPageWidth.setAction(new ZoomAction("Width", "document-resize.png", preview, preview.getWidthZoom(), true));
         btnPageHeight.setAction(new ZoomAction("Page", "document-resize-actual.png", preview, preview.getHeightZoom(), true));
 
-        if ( pageable.getNumberOfPages() <= 2 ) {
+        if ( pageable.getNumberOfPages() == 1 ) {
             btnBack.setVisible(false);
             btnForward.setVisible(false);
             jSeparator1.setVisible(false);
