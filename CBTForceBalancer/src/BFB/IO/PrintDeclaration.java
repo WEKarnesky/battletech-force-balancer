@@ -36,10 +36,11 @@ import java.awt.Image;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.util.Vector;
 
 public class PrintDeclaration implements Printable {
     public Graphics2D Graphic;
-    private Force[] forces;
+    private Vector forces = new Vector();
     private PageFormat format = null;
     private String[] Types = new String[]{"  Primary", "Secondary", "Secondary"};
     private String Title = "Fire Declaration Markers";
@@ -52,23 +53,27 @@ public class PrintDeclaration implements Printable {
     }
 
     public PrintDeclaration( Force[] forces ) {
-        this.forces = forces;
-    }
-
-    public void AddForces( Force[] forces ) {
-        this.forces = forces;
-    }
-
-    public void AddForce( Force force ) {
-        if (forces[0] != null) {
-            forces[0] = force;
-        } else {
-            forces[1] = force;
+        for ( Force f : forces ) {
+            this.forces.add(f);
         }
     }
 
+    public void AddForces( Force[] forces ) {
+        for ( Force f : forces ) {
+            this.forces.add(f);
+        }
+    }
+
+    public void AddForce( Force force ) {
+        this.forces.add(force);
+    }
+
+    public void clearForces() {
+        forces.clear();
+    }
+
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        if( forces.length <= 0 ) { return Printable.NO_SUCH_PAGE; }
+        if( forces.size() == 0 ) { return Printable.NO_SUCH_PAGE; }
         Graphic = (Graphics2D) graphics;
         format = pageFormat;
         Reset();
@@ -79,8 +84,8 @@ public class PrintDeclaration implements Printable {
 
     private void PreparePrint() {
         Reset();
-        for (int i=0; i<forces.length; i++) {
-            Force force = forces[i];
+        for (int f=0; f < forces.size(); f++) {
+            Force force = (Force) forces.get(f);
             Image logo = force.getLogo();
             for (int j=0; j<force.Units.size(); j++) {
                 Unit unit = (Unit) force.Units.get(j);

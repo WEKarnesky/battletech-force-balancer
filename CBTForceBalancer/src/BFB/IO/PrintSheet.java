@@ -74,6 +74,10 @@ public class PrintSheet implements Printable {
         }
     }
 
+    public void clearForces() {
+        forces = new Force[]{};
+    }
+    
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if( pageIndex >= 1 ) { return Printable.NO_SUCH_PAGE; }
         Graphic = (Graphics2D) graphics;

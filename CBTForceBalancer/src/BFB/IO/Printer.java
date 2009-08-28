@@ -31,6 +31,7 @@ package BFB.IO;
 import BFB.Force;
 import BFB.GUI.frmBase;
 import java.awt.print.*;
+import java.util.Vector;
 
 public class Printer {
     private String jobName = "Battletech Force Balancer",
@@ -38,6 +39,8 @@ public class Printer {
     private Boolean useDialog = true;
     private PrintSheet sheet = new PrintSheet();
     private PrintDeclaration chits = new PrintDeclaration();
+    private Vector forces = new Vector();
+    private int unitSize = 0;
 
     private Book pages = new Book();
     private Paper paper = new Paper();
@@ -58,18 +61,31 @@ public class Printer {
         this();
         parent.topForce.sortForPrinting();
         parent.bottomForce.sortForPrinting();
+
+        this.forces.add(parent.topForce);
+        this.forces.add(parent.bottomForce);
+        
+        unitSize += parent.topForce.Units.size();
+        unitSize += parent.bottomForce.Units.size();
+        
         sheet.AddForces(new Force[]{parent.topForce, parent.bottomForce});
         chits.AddForces(new Force[]{parent.topForce, parent.bottomForce});
     }
 
     public Printer( Force[] forces ) {
         this();
+        for (int i=0; i<=forces.length; i++) {
+            this.forces.add(forces[i]);
+            unitSize += forces[i].Units.size();
+        }
         sheet.AddForces(forces);
         chits.AddForces(forces);
     }
 
     public Printer( Force force ) {
         this();
+        this.forces.add(forces);
+        unitSize += force.Units.size();
         sheet.AddForce(force);
         chits.AddForce(force);
     }
@@ -123,7 +139,18 @@ public class Printer {
         //start building the print objects necessary
         page.setPaper( paper );
         pages.append(sheet, page);
-        pages.append(chits, page);
+
+        if ( unitSize > 24 ) {
+            chits.clearForces();
+            chits.AddForce((Force) this.forces.get(0));
+            pages.append(chits, page);
+
+            PrintDeclaration chit2 = new PrintDeclaration();
+            chit2.AddForce((Force) this.forces.get(1));
+            pages.append(chit2, page);
+        } else {
+            pages.append(chits, page);
+        }
     }
 
     /**
