@@ -36,9 +36,16 @@ package BFB.GUI;
 import BFB.Skills;
 import BFB.Unit;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.SpinnerNumberModel;
 import ssw.components.ifLoadout;
+import ssw.filehandlers.Media;
 import ssw.filehandlers.TXTWriter;
+import ssw.filehandlers.XMLWriter;
+import ssw.print.Printer;
 
 public class dlgUnit extends javax.swing.JDialog {
     private Unit unit;
@@ -84,6 +91,7 @@ public class dlgUnit extends javax.swing.JDialog {
             }
             setC3();
             setTRO();
+            setImage();
         } else {
             pnlConfiguration.setVisible(false);
             lblFilename.setForeground(new Color(Color.red.getRGB()));
@@ -106,6 +114,34 @@ public class dlgUnit extends javax.swing.JDialog {
         if ( ! unit.m.HasC3() ) {
             chkC3Active.setSelected(false);
             chkC3Active.setVisible(false);
+        }
+    }
+
+    private void setImage() {
+        lblSSWImage.setText(unit.m.GetSSWImage());
+        if ( !unit.m.GetSSWImage().isEmpty() ) {
+            try {
+                ImageIcon icon = new ImageIcon(unit.m.GetSSWImage());
+
+                if( icon == null ) { return; }
+
+                // See if we need to scale
+                int h = icon.getIconHeight();
+                int w = icon.getIconWidth();
+                if ( w > lblMechImage.getWidth() || h > lblMechImage.getHeight() ) {
+                    if ( w > h ) { // resize based on width
+                        icon = new ImageIcon(icon.getImage().
+                            getScaledInstance(lblMechImage.getWidth(), -1, Image.SCALE_DEFAULT));
+                    } else { // resize based on height
+                        icon = new ImageIcon(icon.getImage().
+                            getScaledInstance(-1, lblMechImage.getHeight(), Image.SCALE_DEFAULT));
+                    }
+                }
+
+                lblMechImage.setIcon(icon);
+            } catch (Exception e) {
+                //do nothing
+            }
         }
     }
 
@@ -134,13 +170,15 @@ public class dlgUnit extends javax.swing.JDialog {
         lblTotalBV = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblBaseBV = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        btnSave = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         lblModel = new javax.swing.JLabel();
         chkC3Active = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
+        jToolBar2 = new javax.swing.JToolBar();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        btnPrint = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         spnTRO = new javax.swing.JScrollPane();
@@ -167,6 +205,11 @@ public class dlgUnit extends javax.swing.JDialog {
         btnRandomGen = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         btnApply = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        btnMechImage = new javax.swing.JButton();
+        lblMechImage = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        lblSSWImage = new javax.swing.JLabel();
         pnlFile = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblFilename = new javax.swing.JLabel();
@@ -230,7 +273,7 @@ public class dlgUnit extends javax.swing.JDialog {
 
         jLabel13.setText("Adjusted:");
 
-        lblTotalBV.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTotalBV.setFont(new java.awt.Font("Tahoma", 1, 12));
         lblTotalBV.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTotalBV.setText("0,000 BV");
 
@@ -266,45 +309,55 @@ public class dlgUnit extends javax.swing.JDialog {
                     .addComponent(jLabel13)))
         );
 
-        btnSave.setText("Save");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(btnSave)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(btnSave)
-                .addComponent(btnCancel))
-        );
-
         jLabel6.setText("Mod");
 
-        lblModel.setFont(new java.awt.Font("Tahoma", 1, 12));
+        lblModel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblModel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblModel.setText("Sirocco SRC-3C BattleMech");
 
         chkC3Active.setText("C3 Active");
 
         jLabel5.setText("Plt");
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/disk-black.png"))); // NOI18N
+        btnSave.setText("Save");
+        btnSave.setFocusable(false);
+        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnSave);
+
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/minus-circle.png"))); // NOI18N
+        btnClose.setText("Close");
+        btnClose.setFocusable(false);
+        btnClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnClose);
+        jToolBar2.add(jSeparator1);
+
+        btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/printer.png"))); // NOI18N
+        btnPrint.setText("Print");
+        btnPrint.setFocusable(false);
+        btnPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnPrint);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -336,65 +389,72 @@ public class dlgUnit extends javax.swing.JDialog {
                                 .addComponent(txtMod, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(lblModel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(chkC3Active))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(chkC3Active)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblModel)
-                    .addComponent(lblTonnage))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlConfiguration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkC3Active))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMechwarrior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbGunnery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblModel)
+                            .addComponent(lblTonnage))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnlConfiguration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(3, 3, 3)
-                        .addComponent(txtMod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtMechwarrior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbGunnery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtMod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chkC3Active)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(500, 397));
+
         spnTRO.setBorder(null);
-        spnTRO.setPreferredSize(new java.awt.Dimension(400, 550));
+        spnTRO.setPreferredSize(new java.awt.Dimension(591, 369));
 
         tpnTRO.setBorder(null);
         tpnTRO.setEditable(false);
-        tpnTRO.setFont(new java.awt.Font("Courier New", 0, 11)); // NOI18N
+        tpnTRO.setFont(new java.awt.Font("Courier New", 0, 11));
         tpnTRO.setText("--------------------------------------------------------------------------------");
-        tpnTRO.setPreferredSize(new java.awt.Dimension(400, 550));
+        tpnTRO.setMaximumSize(new java.awt.Dimension(400, 550));
+        tpnTRO.setPreferredSize(new java.awt.Dimension(591, 369));
         spnTRO.setViewportView(tpnTRO);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spnTRO, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+            .addComponent(spnTRO, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spnTRO, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+            .addComponent(spnTRO, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Technical Readout", jPanel4);
@@ -521,10 +581,10 @@ public class dlgUnit extends javax.swing.JDialog {
                 .addComponent(rdoPiloting)
                 .addGap(18, 18, 18)
                 .addComponent(btnFilter)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel9.setText("Skill Choices");
 
         jLabel10.setForeground(new java.awt.Color(204, 204, 204));
@@ -537,7 +597,7 @@ public class dlgUnit extends javax.swing.JDialog {
 
         cmbSkillLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Random", "Green", "Regular", "Veteran", "Elite" }));
 
-        lblRandomSkill.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        lblRandomSkill.setFont(new java.awt.Font("Arial Black", 1, 18));
         lblRandomSkill.setText("0 / 0");
 
         btnRandomGen.setText("Generate");
@@ -591,7 +651,7 @@ public class dlgUnit extends javax.swing.JDialog {
                     .addComponent(lblRandomSkill))
                 .addGap(18, 18, 18)
                 .addComponent(btnApply)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -606,11 +666,12 @@ public class dlgUnit extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -620,7 +681,7 @@ public class dlgUnit extends javax.swing.JDialog {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -631,6 +692,54 @@ public class dlgUnit extends javax.swing.JDialog {
         );
 
         jTabbedPane1.addTab("Skill Selection", jPanel5);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnMechImage.setText("Select Image");
+        btnMechImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMechImageActionPerformed(evt);
+            }
+        });
+
+        lblMechImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel14.setText("Image:");
+
+        lblSSWImage.setText("jLabel16");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(btnMechImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblMechImage, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSSWImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(142, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMechImage, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMechImage))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(lblSSWImage))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Mech Image", jPanel8);
 
         jLabel1.setText("File:");
 
@@ -644,7 +753,7 @@ public class dlgUnit extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFilename)
-                .addContainerGap(520, Short.MAX_VALUE))
+                .addContainerGap(503, Short.MAX_VALUE))
         );
         pnlFileLayout.setVerticalGroup(
             pnlFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,43 +766,32 @@ public class dlgUnit extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(pnlFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(pnlFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.setVisible( false );
-}//GEN-LAST:event_btnCancelActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        unit.Mechwarrior = txtMechwarrior.getText();
-        unit.Gunnery = cmbGunnery.getSelectedIndex();
-        unit.Piloting = cmbPiloting.getSelectedIndex();
-        unit.MiscMod = Float.parseFloat(txtMod.getText());
-        unit.UsingC3 = chkC3Active.isSelected();
-        unit.Refresh();
-        Result = true;
-        this.setVisible( false );
-    }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbGunneryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGunneryActionPerformed
         unit.Gunnery = cmbGunnery.getSelectedIndex();
@@ -774,11 +872,51 @@ public class dlgUnit extends javax.swing.JDialog {
         cmbPiloting.setSelectedIndex(Integer.parseInt(items[1]));
     }//GEN-LAST:event_btnApplyActionPerformed
 
+    private void btnMechImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMechImageActionPerformed
+        Media media = new Media();
+        File imageFile = media.SelectImage(Parent.Prefs.get("LastMechImage", ""), "Select Mech Image");
+        try {
+            Parent.Prefs.put("LastMechImage", imageFile.getCanonicalPath());
+            unit.m.SetSSWImage(imageFile.getCanonicalPath());
+            setImage();
+
+            XMLWriter writer = new XMLWriter();
+            writer.setMech(unit.m);
+            writer.WriteXML(unit.Filename);
+        } catch (IOException ex) {
+            //do nothing
+        }
+
+    }//GEN-LAST:event_btnMechImageActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        unit.Mechwarrior = txtMechwarrior.getText();
+        unit.Gunnery = cmbGunnery.getSelectedIndex();
+        unit.Piloting = cmbPiloting.getSelectedIndex();
+        unit.MiscMod = Float.parseFloat(txtMod.getText());
+        unit.UsingC3 = chkC3Active.isSelected();
+        unit.Refresh();
+        Result = true;
+        this.setVisible( false );
+}//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+         this.setVisible( false );
+}//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        Printer printer = new Printer();
+        printer.AddMech(unit.m, unit.Mechwarrior, unit.Gunnery, unit.Piloting);
+        printer.Print();
+}//GEN-LAST:event_btnPrintActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;
-    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnFilter;
     private javax.swing.ButtonGroup btnGrpSkill;
+    private javax.swing.JButton btnMechImage;
+    private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnRandomGen;
     private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox chkC3Active;
@@ -791,6 +929,7 @@ public class dlgUnit extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -802,18 +941,22 @@ public class dlgUnit extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JLabel lblBaseBV;
     private javax.swing.JLabel lblConfig;
     private javax.swing.JLabel lblFilename;
+    private javax.swing.JLabel lblMechImage;
     private javax.swing.JLabel lblModel;
     private javax.swing.JLabel lblRandomSkill;
+    private javax.swing.JLabel lblSSWImage;
     private javax.swing.JLabel lblTonnage;
     private javax.swing.JLabel lblTotalBV;
     private javax.swing.JList lstSkills;

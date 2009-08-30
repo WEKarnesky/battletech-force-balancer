@@ -58,6 +58,11 @@ public class RUS {
         }
     }
 
+    public DefaultListModel Add( String Item ) {
+        getSelection().addElement(Item);
+        return getSelection();
+    }
+
     public void ClearItems() {
         DisplayList = new DefaultListModel();
         Choices.removeAllElements();
@@ -73,6 +78,12 @@ public class RUS {
         }
 
         return getSelection();
+    }
+
+    public String Generate() {
+        java.util.Random random = new Random();
+        int Row = random.nextInt(Choices.size());
+        return Choices.get(Row).toString();
     }
 
     public DefaultListModel ClearSelection() {

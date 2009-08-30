@@ -54,7 +54,7 @@ public class Force extends AbstractTableModel {
     public Vector Units = new Vector();
     public String ForceName = "",
                   LogoPath = "";
-    public Image Logo = null;
+    private Image Logo = null;
     public float TotalBaseBV = 0.0f,
                  TotalModifier = 0.0f,
                  TotalTonnage = 0.0f,
@@ -212,8 +212,8 @@ public class Force extends AbstractTableModel {
     public void RenderPrint(PrintSheet p) {
         p.setFont(CommonTools.SectionHeaderFont);
         loadLogo();
-        if (Logo != null) {
-            p.Graphic.drawImage(Logo, p.currentX, p.currentY-15, 25, 25, null);
+        if (getLogo() != null) {
+            p.Graphic.drawImage(getLogo(), p.currentX, p.currentY-15, 25, 25, null);
             p.currentX += 30;
         }
         p.WriteStr(ForceName, 0);
@@ -511,5 +511,13 @@ public class Force extends AbstractTableModel {
         isDirty = true;
         u.Refresh();
         RefreshBV();
+    }
+
+    /**
+     * @return the Logo
+     */
+    public Image getLogo() {
+        if ( Logo == null ) {loadLogo();}
+        return Logo;
     }
 }
