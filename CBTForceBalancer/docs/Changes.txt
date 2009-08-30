@@ -1,3 +1,28 @@
+#-##-09
+- Added Skill Selector that gives the option of choosing a set of skills listed by BV or random generating your choice
+- Added Mech Image option that lets you quickly set the mechs picture and save the ssw file for ease of printing
+- Reduced main form to 1024x768 to fit in smaller resolutions (like LostInSpace's)
+- Added a Directory list to Random Selections to make switching between Factions/Sources easier
+- Added the ability to double click a choice on the random list and have it auto-added to the selected list.
+
+8-23-09
+- Rewrote code to handle grouping that I had not checked in
+- Fixed issue with Top Force not updating the BV Totals accurately
+- Added Print Preview
+- Added sorting before print to verify that groups are kept together accurately
+- Began work on scenario information but does not store or print yet.
+
+4-27-09
+- Fixed issues with program slowdowns as you edited units.
+- Added ability to add-on to the random rolls (for use with Starterbooks)
+- Updated Mech Filter GUI
+
+4-24-09
+- Added random selection ability using data files from RUS (http://heavymetalpro.com/DataFiles.htm#RUS_Files)
+- Updated Open dialog to pre-load correctly
+- Clicking the red X then choosing Cancel will now STOP the window from closing
+- The "Do you want to Save?" dialog will now actually save
+
 4-22-09
 - Reworked the GUI again, removed most of the numbers as they were not necessary, highlighted the main BV totals
 - Added the ability to save and load individual force files per section
