@@ -1,10 +1,4 @@
 /*
- * dlgUnit.java
- *
- * Created on Apr 8, 2009, 12:22:17 PM
- */
-
-/*
 Copyright (c) 2008, George Blouin Jr. (skyhigh@solaris7.com)
 All rights reserved.
 
@@ -311,7 +305,7 @@ public class dlgUnit extends javax.swing.JDialog {
 
         jLabel6.setText("Mod");
 
-        lblModel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblModel.setFont(new java.awt.Font("Tahoma", 1, 12));
         lblModel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblModel.setText("Sirocco SRC-3C BattleMech");
 
@@ -484,8 +478,8 @@ public class dlgUnit extends javax.swing.JDialog {
             }
         });
         txtBVLimit.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtBVLimitKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBVLimitKeyReleased(evt);
             }
         });
 
@@ -845,10 +839,6 @@ public class dlgUnit extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_lstSkillsMouseClicked
 
-    private void txtBVLimitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBVLimitKeyTyped
-        btnFilterActionPerformed(null);
-    }//GEN-LAST:event_txtBVLimitKeyTyped
-
     private void rdoGunneryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoGunneryActionPerformed
         btnFilterActionPerformed(evt);
     }//GEN-LAST:event_rdoGunneryActionPerformed
@@ -909,6 +899,10 @@ public class dlgUnit extends javax.swing.JDialog {
         printer.AddMech(unit.m, unit.Mechwarrior, unit.Gunnery, unit.Piloting);
         printer.Print();
 }//GEN-LAST:event_btnPrintActionPerformed
+
+    private void txtBVLimitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBVLimitKeyReleased
+        btnFilterActionPerformed(null);
+    }//GEN-LAST:event_txtBVLimitKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;

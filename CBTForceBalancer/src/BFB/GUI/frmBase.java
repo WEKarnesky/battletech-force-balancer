@@ -44,6 +44,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.*;
 import java.util.Vector;
 import java.util.logging.*;
@@ -284,6 +286,14 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         force.RefreshBV();
     }
 
+    private void WaitCursor() {
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    }
+
+    private void DefaultCursor() {
+        setCursor(Cursor.getDefaultCursor());
+    }
+
 
 
 
@@ -312,7 +322,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btnMULExport = new javax.swing.JButton();
         btnClipboard = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jSeparator9 = new javax.swing.JToolBar.Separator();
+        btnManageImages = new javax.swing.JButton();
+        btnBV2Data = new javax.swing.JButton();
         lblScenarioName = new javax.swing.JLabel();
         txtScenarioName = new javax.swing.JTextField();
         chkUseForceModifier = new javax.swing.JCheckBox();
@@ -371,6 +383,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         txtTopPilot = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -503,17 +516,31 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         jToolBar1.add(btnClipboard);
+        jToolBar1.add(jSeparator9);
 
-        jButton1.setText("Output All Info");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnManageImages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/images-stack.png"))); // NOI18N
+        btnManageImages.setToolTipText("Manage Images");
+        btnManageImages.setFocusable(false);
+        btnManageImages.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnManageImages.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnManageImages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnManageImagesActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btnManageImages);
+
+        btnBV2Data.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/burn.png"))); // NOI18N
+        btnBV2Data.setToolTipText("Export BV2 Data List");
+        btnBV2Data.setFocusable(false);
+        btnBV2Data.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBV2Data.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBV2Data.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBV2DataActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnBV2Data);
 
         lblScenarioName.setText("Scenario / Event Name: ");
 
@@ -938,6 +965,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         jLabel9.setText("P");
 
+        jLabel12.setText("Unit Logo");
+
         javax.swing.GroupLayout pnlTopLayout = new javax.swing.GroupLayout(pnlTop);
         pnlTop.setLayout(pnlTopLayout);
         pnlTopLayout.setHorizontalGroup(
@@ -945,9 +974,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(pnlTopLayout.createSequentialGroup()
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTopLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblUnitLogoTop, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlTopLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblUnitLogoTop, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel12)
+                                .addGap(26, 26, 26)))
                         .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlTopLayout.createSequentialGroup()
                                 .addComponent(lblUnitNameTop)
@@ -985,7 +1020,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTopLayout.createSequentialGroup()
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblUnitLogoTop, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTopLayout.createSequentialGroup()
+                        .addComponent(lblUnitLogoTop, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlTopLayout.createSequentialGroup()
                         .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1213,8 +1251,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addContainerGap(425, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1004, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1254,7 +1292,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         File forceFile = openFile.SelectFile(Prefs.get("LastOpenBFBDirectory", ""), "bfb", "Load Force List");
 
         if (forceFile != null) {
-            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            WaitCursor();
 
             try {
                loadScenario(forceFile.getCanonicalPath());
@@ -1266,7 +1304,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
                return;
             } finally {
-                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                DefaultCursor();
             }
         }
 }//GEN-LAST:event_mnuLoadActionPerformed
@@ -1322,6 +1360,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         this.topForce.Clear();
         this.bottomForce.Clear();
         this.txtScenarioName.setText("");
+        this.lblUnitLogoTop.setIcon(null);
+        this.lblUnitLogoBottom.setIcon(null);
         this.Refresh();
     }//GEN-LAST:event_mnuNewActionPerformed
 
@@ -1335,7 +1375,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             javax.swing.JOptionPane.showMessageDialog(this, "Please enter a force name and at least one unit in each list before saving.");
             return;
         }
-        
+
+        WaitCursor();
         try {
             File file;
             if ( !Prefs.get("CurrentBFBFile", "").isEmpty() ) {
@@ -1358,6 +1399,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         } catch (java.io.IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
         }
+        DefaultCursor();
     }//GEN-LAST:event_mnuSaveActionPerformed
 
     private void mnuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAboutActionPerformed
@@ -1368,13 +1410,16 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_mnuAboutActionPerformed
 
     private void mnuPrintForceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintForceActionPerformed
+       WaitCursor();
        Printer printer = new Printer(this);
        printer.setJobName(this.txtScenarioName.getText());
        printer.setTitle(this.txtScenarioName.getText());
        printer.Print();
+       DefaultCursor();
 }//GEN-LAST:event_mnuPrintForceActionPerformed
 
     private void mnuPrintUnitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintUnitsActionPerformed
+        WaitCursor();
         Vector forces = new Vector();
         forces.add(topForce);
         forces.add(bottomForce);
@@ -1398,6 +1443,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             printer.Print();
 
         }
+        DefaultCursor();
     }//GEN-LAST:event_mnuPrintUnitsActionPerformed
 
     private void mnuDesignBattleMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDesignBattleMechActionPerformed
@@ -1436,6 +1482,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tblBottomMouseClicked
 
     private void btnMULExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMULExportActionPerformed
+        WaitCursor();
         MULWriter mw = new MULWriter();
         FileSelector fs = new FileSelector();
         String dir = "";
@@ -1460,6 +1507,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
 
         javax.swing.JOptionPane.showMessageDialog(this, "Your forces have been exported to " + dir);
+        DefaultCursor();
 }//GEN-LAST:event_btnMULExportActionPerformed
 
     private void chkUseForceModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUseForceModifierActionPerformed
@@ -1535,6 +1583,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             return;
         }
 
+        WaitCursor();
         try {
             File file;
             FileSelector selector = new FileSelector();
@@ -1554,6 +1603,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         } catch (java.io.IOException e) {
             javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
         }
+        DefaultCursor();
 }//GEN-LAST:event_mnuSaveAsActionPerformed
 
     private void mnuExportClipboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportClipboardActionPerformed
@@ -1565,6 +1615,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_mnuExportMULActionPerformed
 
     private void mnuExportTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportTextActionPerformed
+        WaitCursor();
         TXTWriter txtWrite = new TXTWriter( new Force[]{ topForce, bottomForce } );
         FileSelector fs = new FileSelector();
         File filename = fs.SelectFile(Prefs.get("TXTDirectory", ""), "txt", "Save");
@@ -1579,13 +1630,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             //do nothing
             javax.swing.JOptionPane.showMessageDialog(this, "Unable to save \n" + ex.getMessage() );
         }
+        DefaultCursor();
     }//GEN-LAST:event_mnuExportTextActionPerformed
 
     private void btnPrintUnitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintUnitsActionPerformed
         mnuPrintUnitsActionPerformed(evt);
 }//GEN-LAST:event_btnPrintUnitsActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnBV2DataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBV2DataActionPerformed
+        WaitCursor();
         String data = "";
         data += topForce.SerializeData();
         data += bottomForce.SerializeData();
@@ -1593,7 +1646,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         java.awt.datatransfer.StringSelection export = new java.awt.datatransfer.StringSelection( data );
         java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents( export, this );
-    }//GEN-LAST:event_jButton1ActionPerformed
+        DefaultCursor();
+}//GEN-LAST:event_btnBV2DataActionPerformed
 
     private void txtTopGunKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTopGunKeyReleased
         if ( !txtTopGun.getText().isEmpty() && !txtTopPilot.getText().isEmpty() ) {
@@ -1649,9 +1703,20 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         preview.setVisible(true);
     }//GEN-LAST:event_btnPreviewActionPerformed
 
+    private void btnManageImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageImagesActionPerformed
+        WaitCursor();
+        dlgMechImages img = new dlgMechImages(this, new Force[]{topForce, bottomForce});
+        if ( img.hasWork ) {
+            img.setLocationRelativeTo(this);
+            img.setVisible(true);
+        }
+        DefaultCursor();
+    }//GEN-LAST:event_btnManageImagesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBottom1;
     private javax.swing.JButton btnAddTop1;
+    private javax.swing.JButton btnBV2Data;
     private javax.swing.JButton btnClipboard;
     private javax.swing.JButton btnClipboardBottom;
     private javax.swing.JButton btnClipboardTop;
@@ -1661,6 +1726,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JButton btnEditTop1;
     private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnMULExport;
+    private javax.swing.JButton btnManageImages;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnOpenBottom;
     private javax.swing.JButton btnOpenTop;
@@ -1671,10 +1737,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JButton btnSaveBottom;
     private javax.swing.JButton btnSaveTop;
     private javax.swing.JCheckBox chkUseForceModifier;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1698,6 +1764,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
     private javax.swing.JToolBar.Separator jSeparator8;
+    private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;

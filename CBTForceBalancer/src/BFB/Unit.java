@@ -44,7 +44,8 @@ public class Unit {
                   Mechwarrior = "",
                   Filename = "",
                   Configuration = "",
-                  Group = "";
+                  Group = "",
+                  Quirks = "";
     public float BaseBV = 0.0f,
                  MiscMod = 1.0f,
                  Tonnage = 20.0f,
@@ -87,6 +88,7 @@ public class Unit {
             if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("ssw")) {Filename = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("group")) {Group = n.getChildNodes().item(i).getTextContent().trim();}
+            if (nodeName.equals("quirks")) {Quirks = n.getChildNodes().item(i).getTextContent().trim();}
         }
         this.Refresh();
         TypeModel = Type + " " + Model;
@@ -154,6 +156,8 @@ public class Unit {
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<unittype>" + this.UnitType + "</unittype>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<usingc3>" + this.UsingC3 + "</usingc3>");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<quirks>" + this.Quirks + "</quirks>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename.trim() + "</ssw>");
         file.newLine();
