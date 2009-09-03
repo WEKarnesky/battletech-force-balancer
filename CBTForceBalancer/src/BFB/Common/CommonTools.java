@@ -138,4 +138,12 @@ public class CommonTools {
     public static void Messager(String message) {
         javax.swing.JOptionPane.showMessageDialog(null, message);
     }
+
+    public static String Tabs(int Num) {
+        String tabs = "";
+        for (int i=0; i < Num; i++) {
+            tabs += CommonTools.tab;
+        }
+        return tabs;
+    }
 }

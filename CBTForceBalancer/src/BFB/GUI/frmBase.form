@@ -86,6 +86,17 @@
             </Menu>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="btnPrintDlg">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+P"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Print"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintDlgActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPrintAll">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
@@ -387,6 +398,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBV2DataActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="btnPersonnel">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/plug.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Manager Personnel"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPersonnelActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="lblScenarioName">
@@ -486,10 +511,10 @@
                                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                           <Component id="txtBottomPilot" min="-2" pref="15" max="-2" attributes="0"/>
-                                          <EmptySpace pref="209" max="32767" attributes="0"/>
+                                          <EmptySpace pref="201" max="32767" attributes="0"/>
                                           <Component id="tlbBottom" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="spnBottom" pref="857" max="32767" attributes="0"/>
+                                      <Component id="spnBottom" pref="853" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -505,7 +530,7 @@
                                   <Component id="lblBaseBVBottom" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="280" max="32767" attributes="0"/>
+                                  <EmptySpace pref="276" max="32767" attributes="0"/>
                                   <Component id="lblTotalBVBottom" min="-2" pref="73" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -531,7 +556,7 @@
                                       <Component id="tlbBottom" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnBottom" pref="229" max="32767" attributes="0"/>
+                                  <Component id="spnBottom" pref="226" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -811,10 +836,10 @@
                                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                           <Component id="txtTopPilot" min="-2" pref="15" max="-2" attributes="0"/>
-                                          <EmptySpace pref="210" max="32767" attributes="0"/>
+                                          <EmptySpace pref="202" max="32767" attributes="0"/>
                                           <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="spnTop" pref="858" max="32767" attributes="0"/>
+                                      <Component id="spnTop" pref="854" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -830,7 +855,7 @@
                                   <Component id="lblBaseBVTop" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="285" max="32767" attributes="0"/>
+                                  <EmptySpace pref="281" max="32767" attributes="0"/>
                                   <Component id="lblTotalBVTop" min="-2" pref="74" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -860,7 +885,7 @@
                                       <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnTop" pref="230" max="32767" attributes="1"/>
+                                  <Component id="spnTop" pref="227" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1122,10 +1147,10 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="979" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" min="-2" pref="318" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace pref="671" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1135,8 +1160,8 @@
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="607" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="279" max="-2" attributes="0"/>
+                      <EmptySpace pref="339" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

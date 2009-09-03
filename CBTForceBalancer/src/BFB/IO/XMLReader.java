@@ -34,10 +34,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
 
-/**
- *
- * @author justin
- */
 public class XMLReader {
     frmBase Parent;
 
@@ -77,7 +73,19 @@ public class XMLReader {
 
         db = dbf.newDocumentBuilder();
         load = db.parse( filename );
-        NodeList n = load.getElementsByTagName("unit");
-        
+        NodeList n = load.getElementsByTagName("unit");   
+    }
+
+    public Node ReadWarriors( String filename ) throws Exception {
+        filename = CommonTools.SafeFileName( filename );
+
+        db = dbf.newDocumentBuilder();
+        load = db.parse( filename );
+        NodeList n = load.getElementsByTagName("warriors");
+        if ( n.getLength() > 0 ) {
+            return n.item(0);
+        } else {
+            return null;
+        }
     }
 }

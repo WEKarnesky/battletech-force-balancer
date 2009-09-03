@@ -31,13 +31,17 @@ import BFB.Common.CommonTools;
 import BFB.Common.Constants;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Vector;
-
+import javax.swing.JTable;
+import javax.swing.event.TableModelListener;
 
 public class Scenario {
     private String Name = "",
                     Notes = "";
-    public Vector Forces = new Vector();
+    public Force[] Forces = new Force[]{new Force(), new Force()};
+
+    public Scenario() {
+
+    }
 
     /**
      * @return the Name
@@ -67,6 +71,30 @@ public class Scenario {
         this.Notes = Notes;
     }
 
+    public Force topForce() {
+        return Forces[0];
+    }
+
+    public Force bottomForce() {
+        return Forces[1];
+    }
+
+    public void AddListener( TableModelListener listener ) {
+        for ( Force force : Forces ) {
+            force.addTableModelListener(listener);
+        }
+    }
+
+    public void setupTable(JTable[] tables) {
+        int i = 0;
+        for ( Force force : Forces ) {
+            force.setupTable(tables[i]);
+            i++;
+        }
+
+        Forces[0].OpForSize = Forces[1].Units.size();
+        Forces[1].OpForSize = Forces[0].Units.size();
+    }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
         file.write( "<scenario>" );
@@ -81,8 +109,8 @@ public class Scenario {
         file.write( CommonTools.tab + "<forces>" );
         file.newLine();
 
-        for ( int i=0; i < Forces.size(); i++ ) {
-            ((Force) Forces.get(i)).SerializeXML(file);
+        for ( Force force : Forces ) {
+            force.SerializeXML(file);
         }
 
         file.write( CommonTools.tab + "</forces>" );
@@ -97,8 +125,8 @@ public class Scenario {
         data += this.Name + Constants.NL;
         data += this.Notes + Constants.NL;
 
-        for ( int i=0; i < Forces.size(); i++ ) {
-            data += ((Force) Forces.get(i)).SerializeClipboard();
+        for ( Force force : Forces ) {
+            data += force.SerializeClipboard();
         }
 
         return data;

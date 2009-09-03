@@ -90,4 +90,18 @@ public class XMLWriter {
 
         FR.close();
     }
+
+    public void SerializeWarriors( Warriors w, String filename ) throws IOException {
+        if ( !filename.endsWith(".xml") ) { filename += ".xml"; }
+        BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
+
+        // beginning of an XML file:
+        FR.write( "<?xml version=\"1.0\" encoding =\"UTF-8\"?>" );
+        FR.newLine();
+
+        w.SerializeXML(FR);
+
+        FR.close();
+    }
+
 }

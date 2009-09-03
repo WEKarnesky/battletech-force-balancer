@@ -45,7 +45,8 @@ public class Unit {
                   Filename = "",
                   Configuration = "",
                   Group = "",
-                  Quirks = "";
+                  MechwarriorQuirks = "",
+                  UnitQuirks = "";
     public float BaseBV = 0.0f,
                  MiscMod = 1.0f,
                  Tonnage = 20.0f,
@@ -58,6 +59,7 @@ public class Unit {
                UnitType = Constants.BattleMech;
     public boolean UsingC3 = false;
     public Mech m = null;
+    public Warrior pilot = new Warrior();
 
     public Unit(){
     }
@@ -88,7 +90,8 @@ public class Unit {
             if (nodeName.equals("mechwarrior")) {Mechwarrior = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("ssw")) {Filename = n.getChildNodes().item(i).getTextContent().trim();}
             if (nodeName.equals("group")) {Group = n.getChildNodes().item(i).getTextContent().trim();}
-            if (nodeName.equals("quirks")) {Quirks = n.getChildNodes().item(i).getTextContent().trim();}
+            if (nodeName.equals("mechwarriorquirks")) {MechwarriorQuirks = n.getChildNodes().item(i).getTextContent().trim();}
+            if (nodeName.equals("unitquirks")) {UnitQuirks = n.getChildNodes().item(i).getTextContent().trim();}
         }
         this.Refresh();
         TypeModel = Type + " " + Model;
@@ -157,7 +160,9 @@ public class Unit {
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<usingc3>" + this.UsingC3 + "</usingc3>");
         file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<quirks>" + this.Quirks + "</quirks>");
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<mechwarriorquirks>" + this.MechwarriorQuirks + "</mechwarriorquirks>");
+        file.newLine();
+        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<unitquirks>" + this.UnitQuirks + "</unitquirks>");
         file.newLine();
         file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename.trim() + "</ssw>");
         file.newLine();
