@@ -41,6 +41,7 @@ public class Warrior {
                     Notes = "";
     private int     Gunnery = 4,
                     Piloting = 5;
+    private double  ManeiDomini = 1.0d;
 
     public Warrior() {
 
@@ -64,6 +65,7 @@ public class Warrior {
                 map = n.getChildNodes().item(i).getAttributes();
                 Gunnery = Integer.parseInt(map.getNamedItem("gunnery").getTextContent().trim());
                 Piloting = Integer.parseInt(map.getNamedItem("piloting").getTextContent().trim());
+                ManeiDomini = Double.parseDouble(map.getNamedItem("mod").getTextContent().trim());
             }
 
             if (nodeName.equals("quirks")) {Quirks = n.getChildNodes().item(i).getTextContent().trim();}
@@ -76,7 +78,7 @@ public class Warrior {
         file.newLine();
         file.write(CommonTools.Tabs(2) + "<affiliation faction=\"" + this.Faction.trim() + "\" rank=\"" + this.getRank().trim() + "\" />");
         file.newLine();
-        file.write(CommonTools.Tabs(2) + "<skills gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" />");
+        file.write(CommonTools.Tabs(2) + "<skills gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" mod=\"" + this.getManeiDomini() + "\" />");
         file.newLine();
         file.write(CommonTools.Tabs(2) + "<quirks>" + this.Quirks.trim() + "</quirks>");
         file.newLine();
@@ -201,6 +203,20 @@ public class Warrior {
      */
     public void setRank(String Rank) {
         this.Rank = Rank;
+    }
+
+    /**
+     * @return the ManeiDomini
+     */
+    public double getManeiDomini() {
+        return ManeiDomini;
+    }
+
+    /**
+     * @param ManeiDomini the ManeiDomini to set
+     */
+    public void setManeiDomini(double ManeiDomini) {
+        this.ManeiDomini = ManeiDomini;
     }
 
 

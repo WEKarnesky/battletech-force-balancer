@@ -35,9 +35,11 @@ import BFB.Preview.dlgPreview;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.RenderingHints.Key;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.Vector;
 import java.util.logging.*;
@@ -292,6 +294,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         setCursor(Cursor.getDefaultCursor());
     }
 
+    private void balanceSkills( Force force ) {
+        dlgBalance balance = new dlgBalance(this, false, force);
+        balance.setLocationRelativeTo(this);
+        balance.setVisible(true);
+    }
+
 
 
 
@@ -348,6 +356,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         btnEditBottom1 = new javax.swing.JButton();
         btnDeleteBottom1 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
+        btnBalanceBottom = new javax.swing.JButton();
+        jSeparator11 = new javax.swing.JToolBar.Separator();
         btnOpenBottom = new javax.swing.JButton();
         btnSaveBottom = new javax.swing.JButton();
         jSeparator8 = new javax.swing.JToolBar.Separator();
@@ -374,6 +384,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         btnEditTop1 = new javax.swing.JButton();
         btnDeleteTop1 = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
+        btnBalanceTop = new javax.swing.JButton();
+        jSeparator10 = new javax.swing.JToolBar.Separator();
         btnOpenTop = new javax.swing.JButton();
         btnSaveTop = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JToolBar.Separator();
@@ -402,6 +414,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         mnuPrintAll = new javax.swing.JMenuItem();
         mnuPrintForce = new javax.swing.JMenuItem();
         mnuPrintUnits = new javax.swing.JMenuItem();
+        mnuPrintRS = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JSeparator();
         mnuExit = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -588,6 +601,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 tblBottomMouseClicked(evt);
             }
         });
+        tblBottom.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblBottomKeyReleased(evt);
+            }
+        });
         spnBottom.setViewportView(tblBottom);
 
         lblUnitNameBottom.setText("Unit Name:");
@@ -598,6 +616,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         txtUnitNameBottom.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUnitNameBottomKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtUnitNameBottomKeyTyped(evt);
             }
@@ -670,6 +691,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         tlbBottom.add(btnDeleteBottom1);
         tlbBottom.add(jSeparator5);
+
+        btnBalanceBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/ruler-triangle.png"))); // NOI18N
+        btnBalanceBottom.setToolTipText("Auto-Balance");
+        btnBalanceBottom.setFocusable(false);
+        btnBalanceBottom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBalanceBottom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBalanceBottom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBalanceBottomActionPerformed(evt);
+            }
+        });
+        tlbBottom.add(btnBalanceBottom);
+        tlbBottom.add(jSeparator11);
 
         btnOpenBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder-open-document.png"))); // NOI18N
         btnOpenBottom.setToolTipText("Open Force");
@@ -760,9 +794,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel11)
                                 .addGap(3, 3, 3)
                                 .addComponent(txtBottomPilot, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
                                 .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)))
+                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 857, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lblUnitsBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -776,7 +810,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(lblBaseBVBottom)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
                         .addComponent(lblTotalBVBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -796,7 +830,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel11))
                             .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
+                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsBottom)
@@ -828,6 +862,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 tblTopMouseClicked(evt);
             }
         });
+        tblTop.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblTopKeyReleased(evt);
+            }
+        });
         spnTop.setViewportView(tblTop);
 
         lblUnitNameTop.setText("Unit Name:");
@@ -838,6 +877,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         txtUnitNameTop.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUnitNameTopKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtUnitNameTopKeyTyped(evt);
             }
@@ -910,6 +952,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         tlbTop.add(btnDeleteTop1);
         tlbTop.add(jSeparator6);
+
+        btnBalanceTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/ruler-triangle.png"))); // NOI18N
+        btnBalanceTop.setToolTipText("Auto-Balance");
+        btnBalanceTop.setFocusable(false);
+        btnBalanceTop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBalanceTop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBalanceTop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBalanceTopActionPerformed(evt);
+            }
+        });
+        tlbTop.add(btnBalanceTop);
+        tlbTop.add(jSeparator10);
 
         btnOpenTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder-open-document.png"))); // NOI18N
         btnOpenTop.setToolTipText("Open Force");
@@ -1008,9 +1063,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel9)
                                 .addGap(3, 3, 3)
                                 .addComponent(txtTopPilot, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)))
+                            .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lblUnitsTop, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1024,7 +1079,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(lblBaseBVTop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
                         .addComponent(lblTotalBVTop, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1047,7 +1102,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel9))
                             .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)))
+                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsTop)
@@ -1215,6 +1270,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         jMenu1.add(mnuPrintUnits);
+
+        mnuPrintRS.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        mnuPrintRS.setText("Print Record Sheets");
+        mnuPrintRS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPrintRSActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuPrintRS);
         jMenu1.add(jSeparator3);
 
         mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
@@ -1746,10 +1810,72 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         ppl.setVisible(true);
     }//GEN-LAST:event_btnPersonnelActionPerformed
 
+    private void mnuPrintRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintRSActionPerformed
+        WaitCursor();
+        Vector forces = new Vector();
+        forces.add(topForce);
+        forces.add(bottomForce);
+
+        for (int f = 0; f <= forces.size()-1; f++){
+            ssw.print.Printer printer = new ssw.print.Printer();
+            Force printForce = (Force) forces.get(f);
+            printer.setCanon(true);
+            printer.setCharts(false);
+            printer.setHexConversion(1);
+
+            //printer.setLogoPath(printForce.LogoPath);
+            printer.setJobName(printForce.ForceName);
+
+            for (int i = 0; i < printForce.Units.size(); ++i) {
+                Unit u = (Unit) printForce.Units.get(i);
+                u.LoadMech();
+                Mech m = u.m;
+                if (m != null) {
+                    printer.AddMech(m, u.Mechwarrior, u.Gunnery, u.Piloting, false, false, false);
+                }
+            }
+            printer.setTRO(true);
+
+            printer.Print();
+
+        }
+        DefaultCursor();
+    }//GEN-LAST:event_mnuPrintRSActionPerformed
+
+    private void txtUnitNameTopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitNameTopKeyReleased
+        topForce.ForceName = txtUnitNameTop.getText();
+    }//GEN-LAST:event_txtUnitNameTopKeyReleased
+
+    private void txtUnitNameBottomKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitNameBottomKeyReleased
+        bottomForce.ForceName = txtUnitNameBottom.getText();
+    }//GEN-LAST:event_txtUnitNameBottomKeyReleased
+
+    private void tblTopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTopKeyReleased
+        if ( evt.getKeyCode() == KeyEvent.VK_DELETE ) {
+            btnDeleteTop1ActionPerformed(null);
+        }
+    }//GEN-LAST:event_tblTopKeyReleased
+
+    private void tblBottomKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblBottomKeyReleased
+        if ( evt.getKeyCode() == KeyEvent.VK_DELETE ) {
+            btnDeleteBottom1ActionPerformed(null);
+        }
+    }//GEN-LAST:event_tblBottomKeyReleased
+
+    private void btnBalanceTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceTopActionPerformed
+        balanceSkills( topForce );
+    }//GEN-LAST:event_btnBalanceTopActionPerformed
+
+    private void btnBalanceBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceBottomActionPerformed
+        balanceSkills( bottomForce );
+    }//GEN-LAST:event_btnBalanceBottomActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBottom1;
     private javax.swing.JButton btnAddTop1;
     private javax.swing.JButton btnBV2Data;
+    private javax.swing.JButton btnBalanceBottom;
+    private javax.swing.JButton btnBalanceTop;
     private javax.swing.JButton btnClipboard;
     private javax.swing.JButton btnClipboardBottom;
     private javax.swing.JButton btnClipboardTop;
@@ -1792,6 +1918,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator10;
+    private javax.swing.JToolBar.Separator jSeparator11;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -1828,6 +1956,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JMenuItem mnuNew;
     private javax.swing.JMenuItem mnuPrintAll;
     private javax.swing.JMenuItem mnuPrintForce;
+    private javax.swing.JMenuItem mnuPrintRS;
     private javax.swing.JMenuItem mnuPrintUnits;
     private javax.swing.JMenuItem mnuSave;
     private javax.swing.JMenuItem mnuSaveAs;

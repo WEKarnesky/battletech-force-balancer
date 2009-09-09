@@ -31,17 +31,19 @@ import java.io.FileNotFoundException;
 import java.util.Vector;
 import BFB.Common.CommonTools;
 import BFB.IO.RUSReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 public class Skills {
     private Vector List = new Vector();
+    private Vector filtered = new Vector();
     private int MaxSeperation = 3;
     private float MaxBV = 9999999;
     private String MaxSkill = "";
     private RUSReader reader = new RUSReader();
     private RUS rus = new RUS();
+
+    public static String Gunnery = "Gunnery";
+    public static String Piloting = "Piloting";
 
     public Skills(float BV) {
         for ( int G=0; G<=7; G++ ) {
@@ -71,6 +73,57 @@ public class Skills {
                 }
             }
         }
+    }
+
+    public Skill getBestSkills() {
+        Vector oList = filter();
+        if ( oList.size() > 0 ) {
+            return (Skill) oList.get(0);
+        } else {
+            return new Skill(4, 5, 0);
+        }
+    }
+
+    public Vector filter() {
+        Boolean Include = false;
+        filtered.removeAllElements();
+
+        for (int i=0; i<List.size(); i++) {
+            Skill data = (Skill) List.get(i);
+            if ( data.getSeperation() <= MaxSeperation && data.getBV() <= MaxBV ) {
+                if ( !MaxSkill.isEmpty() ) {
+                    if ( MaxSkill.equals("Gunnery") ) {
+                        if ( data.Gunnery <= data.Piloting ) { Include = true; }
+                    } else {
+                        if ( data.Piloting <= data.Gunnery ) { Include = true; }
+                    }
+                } else {
+                    Include = true;
+                }
+                if ( Include ) { filtered.add((Skill) List.get(i)); }
+            }
+            Include = false;
+        }
+
+        int i = 1, j = 2;
+        Object swap;
+        while( i < filtered.size() ) {
+            // get the two items we'll be comparing
+            if( ((Skill) filtered.get( i - 1 )).getBV() >= ((Skill) filtered.get( i )).getBV() ) {
+                i = j;
+                j += 1;
+            } else {
+                swap = filtered.get( i - 1 );
+                filtered.setElementAt( filtered.get( i ), i - 1 );
+                filtered.setElementAt( swap, i );
+                i -= 1;
+                if( i == 0 ) {
+                    i = 1;
+                }
+            }
+        }
+
+        return filtered;
     }
 
     public DefaultListModel getListModel() {
