@@ -92,7 +92,7 @@ public class XMLWriter {
     }
 
     public void SerializeWarriors( Warriors w, String filename ) throws IOException {
-        if ( !filename.endsWith(".xml") ) { filename += ".xml"; }
+        if ( !filename.endsWith(".psn") ) { filename += ".psn"; }
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
         // beginning of an XML file:

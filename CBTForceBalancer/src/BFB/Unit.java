@@ -57,6 +57,7 @@ public class Unit {
     public int Piloting = 5,
                Gunnery = 4,
                UnitType = Constants.BattleMech;
+    public Warrior warrior = new Warrior();
     public boolean UsingC3 = false;
     public Mech m = null;
     public Warrior pilot = new Warrior();

@@ -11,8 +11,10 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import ssw.components.Mech;
 import ssw.filehandlers.MechList;
 import ssw.filehandlers.MechListData;
+import ssw.utilities.CostBVBreakdown;
 
 public class TXTWriter {
     Force[] forces;
@@ -40,14 +42,67 @@ public class TXTWriter {
         if ( !filename.endsWith(".txt") ) { filename += ".txt"; }
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
+        FR.write( CSVFormat("UNIT_TYPE") );
+        FR.write( CSVFormat("Sub_Unit_Type") );
+        FR.write( CSVFormat("Unit_Name") );
+        FR.write( CSVFormat("Model_Number") );
+        FR.write( CSVFormat("TONNAGE") );
+        FR.write( CSVFormat("Canon Verified") );
+        FR.write( CSVFormat("TW RULES_LEVEL") );
+        FR.write( CSVFormat("Technology Base") );
+        FR.write( CSVFormat("SOURCE") );
+        FR.write( CSVFormat("DATE") );
+        FR.write( CSVFormat("Era") );
+        FR.write( CSVFormat("Introduced") );
+
+        String datum = "";
         for (int i=0; i < list.Size(); i++) {
             MechListData data = (MechListData) list.Get(i);
-            FR.write( data.getFullName() + CommonTools.tab );
-            FR.write( data.getBV() + CommonTools.tab );
-            FR.write( data.getCost() + CommonTools.tab );
-            FR.write( data.getEra() + CommonTools.tab );
-            FR.write( data.getSource() + CommonTools.tab );
+            FR.write( CSVFormat("BattleMech") );
+            datum = "BattleMech";
+            if ( data.isOmni() ) { datum = "OmniMech"; }
+            FR.write( CSVFormat(datum) );
+            FR.write( CSVFormat(data.getName()) );
+            FR.write( CSVFormat(data.getModel()) );
+            FR.write( CSVFormat(data.getTonnage()+"") );
+            FR.write( CSVFormat("N") );
+            FR.write( CSVFormat(data.getLevel()) );
+            FR.write( CSVFormat(data.getTech()) );
+            FR.write( CSVFormat(data.getSource()) );
+            FR.write( CSVFormat(data.getYear()+"") );
+            FR.write( CSVFormat(data.getEra()) );
+            FR.write( "\"\"" );
             FR.newLine();
         }
+        FR.close();
+
+        String message = "";
+        for ( int i=0; i < list.Size(); i++ ) {
+            ssw.Force.Unit u = ((MechListData) list.Get(i)).getUnit();
+            u.LoadMech();
+            if ( u.m != null ) {
+                WriteCost( u.m, filename.replace("MechListing.txt", "") );
+            } else {
+                message += u.TypeModel + "\n";
+            }
+        }
+
+        if ( !message.isEmpty() ) {
+            CommonTools.Messager("Could not write out the following:\n" + message);
+        }
+    }
+
+    public void WriteCost( Mech m, String filename ) throws IOException {
+        filename += m.GetFullName();
+        if ( !filename.endsWith(".txt") ) { filename += ".txt"; }
+        BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
+
+        CostBVBreakdown cost = new CostBVBreakdown(m);
+        FR.write(cost.Render());
+        FR.close();
+    }
+    
+    public String CSVFormat( String data ) {
+        return "\"" + data + "\", ";
     }
 }

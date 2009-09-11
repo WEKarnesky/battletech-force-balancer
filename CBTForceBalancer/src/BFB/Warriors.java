@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.DefaultListModel;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -42,7 +43,9 @@ import org.w3c.dom.*;
 
 public class Warriors extends AbstractTableModel {
     private Vector list = new Vector();
-    private String defaultPath = "data/WarriorList.xml";
+    private String defaultPath = "data/WarriorList.psn",
+                    Title = "",
+                    PersonnelFile = "";
 
     public Warriors() {
         Load(defaultPath);
@@ -53,24 +56,42 @@ public class Warriors extends AbstractTableModel {
     }
 
     public void Load( String filename ) {
-        XMLReader reader = new XMLReader();
-        Node node;
-        try {
-            node = reader.ReadWarriors(filename);
-            if ( node.hasChildNodes() ) {
-                for (int i=0; i < node.getChildNodes().getLength(); i++) {
-                    if ( node.getChildNodes().item(i).getNodeName().equals("warrior")) {
-                        list.add(new Warrior(node.getChildNodes().item(i)));
+        if ( !filename.isEmpty() ) {
+            Clear();
+            XMLReader reader = new XMLReader();
+            Node node;
+            try {
+                node = reader.ReadWarriors(filename);
+
+                NamedNodeMap map = node.getAttributes();
+                this.Title = map.getNamedItem("title").getTextContent().trim();
+
+                if ( node.hasChildNodes() ) {
+                    for (int i=0; i < node.getChildNodes().getLength(); i++) {
+                        if ( node.getChildNodes().item(i).getNodeName().equals("warrior")) {
+                            list.add(new Warrior(node.getChildNodes().item(i)));
+                        }
                     }
                 }
+                setPersonnelFile(filename);
+            } catch (Exception ex) {
+                //do something else?
             }
-        } catch (Exception ex) {
-            //do something else?
         }
+        fireTableDataChanged();
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String Title) {
+        this.Title = Title;
     }
 
     public void Add( Warrior warrior ) {
         list.add(warrior);
+        fireTableDataChanged();
     }
 
     public Warrior Get( int index ) {
@@ -79,10 +100,27 @@ public class Warriors extends AbstractTableModel {
 
     public void Remove( Warrior warrior ) {
         list.remove(warrior);
+        fireTableDataChanged();
+    }
+
+    public void Clear() {
+        list.removeAllElements();
+        fireTableDataChanged();
+    }
+
+    public DefaultListModel getModel() {
+        DefaultListModel model = new DefaultListModel();
+
+        for (int i = 0; i < list.size(); i++) {
+            Warrior w = (Warrior) list.get(i);
+            model.addElement(w);
+        }
+
+        return model;
     }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
-        file.write( "<warriors>" );
+        file.write( "<warriors title=\"" + this.Title + "\">" );
         file.newLine();
 
         for (int i = 0; i < list.size(); i++) {
@@ -100,12 +138,15 @@ public class Warriors extends AbstractTableModel {
         //Create a sorting class and apply it to the list
         TableRowSorter Leftsorter = new TableRowSorter<Warriors>(this);
         List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
         sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
         Leftsorter.setSortKeys(sortKeys);
         tbl.setRowSorter(Leftsorter);
 
-        tbl.getColumnModel().getColumn(0).setPreferredWidth(80);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(60);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(20);
     }
         
     @Override
@@ -114,14 +155,16 @@ public class Warriors extends AbstractTableModel {
             case 0:
                 return "Name";
             case 1:
-                return "Affiliation";
+                return "Rank";
             case 2:
+                return "Faction";
+            case 3:
                 return "Skills";
         }
         return "";
     }
     public int getRowCount() { return list.size(); }
-    public int getColumnCount() { return 3; }
+    public int getColumnCount() { return 4; }
     @Override
     public Class getColumnClass(int c) {
         if (list.size() > 0) {
@@ -139,6 +182,8 @@ public class Warriors extends AbstractTableModel {
                 return "";
             case 2:
                 return "";
+            case 3:
+                return "";
         }
         return "";
     }
@@ -148,9 +193,11 @@ public class Warriors extends AbstractTableModel {
             case 0:
                 return w.getName();
             case 1:
-                return (w.getFaction() + " (" + w.getRank() + ")").replace(" ()", "");
+                return w.getRank();
             case 2:
-                return w.getGunnery() + "/" + w.getPiloting();
+                return w.getFaction();
+            case 3:
+                return w.getSkills();
         }
         return null;
     }
@@ -162,5 +209,17 @@ public class Warriors extends AbstractTableModel {
     public void setValueAt( Object value, int row, int col ) {
     }
 
+    /**
+     * @return the PersonnelFile
+     */
+    public String getPersonnelFile() {
+        return PersonnelFile;
+    }
 
+    /**
+     * @param PersonnelFile the PersonnelFile to set
+     */
+    public void setPersonnelFile(String PersonnelFile) {
+        this.PersonnelFile = PersonnelFile;
+    }
 }

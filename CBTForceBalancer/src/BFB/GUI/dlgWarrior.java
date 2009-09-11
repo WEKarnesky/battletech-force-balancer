@@ -29,6 +29,7 @@ package BFB.GUI;
 import BFB.*;
 
 public class dlgWarrior extends javax.swing.JDialog {
+    private Warriors warriors;
     private Warrior warrior;
 
     public dlgWarrior(java.awt.Frame parent, boolean modal) {
@@ -36,9 +37,10 @@ public class dlgWarrior extends javax.swing.JDialog {
         initComponents();
     }
 
-    public dlgWarrior( java.awt.Frame parent, Warrior warrior ) {
+    public dlgWarrior( java.awt.Frame parent, Warriors warriors, Warrior warrior ) {
         this(parent, false);
 
+        this.warriors = warriors;
         this.warrior = warrior;
 
         txtName.setText(warrior.getName());
@@ -87,6 +89,7 @@ public class dlgWarrior extends javax.swing.JDialog {
         txtNotes = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -116,7 +119,7 @@ public class dlgWarrior extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                        .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -171,9 +174,9 @@ public class dlgWarrior extends javax.swing.JDialog {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addComponent(txtRank, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addComponent(txtFaction, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+                    .addComponent(txtStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(txtRank, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(txtFaction, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -196,7 +199,9 @@ public class dlgWarrior extends javax.swing.JDialog {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Quirks"));
 
         txtQuirks.setColumns(20);
+        txtQuirks.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         txtQuirks.setRows(5);
+        txtQuirks.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtQuirks);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -205,7 +210,7 @@ public class dlgWarrior extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -218,7 +223,9 @@ public class dlgWarrior extends javax.swing.JDialog {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
 
         txtNotes.setColumns(20);
+        txtNotes.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         txtNotes.setRows(5);
+        txtNotes.setWrapStyleWord(true);
         jScrollPane2.setViewportView(txtNotes);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -227,7 +234,7 @@ public class dlgWarrior extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -238,19 +245,35 @@ public class dlgWarrior extends javax.swing.JDialog {
         );
 
         btnSave.setText("Save Warrior Data");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(205, Short.MAX_VALUE)
+                .addContainerGap(142, Short.MAX_VALUE)
                 .addComponent(btnSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancel)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSave)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btnSave)
+                .addComponent(btnCancel))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -291,7 +314,28 @@ public class dlgWarrior extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        warrior.setName(txtName.getText());
+        warrior.setGunnery(cmbGunnery.getSelectedIndex());
+        warrior.setPiloting(cmbPiloting.getSelectedIndex());
+        try {warrior.setManeiDomini(Double.parseDouble(txtManeiDomini.getText()));}
+        catch ( Exception e ) { warrior.setManeiDomini(1.0d); }
+        warrior.setFaction(txtFaction.getText());
+        warrior.setRank(txtRank.getText());
+        warrior.setStatus(txtStatus.getText());
+        warrior.setQuirks(txtQuirks.getText());
+        warrior.setNotes(txtNotes.getText());
+
+        warriors.fireTableDataChanged();
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cmbGunnery;
     private javax.swing.JComboBox cmbPiloting;

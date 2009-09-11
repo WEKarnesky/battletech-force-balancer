@@ -35,18 +35,27 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import ssw.filehandlers.Media;
 
 public class dlgPersonnel extends javax.swing.JDialog {
-    private Warriors warriors = new Warriors();
+    public Warriors warriors;
     private frmBase parent;
 
+    private TableModelListener ListChanged = new TableModelListener() {
+        public void tableChanged(TableModelEvent e) {
+            warriors.setupTable(tblWarriors);
+        }
+    };
+    
     public dlgPersonnel(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
         this.parent = (frmBase) parent;
-        txtFileName.setText("WarriorList");
+        warriors = new Warriors(this.parent.Prefs.get("LastPSNFile", "data/WarriorList.psn"));
+        txtFileName.setText(warriors.getTitle());
         warriors.setupTable(tblWarriors);
     }
 
@@ -60,6 +69,7 @@ public class dlgPersonnel extends javax.swing.JDialog {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        btnNewFile = new javax.swing.JButton();
         btnLoadFile = new javax.swing.JButton();
         btnSaveFile = new javax.swing.JButton();
         sprOne = new javax.swing.JToolBar.Separator();
@@ -80,6 +90,10 @@ public class dlgPersonnel extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtPiloting = new javax.swing.JTextField();
         btnAddWarrior = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtRank = new javax.swing.JTextField();
+        txtFaction = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtFileName = new javax.swing.JTextField();
@@ -90,15 +104,32 @@ public class dlgPersonnel extends javax.swing.JDialog {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
+        btnNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/document--plus.png"))); // NOI18N
+        btnNewFile.setToolTipText("New Personnel File");
+        btnNewFile.setFocusable(false);
+        btnNewFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNewFile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNewFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewFileActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnNewFile);
+
         btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder-open-document.png"))); // NOI18N
         btnLoadFile.setToolTipText("Load Personnel File");
         btnLoadFile.setFocusable(false);
         btnLoadFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnLoadFile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadFileActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnLoadFile);
 
         btnSaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/disk-black.png"))); // NOI18N
-        btnSaveFile.setToolTipText("Save List");
+        btnSaveFile.setToolTipText("Save Personnel File");
         btnSaveFile.setFocusable(false);
         btnSaveFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSaveFile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -110,7 +141,7 @@ public class dlgPersonnel extends javax.swing.JDialog {
         jToolBar1.add(btnSaveFile);
         jToolBar1.add(sprOne);
 
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/plug--plus.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/Mechwarrior-plus.png"))); // NOI18N
         btnAdd.setToolTipText("Add Warrior");
         btnAdd.setFocusable(false);
         btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -122,14 +153,14 @@ public class dlgPersonnel extends javax.swing.JDialog {
         });
         jToolBar1.add(btnAdd);
 
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/plug--pencil.png"))); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/Mechwarrior-pencil.png"))); // NOI18N
         btnEdit.setToolTipText("Edit Warrior");
         btnEdit.setFocusable(false);
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btnEdit);
 
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/plug--minus.png"))); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/Mechwarrior-minus.png"))); // NOI18N
         btnDelete.setToolTipText("Delete Warrior");
         btnDelete.setFocusable(false);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -208,6 +239,10 @@ public class dlgPersonnel extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setText("Rank");
+
+        jLabel6.setText("Faction");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -215,20 +250,29 @@ public class dlgPersonnel extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtGunnery, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtGunnery, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(txtPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(txtRank, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel6)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                        .addComponent(txtFaction, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddWarrior)))
-                .addContainerGap())
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,10 +280,18 @@ public class dlgPersonnel extends javax.swing.JDialog {
                 .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtFaction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddWarrior)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(1, 1, 1)
+                        .addComponent(txtRank, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(1, 1, 1)
                         .addComponent(txtPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAddWarrior)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(1, 1, 1)
@@ -263,7 +315,7 @@ public class dlgPersonnel extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                .addComponent(txtFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -277,18 +329,18 @@ public class dlgPersonnel extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spnTable, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(spnTable, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -298,10 +350,9 @@ public class dlgPersonnel extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spnTable, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addComponent(spnTable, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -318,8 +369,16 @@ public class dlgPersonnel extends javax.swing.JDialog {
         warrior.setName(txtName.getText());
         warrior.setGunnery(Integer.parseInt(txtGunnery.getText()));
         warrior.setPiloting(Integer.parseInt(txtPiloting.getText()));
+        warrior.setRank(txtRank.getText());
+        warrior.setFaction(txtFaction.getText());
         warriors.Add(warrior);
         warriors.setupTable(tblWarriors);
+
+        txtName.setText("");
+        txtGunnery.setText("");
+        txtPiloting.setText("");
+        txtRank.setText("");
+        txtFaction.setText("");
     }//GEN-LAST:event_btnAddWarriorActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -408,16 +467,23 @@ public class dlgPersonnel extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLoadHMPActionPerformed
 
     private void btnSaveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveFileActionPerformed
-        if ( !txtFileName.getText().isEmpty() ) {
-            XMLWriter writer = new XMLWriter();
+        if ( warriors.getPersonnelFile().isEmpty() ) {
+            Media media = new Media();
+            File pFile = media.SelectFile(parent.Prefs.get("LastPSNFile", "/data"), "psn", "Save Personnel To");
             try {
-                writer.SerializeWarriors(warriors, "data/" + txtFileName.getText());
-                lblStatus.setText("File saved...");
+                warriors.setPersonnelFile(pFile.getCanonicalPath().toString());
             } catch (IOException ex) {
-                CommonTools.Messager("Could not save your file!\n" + ex.getMessage());
+                warriors.setPersonnelFile("data/warriors.psn");
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a File Name.");
+        }
+
+        warriors.setTitle(txtFileName.getText());
+        XMLWriter writer = new XMLWriter();
+        try {
+            writer.SerializeWarriors(warriors, warriors.getPersonnelFile());
+            lblStatus.setText("File saved...");
+        } catch (IOException ex) {
+            CommonTools.Messager("Could not save your file!\n" + ex.getMessage());
         }
     }//GEN-LAST:event_btnSaveFileActionPerformed
 
@@ -428,13 +494,34 @@ public class dlgPersonnel extends javax.swing.JDialog {
                 for (int i=0; i < Rows.length; i++ )
                 {
                     Warrior Data = ((Warriors) tblWarriors.getModel()).Get( tblWarriors.convertRowIndexToModel( Rows[i] ) );
-                    dlgWarrior DoWarrior = new dlgWarrior(this.parent, Data);
+                    dlgWarrior DoWarrior = new dlgWarrior(this.parent, warriors, Data);
                     DoWarrior.setLocationRelativeTo(this);
                     DoWarrior.setVisible(true);
                 }
             }
         }
     }//GEN-LAST:event_tblWarriorsMouseClicked
+
+    private void btnNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewFileActionPerformed
+        txtFileName.setText("");
+        warriors = new Warriors("");
+        warriors.setupTable(tblWarriors);
+}//GEN-LAST:event_btnNewFileActionPerformed
+
+    private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
+        Media media = new Media();
+        File warFile = media.SelectFile(parent.Prefs.get("LastPSNFile", ""), "psn", "Select Personnel File");
+
+        if ( warFile != null ) {
+            try {
+                parent.Prefs.put("LastPSNFile", warFile.getCanonicalPath());
+                warriors = new Warriors(warFile.getCanonicalPath());
+                warriors.setupTable(tblWarriors);
+            } catch (IOException ex) {
+                CommonTools.Messager("Could not open " + warFile.getName() + "\n" + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnLoadFileActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -443,11 +530,14 @@ public class dlgPersonnel extends javax.swing.JDialog {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnLoadHMP;
+    private javax.swing.JButton btnNewFile;
     private javax.swing.JButton btnSaveFile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JToolBar.Separator jSeparator1;
@@ -457,10 +547,12 @@ public class dlgPersonnel extends javax.swing.JDialog {
     private javax.swing.JScrollPane spnTable;
     private javax.swing.JToolBar.Separator sprOne;
     private javax.swing.JTable tblWarriors;
+    private javax.swing.JTextField txtFaction;
     private javax.swing.JTextField txtFileName;
     private javax.swing.JTextField txtGunnery;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPiloting;
+    private javax.swing.JTextField txtRank;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -37,7 +37,7 @@ public class Warrior {
                     Rank = "",
                     Faction = "",
                     Quirks = "",
-                    Status = "",
+                    Status = "Actives",
                     Notes = "";
     private int     Gunnery = 4,
                     Piloting = 5;
@@ -91,6 +91,11 @@ public class Warrior {
     public void SerializeMUL(BufferedWriter file) throws IOException {
         file.write(CommonTools.Tabs(2) + "<pilot name=\"" + this.Name + "\" gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" />");
         file.newLine();
+    }
+
+    @Override
+    public String toString() {
+        return (this.Rank + " " + this.Name + " " + this.Gunnery + "/" + this.Piloting).trim();
     }
 
     /**
@@ -217,6 +222,10 @@ public class Warrior {
      */
     public void setManeiDomini(double ManeiDomini) {
         this.ManeiDomini = ManeiDomini;
+    }
+
+    public String getSkills() {
+        return this.Gunnery + "/" + this.Piloting;
     }
 
 
