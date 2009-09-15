@@ -31,6 +31,7 @@ import BFB.IO.PrintSheet;
 import BFB.Common.CommonTools;
 import BFB.Common.Constants;
 import ssw.filehandlers.Media;
+import ssw.battleforce.*;
 import java.awt.Image;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -332,6 +333,8 @@ public class Force extends AbstractTableModel {
     public void sortForPrinting() {
         Hashtable<String, Vector> list = new Hashtable<String, Vector>();
         String group;
+
+        //Sort by group name first
         for( int i = 0; i < Units.size(); i++ ) {
             group = ((Unit) Units.get( i )).Group;
             if (list.containsKey(group)) {
@@ -344,6 +347,7 @@ public class Force extends AbstractTableModel {
             }
         }
 
+        //Sort by tonnage within each group
         Vector newUnits = new Vector();
         Enumeration e = list.keys();
         while( e.hasMoreElements() ) {
@@ -372,6 +376,21 @@ public class Force extends AbstractTableModel {
             }
         }
         return v;
+    }
+
+    public BattleForce toBattleForce() {
+        sortForPrinting();
+        
+        BattleForce bf = new BattleForce();
+        bf.ForceName = ForceName;
+        bf.LogoPath = this.LogoPath;
+        for ( int i=0; i < Units.size(); i++ ) {
+            Unit u = (Unit) Units.get(i);
+            u.LoadMech();
+            BattleForceStats stat = new BattleForceStats(u.m, u.Group, u.Gunnery, u.Piloting);
+            bf.BattleForceStats.add(stat);
+        }
+        return bf;
     }
 
     @Override
