@@ -27,6 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
+import BFB.Common.CommonTools;
 import BFB.Force;
 import BFB.Unit;
 import java.awt.Image;
@@ -66,10 +67,27 @@ public class dlgMechImages extends javax.swing.JDialog {
                 Unit u = (Unit) force.Units.get(i);
                 u.LoadMech();
                 if ( u.m != null ) {
-                    if ( u.m.GetSSWImage().isEmpty() || u.m.GetSSWImage().equals("../Images/No_Image.png") ) {
+                    if ( u.m.GetSSWImage().isEmpty() || u.m.GetSSWImage().toLowerCase().equals("../images/no_image.png") ) {
                         if ( !unitList.contains(u.TypeModel)) {
                             unitList.addElement(u.TypeModel);
                             units.put(u.TypeModel, u);
+                        }
+                    } else {
+                        //It says it has an image, try to load
+                        try {
+                            Media media = new Media();
+                            Image image = media.GetImage(u.m.GetSSWImage());
+                            if ( image.getWidth(null) == -1 ) {
+                                if ( !unitList.contains(u.TypeModel)) {
+                                    unitList.addElement(u.TypeModel);
+                                    units.put(u.TypeModel, u);
+                                }
+                            }
+                        } catch ( Exception e ) {
+                            if ( !unitList.contains(u.TypeModel)) {
+                                unitList.addElement(u.TypeModel);
+                                units.put(u.TypeModel, u);
+                            }
                         }
                     }
                 }
@@ -77,7 +95,7 @@ public class dlgMechImages extends javax.swing.JDialog {
         }
 
         if ( unitList.isEmpty() ) {
-            javax.swing.JOptionPane.showMessageDialog(Parent, "All of your units have images selected.  To change individual images double click the unit.");
+            CommonTools.Messager("All of your units have images selected.  To change individual images double click the unit." );
             this.setVisible(false);
             this.dispose();
         } else {
@@ -124,17 +142,13 @@ public class dlgMechImages extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         lstUnits = new javax.swing.JList();
         pnlMech = new javax.swing.JPanel();
-        btnSelectImage = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         lblImage = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mech Image Manager");
 
-        pnlList.setBorder(javax.swing.BorderFactory.createTitledBorder("Mechs w/o Images"));
+        pnlList.setBorder(javax.swing.BorderFactory.createTitledBorder("Designs Missing Images"));
 
         lstUnits.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -152,35 +166,23 @@ public class dlgMechImages extends javax.swing.JDialog {
         pnlList.setLayout(pnlListLayout);
         pnlListLayout.setHorizontalGroup(
             pnlListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlListLayout.setVerticalGroup(
             pnlListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+            .addGroup(pnlListLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        pnlMech.setBorder(javax.swing.BorderFactory.createTitledBorder("Mech"));
-
-        btnSelectImage.setText("Select Image");
-        btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectImageActionPerformed(evt);
-            }
-        });
-
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
+        pnlMech.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Image"));
 
         lblImage.setBackground(new java.awt.Color(255, 255, 255));
         lblImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setText("Suggested Images");
-
-        lblStatus.setPreferredSize(new java.awt.Dimension(34, 14));
+        lblImage.setIconTextGap(0);
 
         javax.swing.GroupLayout pnlMechLayout = new javax.swing.GroupLayout(pnlMech);
         pnlMech.setLayout(pnlMechLayout);
@@ -188,31 +190,18 @@ public class dlgMechImages extends javax.swing.JDialog {
             pnlMechLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMechLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlMechLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                    .addGroup(pnlMechLayout.createSequentialGroup()
-                        .addGroup(pnlMechLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlMechLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnSelectImage)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))))
+                .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlMechLayout.setVerticalGroup(
             pnlMechLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMechLayout.createSequentialGroup()
-                .addComponent(btnSelectImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlMechLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlMechLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
-                    .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        lblStatus.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lblStatus.setPreferredSize(new java.awt.Dimension(34, 14));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,19 +209,23 @@ public class dlgMechImages extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlMech, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlMech, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlMech, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnlMech, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -240,38 +233,34 @@ public class dlgMechImages extends javax.swing.JDialog {
 
     private void lstUnitsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstUnitsValueChanged
         if ( lstUnits.getSelectedValue() != null ) {
+            Media media = new Media();
+            
             curUnit = units.get( ( (Object) lstUnits.getSelectedValue() ).toString() );
             pnlMech.setBorder(new TitledBorder(curUnit.TypeModel));
             lblStatus.setText(curUnit.TypeModel + " Loaded.");
-            setImage();
-            btnSelectImageActionPerformed(null);
+            media.setLogo(lblImage, new File(curUnit.m.GetSSWImage()));
+
+            File imageFile = media.SelectImage(Parent.Prefs.get("LastMechImage", ""), "Select Image for " + curUnit.TypeModel);
+            if ( imageFile != null ) {
+                try {
+                    Parent.Prefs.put("LastMechImage", imageFile.getCanonicalPath());
+                    curUnit.m.SetSSWImage(imageFile.getCanonicalPath());
+                    media.setLogo(lblImage, new File(curUnit.m.GetSSWImage()));
+
+                    XMLWriter writer = new XMLWriter();
+                    writer.setMech(curUnit.m);
+                    writer.WriteXML(curUnit.Filename);
+                    lblStatus.setText(curUnit.TypeModel + " Image Selection Saved!");
+                } catch (IOException ex) {
+                    //do nothing
+                }
+            }
         }
     }//GEN-LAST:event_lstUnitsValueChanged
 
-    private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
-        Media media = new Media();
-        File imageFile = media.SelectImage(Parent.Prefs.get("LastMechImage", ""), "Select Image for " + curUnit.TypeModel);
-        try {
-            Parent.Prefs.put("LastMechImage", imageFile.getCanonicalPath());
-            curUnit.m.SetSSWImage(imageFile.getCanonicalPath());
-            setImage();
-
-            XMLWriter writer = new XMLWriter();
-            writer.setMech(curUnit.m);
-            writer.WriteXML(curUnit.Filename);
-            lblStatus.setText(curUnit.TypeModel + " Image Selection Saved!");
-        } catch (IOException ex) {
-            //do nothing
-        }
-    }//GEN-LAST:event_btnSelectImageActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSelectImage;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JList lstUnits;

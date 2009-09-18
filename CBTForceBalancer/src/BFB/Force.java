@@ -54,7 +54,8 @@ import org.w3c.dom.Node;
 public class Force extends AbstractTableModel {
     public Vector Units = new Vector();
     public String ForceName = "",
-                  LogoPath = "";
+                  LogoPath = "",
+                  Type = BattleForce.InnerSphere;
     private Image Logo = null;
     public float TotalBaseBV = 0.0f,
                  TotalModifier = 0.0f,

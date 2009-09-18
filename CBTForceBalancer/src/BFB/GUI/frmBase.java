@@ -35,7 +35,6 @@ import BFB.Preview.dlgPreview;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.RenderingHints.Key;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
@@ -45,10 +44,10 @@ import java.util.Vector;
 import java.util.logging.*;
 import java.util.prefs.*;
 import javax.swing.ImageIcon;
-import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import ssw.components.Mech;
+import ssw.printpreview.dlgBFPreview;
 
 public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     public Scenario scenario = new Scenario();
@@ -74,7 +73,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         dOpen = new dlgOpen(this, true);
         dOpen.setMechListPath(Prefs.get("ListPath", ""));
-        dOpen.LoadList();
+        //dOpen.LoadList();
 
         //scenario.AddListener(ForceChanged);
 
@@ -163,16 +162,20 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 if( icon == null ) { return; }
 
                 // See if we need to scale
+                int lblH = lblLogo.getHeight()-lblLogo.getIconTextGap();
+                int lblW = lblLogo.getWidth()-lblLogo.getIconTextGap();
+
                 int h = icon.getIconHeight();
                 int w = icon.getIconWidth();
-                if ( w > lblLogo.getWidth() || h > lblLogo.getHeight() ) {
-                    if ( h > lblLogo.getHeight() ) {
+                if ( w > lblW || h > lblH ) {
+                    if ( h > lblH ) {
                         icon = new ImageIcon(icon.getImage().
-                            getScaledInstance(-1, lblLogo.getHeight(), Image.SCALE_DEFAULT));
+                            getScaledInstance(-1, lblH, Image.SCALE_SMOOTH));
+                        w = icon.getIconWidth();
                     }
-                    if ( w > lblLogo.getWidth() ) {
+                    if ( w > lblW ) {
                         icon = new ImageIcon(icon.getImage().
-                            getScaledInstance(lblLogo.getWidth(), -1, Image.SCALE_DEFAULT));
+                            getScaledInstance(lblW, -1, Image.SCALE_SMOOTH));
                     }
                 }
 
@@ -324,8 +327,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnPrint = new javax.swing.JButton();
         btnPrintUnits = new javax.swing.JButton();
-        btnPrintBF = new javax.swing.JButton();
         btnPreview = new javax.swing.JButton();
+        jSeparator12 = new javax.swing.JToolBar.Separator();
+        btnPrintBF = new javax.swing.JButton();
+        btnPreviewBattleforce = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btnMULExport = new javax.swing.JButton();
         btnClipboard = new javax.swing.JButton();
@@ -494,6 +499,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jToolBar1.add(btnPrintUnits);
 
+        btnPreview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/projection-screen.png"))); // NOI18N
+        btnPreview.setFocusable(false);
+        btnPreview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPreview.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviewActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnPreview);
+        jToolBar1.add(jSeparator12);
+
         btnPrintBF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/printer--puzzle.png"))); // NOI18N
         btnPrintBF.setToolTipText("Print Battleforce Sheet");
         btnPrintBF.setFocusable(false);
@@ -506,16 +523,17 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jToolBar1.add(btnPrintBF);
 
-        btnPreview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/projection-screen.png"))); // NOI18N
-        btnPreview.setFocusable(false);
-        btnPreview.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnPreview.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnPreview.addActionListener(new java.awt.event.ActionListener() {
+        btnPreviewBattleforce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/projection-screen.png"))); // NOI18N
+        btnPreviewBattleforce.setToolTipText("Preview BattleForce");
+        btnPreviewBattleforce.setFocusable(false);
+        btnPreviewBattleforce.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPreviewBattleforce.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPreviewBattleforce.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviewActionPerformed(evt);
+                btnPreviewBattleforceActionPerformed(evt);
             }
         });
-        jToolBar1.add(btnPreview);
+        jToolBar1.add(btnPreviewBattleforce);
         jToolBar1.add(jSeparator4);
 
         btnMULExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/map--arrow.png"))); // NOI18N
@@ -1867,6 +1885,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         printer.PrintBattleforce();
 }//GEN-LAST:event_btnPrintBFActionPerformed
 
+    private void btnPreviewBattleforceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewBattleforceActionPerformed
+        ssw.print.Printer printer = new ssw.print.Printer();
+        printer.AddForce(topForce.toBattleForce());
+        printer.AddForce(bottomForce.toBattleForce());
+        dlgBFPreview prv = new dlgBFPreview("Preview Battleforce Sheets", this, printer, printer.PreviewBattleforce());
+        prv.setLocationRelativeTo(this);
+        prv.setVisible(true);
+    }//GEN-LAST:event_btnPreviewBattleforceActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBottom1;
     private javax.swing.JButton btnAddTop1;
@@ -1887,6 +1914,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JButton btnOpenTop;
     private javax.swing.JButton btnPersonnel;
     private javax.swing.JButton btnPreview;
+    private javax.swing.JButton btnPreviewBattleforce;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnPrintBF;
     private javax.swing.JMenuItem btnPrintDlg;
@@ -1917,6 +1945,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator10;
     private javax.swing.JToolBar.Separator jSeparator11;
+    private javax.swing.JToolBar.Separator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;

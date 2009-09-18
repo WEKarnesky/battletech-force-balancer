@@ -52,6 +52,7 @@ import javax.swing.table.TableRowSorter;
 import ssw.filehandlers.ListFilter;
 import ssw.filehandlers.MechList;
 import ssw.filehandlers.MechListData;
+import ssw.filehandlers.Media;
 
 public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     private frmBase parent;
@@ -221,8 +222,11 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
     public void LoadList() {
         if (MechListPath.isEmpty()) {
-            //ssw.Options sswOpts = new Options();
-            //setMechListPath(sswOpts.SaveLoadPath);
+            if ( MechListPath.isEmpty() && this.isVisible() ) {
+                Media media = new Media();
+                MechListPath = media.GetDirectorySelection(null);
+                this.parent.Prefs.put("ListPath", MechListPath);
+            }
         }
 
         if ( ! MechListPath.isEmpty() ) {
@@ -619,7 +623,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -706,7 +710,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addGap(88, 88, 88)
                 .addComponent(txtSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addComponent(lblLoading, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnOpenDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -737,7 +741,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(spnMechTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 867, Short.MAX_VALUE)
+            .addComponent(spnMechTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1154,7 +1158,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tblMechDataMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        //if (list.Size() == 0) LoadList();
+        if (list == null) LoadList();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnOpenMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenMechActionPerformed
