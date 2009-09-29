@@ -4,6 +4,7 @@ package BFB.Preview;
 
 import BFB.GUI.frmBase;
 import BFB.IO.Printer;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -13,16 +14,15 @@ import java.awt.print.Pageable;
 import java.awt.print.Printable;
 import javax.swing.JFrame;
 
-public class dlgPreview extends javax.swing.JDialog implements ActionListener {
+public class dlgPreview extends javax.swing.JFrame implements ActionListener {
     private final static double DEFAULT_ZOOM_FACTOR_STEP = .5;
     protected Pageable pageable;
     private Preview preview;
     private frmBase Parent;
 
-    public dlgPreview(String title, JFrame owner, Pageable pageable, double zoom) {
-        super(owner, title);
+    public dlgPreview(String title, Component owner, Pageable pageable, double zoom) {
+        super(title);
         initComponents();
-        this.Parent = (frmBase) owner;
         preview = new Preview(pageable, zoom, spnPreview.getSize());
         spnPreview.setViewportView(preview);
 
@@ -51,15 +51,15 @@ public class dlgPreview extends javax.swing.JDialog implements ActionListener {
         });
     }
 
-    public dlgPreview(String title, JFrame owner, Pageable pageable) {
+    public dlgPreview(String title, Component owner, Pageable pageable) {
         this(title, owner, pageable, 0.0);
     }
 
-    public dlgPreview(String title, JFrame owner, Printable printable, PageFormat format, int pages, double zoom) {
+    public dlgPreview(String title, Component owner, Printable printable, PageFormat format, int pages, double zoom) {
         this(title, owner, new MyPageable(printable, format, pages), zoom);
     }
 
-    public dlgPreview(String title, JFrame owner, Printable printable, PageFormat format, int pages) {
+    public dlgPreview(String title, Component owner, Printable printable, PageFormat format, int pages) {
         this(title, owner, printable, format, pages, 0.0);
     }
 
@@ -126,7 +126,6 @@ public class dlgPreview extends javax.swing.JDialog implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1024, 768));
-        setModal(true);
 
         pnlPrintOptions.setBorder(javax.swing.BorderFactory.createTitledBorder("Print Options"));
 
@@ -235,7 +234,7 @@ public class dlgPreview extends javax.swing.JDialog implements ActionListener {
                 .addComponent(pnlPrintOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlImageOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 244, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -255,7 +254,7 @@ public class dlgPreview extends javax.swing.JDialog implements ActionListener {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spnPreview, javax.swing.GroupLayout.DEFAULT_SIZE, 1066, Short.MAX_VALUE)
+            .addComponent(spnPreview, javax.swing.GroupLayout.DEFAULT_SIZE, 1080, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(

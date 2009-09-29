@@ -36,6 +36,7 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import ssw.filehandlers.Media;
 
 
 public class PrintSheet implements Printable {
@@ -43,7 +44,9 @@ public class PrintSheet implements Printable {
     public Graphics2D Graphic;
     private Force[] forces;
     private PageFormat format = null;
-    private String Title = "Battletech Force Balancer";
+    private String Title = "Battletech Force Balancer",
+                    Background = "data/bfb_bg.png";
+    private Media media = new Media();
 
     public int currentX = 0;
     public int currentY = 0;
@@ -79,7 +82,6 @@ public class PrintSheet implements Printable {
     }
     
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        if( pageIndex >= 1 ) { return Printable.NO_SUCH_PAGE; }
         Graphic = (Graphics2D) graphics;
         format = pageFormat;
         Reset();
@@ -90,13 +92,18 @@ public class PrintSheet implements Printable {
 
     private void PreparePrint() {
         Reset();
+        
+        //Background Image
+        Graphic.drawImage( media.GetImage(Background), 0, 0, 576, 756, null);
         setFont(CommonTools.TitleFont);
-        WriteStr(Title, 0);
-        NewLine();
-        setFont(CommonTools.PlainFont);
-        WriteLine();
-        NewLine();
-        NewLine();
+        Graphic.drawString(Title, 280, 16);
+        
+        //WriteStr(Title, 0);
+        //NewLine();
+        //setFont(CommonTools.PlainFont);
+        //WriteLine();
+        //NewLine();
+        //NewLine();
         forces[0].RenderPrint(this);
         NewLine();
         NewLine();
@@ -132,8 +139,8 @@ public class PrintSheet implements Printable {
     }
 
     public void Reset() {
-        currentX = (int) format.getImageableX();
-        currentY = (int) format.getImageableY();
+        currentX = 0; //(int) format.getImageableX();
+        currentY = 80; //(int) format.getImageableY();
     }
 
     /**

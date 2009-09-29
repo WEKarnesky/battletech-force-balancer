@@ -65,7 +65,7 @@ public class dlgAbout extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
-        jLabel1.setText("About Battle Value Calculator");
+        jLabel1.setText("About Battletech Force Balancer");
 
         txtAbout.setBackground(new java.awt.Color(236, 233, 216));
         txtAbout.setEditable(false);

@@ -54,8 +54,8 @@ import org.w3c.dom.Node;
 public class Force extends AbstractTableModel {
     public Vector Units = new Vector();
     public String ForceName = "",
-                  LogoPath = "",
-                  Type = BattleForce.InnerSphere;
+                  LogoPath = "";
+    private String Type = BattleForce.InnerSphere;
     private Image Logo = null;
     public float TotalBaseBV = 0.0f,
                  TotalModifier = 0.0f,
@@ -83,6 +83,10 @@ public class Force extends AbstractTableModel {
     public void Load( Node ForceNode ) throws Exception {
         this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
         this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
+        if ( ForceNode.getAttributes().getNamedItem("type") != null )
+            this.Type = ForceNode.getAttributes().getNamedItem("type").getTextContent().trim();
+        
+        if ( this.Type.isEmpty() ) { this.Type = BattleForce.InnerSphere; }
         for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
             Node n = ForceNode.getChildNodes().item(i);
             if (n.getNodeName().equals("unit")) {
@@ -154,7 +158,7 @@ public class Force extends AbstractTableModel {
         String tab = "    ";
         Unit u = null;
 
-        file.write( tab + "<force name=\"" + this.ForceName + "\" logo=\"" + this.LogoPath + "\">" );
+        file.write( tab + "<force name=\"" + this.ForceName + "\" logo=\"" + this.LogoPath + "\" type=\"" + this.Type + "\">" );
         file.newLine();
 
         for (int i = 0; i < this.Units.size(); i++) {
@@ -230,7 +234,12 @@ public class Force extends AbstractTableModel {
                 curGroup = u.Group;
                 
                 //Output column Headers
-                p.setFont(CommonTools.BoldFont);
+                if ( curGroup.trim().isEmpty() ) { 
+                    p.setFont(CommonTools.ItalicFont);
+                    curGroup = "Unit";
+                } else {
+                    p.setFont(CommonTools.BoldFont);
+                }
                 p.WriteStr(curGroup, 120);
 
                 p.setFont(CommonTools.ItalicFont);
@@ -242,7 +251,7 @@ public class Force extends AbstractTableModel {
                 p.WriteStr("Modifier", 40);
                 p.WriteStr("Use C3", 30);
                 p.WriteStr("Total BV", 40);
-                p.WriteStr("Force BV", 0);
+                //p.WriteStr("Force BV", 0);
                 p.NewLine();
                 lastGroup = u.Group;
             }
@@ -265,8 +274,10 @@ public class Force extends AbstractTableModel {
         p.WriteStr("", 30);
         //p.WriteStr(String.format("%1$,.0f", TotalC3BV), 30);
         p.setFont(CommonTools.BoldFont);
-        p.WriteStr(String.format("%1$,.0f", TotalForceBV), 40);
-        p.WriteStr(String.format("%1$,.0f", TotalForceBVAdjusted), 0);
+        p.WriteStr(String.format("%1$,.0f", TotalForceBV), 20);
+        if ( TotalForceBV != TotalForceBVAdjusted ) {
+            p.WriteStr(String.format(" (%1$,.0f)", TotalForceBVAdjusted), 0);
+        }
         p.NewLine();
         p.setFont(CommonTools.PlainFont);
     }
@@ -383,6 +394,7 @@ public class Force extends AbstractTableModel {
         sortForPrinting();
         
         BattleForce bf = new BattleForce();
+        bf.Type = Type;
         bf.ForceName = ForceName;
         bf.LogoPath = this.LogoPath;
         for ( int i=0; i < Units.size(); i++ ) {
@@ -392,6 +404,19 @@ public class Force extends AbstractTableModel {
             bf.BattleForceStats.add(stat);
         }
         return bf;
+    }
+
+    public Image getLogo() {
+        if ( Logo == null ) {loadLogo();}
+        return Logo;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String Type) {
+        this.Type = Type;
     }
 
     @Override
@@ -531,13 +556,5 @@ public class Force extends AbstractTableModel {
         isDirty = true;
         u.Refresh();
         RefreshBV();
-    }
-
-    /**
-     * @return the Logo
-     */
-    public Image getLogo() {
-        if ( Logo == null ) {loadLogo();}
-        return Logo;
     }
 }

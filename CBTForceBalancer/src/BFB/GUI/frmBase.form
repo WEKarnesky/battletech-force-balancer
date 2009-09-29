@@ -2,6 +2,10 @@
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="btnGrpTop">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="btnGrpBottom">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
@@ -86,7 +90,7 @@
             </Menu>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="btnPrintDlg">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuPrint">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+P"/>
@@ -94,7 +98,7 @@
                 <Property name="text" type="java.lang.String" value="Print"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintDlgActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPrintActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPrintAll">
@@ -529,16 +533,22 @@
                                       <Group type="102" attributes="0">
                                           <Component id="lblUnitNameBottom" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtUnitNameBottom" min="-2" pref="255" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                                          <Component id="txtUnitNameBottom" min="-2" pref="198" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btnISBottom" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btnCLBottom" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btnCSBottom" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="51" max="32767" attributes="0"/>
                                           <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtBottomGun" min="-2" pref="15" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                          <Component id="txtBottomGun" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                          <Component id="txtBottomPilot" min="-2" pref="15" max="-2" attributes="0"/>
-                                          <EmptySpace pref="180" max="32767" attributes="0"/>
+                                          <Component id="txtBottomPilot" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                                           <Component id="tlbBottom" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="spnBottom" pref="857" max="32767" attributes="0"/>
@@ -575,15 +585,18 @@
                                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                           <Component id="lblUnitNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtUnitNameBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnISBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnCLBottom" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnCSBottom" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtBottomGun" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtBottomPilot" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtBottomPilot" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="tlbBottom" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnBottom" pref="229" max="32767" attributes="0"/>
+                                  <Component id="spnBottom" pref="227" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -639,10 +652,15 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblUnitLogoBottom">
                   <Properties>
-                    <Property name="toolTipText" type="java.lang.String" value="Unit or Faction Logo, Double Click to change"/>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ee" green="ee" red="ee" type="rgb"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Logo: Click to change"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                        <EtchetBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder roundedCorners="true">
+                          <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
+                        </LineBorder>
                       </Border>
                     </Property>
                     <Property name="opaque" type="boolean" value="true"/>
@@ -743,6 +761,20 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteBottom1ActionPerformed"/>
                       </Events>
                     </Component>
+                    <Component class="javax.swing.JButton" name="btnSwitchBottom">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/BFB/Images/shield--up.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Move to Primary Force"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="horizontalTextPosition" type="int" value="0"/>
+                        <Property name="verticalTextPosition" type="int" value="3"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSwitchBottomActionPerformed"/>
+                      </Events>
+                    </Component>
                     <Component class="javax.swing.JToolBar$Separator" name="jSeparator5">
                     </Component>
                     <Component class="javax.swing.JButton" name="btnBalanceBottom">
@@ -836,6 +868,40 @@
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBottomPilotKeyReleased"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JRadioButton" name="btnISBottom">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="btnGrpBottom"/>
+                    </Property>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Inner Sphere"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnISBottomActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="btnCLBottom">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="btnGrpBottom"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Clan"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCLBottomActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="btnCSBottom">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="btnGrpBottom"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Comstar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCSBottomActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pnlTop">
@@ -856,32 +922,27 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="lblUnitLogoTop" min="-2" pref="83" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="1">
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblUnitLogoTop" min="-2" pref="83" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="lblUnitNameTop" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtUnitNameTop" min="-2" pref="255" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtUnitNameTop" min="-2" pref="198" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="btnISTop" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtTopGun" min="-2" pref="15" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                          <Component id="btnCLTop" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btnCSTop" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtTopGun" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                          <Component id="txtTopPilot" min="-2" pref="15" max="-2" attributes="0"/>
-                                          <EmptySpace pref="181" max="32767" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtTopPilot" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="55" max="32767" attributes="0"/>
                                           <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="spnTop" pref="858" max="32767" attributes="0"/>
@@ -912,25 +973,32 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lblUnitLogoTop" min="-2" pref="94" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="lblUnitLogoTop" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                           <Component id="lblUnitNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtUnitNameTop" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtTopGun" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtTopPilot" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnISTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnCLTop" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnCSTop" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                          <Component id="txtTopPilot" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="4" pref="4" max="4" attributes="0"/>
+                                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="txtTopGun" min="-2" pref="23" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="4" pref="4" max="4" attributes="0"/>
+                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="tlbTop" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnTop" pref="230" max="32767" attributes="1"/>
+                                  <Component id="spnTop" pref="232" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -989,10 +1057,15 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblUnitLogoTop">
                   <Properties>
-                    <Property name="toolTipText" type="java.lang.String" value="Unit or Faction Logo, Double Click to change"/>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ee" green="ee" red="ee" type="rgb"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Logo: Click to change"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                        <EtchetBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder roundedCorners="true">
+                          <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
+                        </LineBorder>
                       </Border>
                     </Property>
                     <Property name="opaque" type="boolean" value="true"/>
@@ -1093,6 +1166,20 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteTop1ActionPerformed"/>
                       </Events>
                     </Component>
+                    <Component class="javax.swing.JButton" name="btnSwitchTop">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/BFB/Images/shield--down.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Move to Secondary Force"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="horizontalTextPosition" type="int" value="0"/>
+                        <Property name="verticalTextPosition" type="int" value="3"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSwitchTopActionPerformed"/>
+                      </Events>
+                    </Component>
                     <Component class="javax.swing.JToolBar$Separator" name="jSeparator6">
                     </Component>
                     <Component class="javax.swing.JButton" name="btnBalanceTop">
@@ -1157,6 +1244,40 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JRadioButton" name="btnISTop">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="btnGrpTop"/>
+                    </Property>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Inner Sphere"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnISTopActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="btnCLTop">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="btnGrpTop"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Clan"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCLTopActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="btnCSTop">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="btnGrpTop"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Comstar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCSTopActionPerformed"/>
+                  </Events>
+                </Component>
                 <Component class="javax.swing.JTextField" name="txtTopGun">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="4"/>
@@ -1165,6 +1286,11 @@
                     <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtTopGunFocusGained"/>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTopGunKeyReleased"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel9">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="  P"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtTopPilot">
                   <Properties>
@@ -1178,17 +1304,7 @@
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="text" type="java.lang.String" value="Override  G"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel9">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="P"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel12">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Unit Logo"/>
+                    <Property name="text" type="java.lang.String" value="Override  G "/>
                   </Properties>
                 </Component>
               </SubComponents>

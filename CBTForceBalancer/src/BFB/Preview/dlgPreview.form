@@ -6,7 +6,6 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1024, 768]"/>
     </Property>
-    <Property name="modal" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -55,7 +54,7 @@
                   <Component id="pnlPrintOptions" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnlImageOptions" min="-2" max="-2" attributes="1"/>
-                  <EmptySpace pref="244" max="32767" attributes="0"/>
+                  <EmptySpace pref="258" max="32767" attributes="0"/>
                   <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

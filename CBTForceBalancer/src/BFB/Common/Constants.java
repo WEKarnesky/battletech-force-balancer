@@ -32,12 +32,21 @@ package BFB.Common;
  * @author justin
  */
 public class Constants {
-    public final static String AppName = "Battle Value Calculator",
-                        AppDescription = "Battle Value Calculator",
+    public final static String AppName = "Battletech Force Balancer",
+                        AppDescription = "Battletech Force Balancer",
                         Version = "0.0.2",
-                        AppRelease = "Alpha",
-                        Author = "Justin Bengtson",
-                        EMail = "poopshotgun@yahoo.com";
+                        AppRelease = "Beta",
+                        Author = "George Blouin",
+                        EMail = "george.blouin@gmail.com",
+                        Print_ForceList = "Print.ForceList",
+                        Print_FireDeclaration = "Print.FireDeclaration",
+                        Print_Recordsheet = "Print.Recordsheets",
+                        Print_BattleForce = "Print.BattleForce",
+                        Format_Recordsheet = "UseRS",
+                        Format_Tables = "UseCharts",
+                        Format_CanonPattern = "UseCanonDots",
+                        Format_ConvertTerrain = "UseMiniConversion",
+                        Format_TerrainModifier = "MiniConversionRate";
     public final static int BattleMech = 0,
                             IndustrialMech = 1,
                             ProtoMech = 2,
@@ -57,4 +66,5 @@ public class Constants {
                                  "Support Vehicle", "Mobile Structure" };
     public final static String NL = System.getProperty( "line.separator" );
     public final static String Tab = "\t";
+
 }
