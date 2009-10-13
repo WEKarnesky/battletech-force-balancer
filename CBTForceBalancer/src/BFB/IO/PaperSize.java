@@ -28,6 +28,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.IO;
 
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+
 public class PaperSize {
     public int PaperWidth;
     public int PaperHeight;
@@ -58,5 +61,14 @@ public class PaperSize {
 
     private int getInchesInPixels(double Inch) {
         return (int) Math.round((Inch / 0.0139));
+    }
+
+    public PageFormat toPage() {
+        PageFormat format = new PageFormat();
+        Paper paper = new Paper();
+        paper.setSize(PaperWidth, PaperHeight);
+        paper.setImageableArea(ImageableX, ImageableY, ImageableWidth, ImageableHeight);
+        format.setPaper(paper);
+        return format;
     }
 }

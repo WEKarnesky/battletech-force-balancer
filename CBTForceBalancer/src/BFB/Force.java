@@ -27,32 +27,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB;
 
+import BFB.GUI.tbTWTable;
 import BFB.IO.PrintSheet;
 import BFB.Common.CommonTools;
 import BFB.Common.Constants;
+import BFB.GUI.abTable;
 import ssw.filehandlers.Media;
 import ssw.battleforce.*;
 import java.awt.Image;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Vector;
 import javax.swing.JTable;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableRowSorter;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author gblouin
  */
-public class Force extends AbstractTableModel {
-    public Vector Units = new Vector();
+public class Force extends AbstractTableModel implements ifSerializable {
+    public Vector<Unit> Units = new Vector<Unit>();
+    public Vector<Group> Groups = new Vector<Group>();
     public String ForceName = "",
                   LogoPath = "";
     private String Type = BattleForce.InnerSphere;
@@ -71,6 +69,7 @@ public class Force extends AbstractTableModel {
                 OpForSize = 0;
     public boolean isDirty = false,
                     useUnevenForceMod = true;
+    private abTable currentModel = new tbTWTable(this);
 
     public Force( ){
 
@@ -78,6 +77,22 @@ public class Force extends AbstractTableModel {
 
     public Force(Node ForceNode) throws Exception {
         Load( ForceNode );
+    }
+
+    public Force(Node ForceNode, int Version) throws Exception {
+        this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
+        this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
+        for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
+            Node n = ForceNode.getChildNodes().item(i);
+            if (n.getNodeName().equals("group")) {
+                Groups.add( new Group(n, Version) );
+            }
+        }
+
+        for ( Group g : Groups ) {
+            Units.addAll(g.getUnits());
+        }
+        RefreshBV();
     }
 
     public void Load( Node ForceNode ) throws Exception {
@@ -100,6 +115,10 @@ public class Force extends AbstractTableModel {
         RefreshBV();
     }
 
+    public void Load2( Node forceNode ) {
+
+    }
+
     public void RefreshBV() {
         Unit u;
         NumC3 = 0;
@@ -112,7 +131,7 @@ public class Force extends AbstractTableModel {
         TotalAdjustedBV = 0.0f;
         TotalForceBV = 0.0f;
         for( int i = 0; i < Units.size(); i++ ) {
-            u = (Unit) Units.get( i );
+            u = Units.get( i );
             TotalBaseBV += u.BaseBV;
             TotalModifier += u.MiscMod;
             TotalTonnage += u.Tonnage;
@@ -129,22 +148,22 @@ public class Force extends AbstractTableModel {
         }
 
         TotalForceBV += TotalAdjustedBV + TotalC3BV;
-        UnevenForceMod = CommonTools.GetForceSizeMultiplier(OpForSize, Units.size());
-        if (Units.size() > OpForSize && OpForSize > 0) {
-            TotalForceBVAdjusted = TotalForceBV * UnevenForceMod;
-        } else {
-            TotalForceBVAdjusted = TotalForceBV;
+        TotalForceBVAdjusted = TotalForceBV;
+        if ( useUnevenForceMod ) {
+            UnevenForceMod = CommonTools.GetForceSizeMultiplier(OpForSize, Units.size());
+            if (Units.size() > OpForSize && OpForSize > 0) {
+                TotalForceBVAdjusted = TotalForceBV * UnevenForceMod;
+            }
         }
 
+        sortForPrinting();
         fireTableDataChanged();
     }
 
     public void AddUnit( Unit u ) {
-        //if( ! Units.contains( u ) ) {
-            u.Refresh();
-            Units.add( u );
-            RefreshBV();
-        //}
+        u.Refresh();
+        Units.add( u );
+        RefreshBV();
         isDirty = true;
     }
 
@@ -155,34 +174,26 @@ public class Force extends AbstractTableModel {
     }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
-        String tab = "    ";
-        Unit u = null;
+        sortForPrinting();
 
-        file.write( tab + "<force name=\"" + this.ForceName + "\" logo=\"" + this.LogoPath + "\" type=\"" + this.Type + "\">" );
+        file.write( CommonTools.Tabs(2) + "<force name=\"" + this.ForceName + "\" logo=\"" + this.LogoPath + "\" type=\"" + this.Type + "\">" );
         file.newLine();
 
-        for (int i = 0; i < this.Units.size(); i++) {
-            u = (Unit) Units.get(i);
-            file.write(CommonTools.tab + CommonTools.tab + "<unit>");
-            file.newLine();
-
-            u.SerializeXML(file);
-
-            file.write(CommonTools.tab + CommonTools.tab + "</unit>");
-            file.newLine();
+        for ( Group g : Groups ) {
+            g.SerializeXML(file);
         }
 
-        file.write( tab + "</force>" );
+        file.write( CommonTools.Tabs(2) + "</force>" );
         file.newLine();
         isDirty = false;
     }
 
     public void SerializeMUL(BufferedWriter file) throws IOException {
+        sortForPrinting();
         file.write("<unit>");
         file.newLine();
 
-        for (int i = 0; i < this.Units.size(); i++) {
-            Unit u = (Unit) Units.get(i);
+        for ( Unit u : Units ) {
             u.SerializeMUL(file);
         }
 
@@ -191,10 +202,11 @@ public class Force extends AbstractTableModel {
     }
 
     public String SerializeClipboard() {
+        sortForPrinting();
         String data = "";
 
         data += this.ForceName + Constants.NL;
-        for (int s=0; s < 80; s++ ) { data += "-"; }
+        for (int s=0; s < 120; s++ ) { data += "-"; }
         data += Constants.NL;
         data += CommonTools.spaceRight("Unit", 30) + Constants.Tab +
                 "Tons" + Constants.Tab +
@@ -204,8 +216,8 @@ public class Force extends AbstractTableModel {
                 "G/P" + Constants.Tab +
                 "Adj BV" + Constants.NL;
 
-        for ( int i=0; i < this.Units.size(); i++ ) {
-            data += ((Unit) Units.get(i)).SerializeClipboard() + Constants.NL;
+        for ( Unit u : Units ) {
+            data += u.SerializeClipboard() + Constants.NL;
         }
 
         return data;
@@ -216,6 +228,8 @@ public class Force extends AbstractTableModel {
     }
 
     public void RenderPrint(PrintSheet p) {
+        if ( Units.size() == 0 ) { return; }
+        sortForPrinting();
         p.setFont(CommonTools.SectionHeaderFont);
         loadLogo();
         if (getLogo() != null) {
@@ -228,7 +242,7 @@ public class Force extends AbstractTableModel {
         String lastGroup = "~",
                curGroup = "";
         for (int i=0; i < Units.size(); i++) {
-            Unit u = (Unit) Units.get(i);
+            Unit u = Units.get(i);
             if (!u.Group.equals(lastGroup)) {
                 p.NewLine();
                 curGroup = u.Group;
@@ -319,27 +333,12 @@ public class Force extends AbstractTableModel {
     }
 
     public void setupTable( JTable tbl ) {
-        tbl.setModel(this);
+        tbl.setModel(currentModel);
+        currentModel.setupTable(tbl);
+    }
 
-        //Create a sorting class and apply it to the list
-        TableRowSorter Leftsorter = new TableRowSorter<Force>(this);
-        List <RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
-        sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
-        sortKeys.add(new RowSorter.SortKey(4, SortOrder.ASCENDING));
-        sortKeys.add(new RowSorter.SortKey(8, SortOrder.ASCENDING));
-        Leftsorter.setSortKeys(sortKeys);
-        tbl.setRowSorter(Leftsorter);
-
-        tbl.getColumnModel().getColumn(0).setPreferredWidth(150);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(50);
-        tbl.getColumnModel().getColumn(2).setPreferredWidth(150);
-        tbl.getColumnModel().getColumn(3).setPreferredWidth(100);
-        tbl.getColumnModel().getColumn(4).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(5).setPreferredWidth(20);
-        tbl.getColumnModel().getColumn(6).setPreferredWidth(20);
-        tbl.getColumnModel().getColumn(7).setPreferredWidth(20);
-        tbl.getColumnModel().getColumn(8).setPreferredWidth(30);
-        tbl.getColumnModel().getColumn(9).setPreferredWidth(30);
+    public void setCurrentModel( abTable model ) {
+        currentModel = model;
     }
 
     public void sortForPrinting() {
@@ -347,14 +346,14 @@ public class Force extends AbstractTableModel {
         String group;
 
         //Sort by group name first
-        for( int i = 0; i < Units.size(); i++ ) {
-            group = ((Unit) Units.get( i )).Group;
+        for ( Unit u : Units ) {
+            group = u.Group;
             if (list.containsKey(group)) {
                 //Vector v = (Vector) list.get(group);
-                list.get(group).add(Units.get(i));
+                list.get(group).add(u);
             } else {
                 Vector units = new Vector();
-                units.add(Units.get(i));
+                units.add(u);
                 list.put(group, units);
             }
         }
@@ -366,7 +365,31 @@ public class Force extends AbstractTableModel {
             Vector v = sortByTonnage((Vector) list.get(e.nextElement()));
             newUnits.addAll(v);
         }
+
         Units = newUnits;
+
+        //Create groups to match now
+        Groups.removeAllElements();
+        String lastGroup = "";
+        Group g = new Group("", this.Type, this);
+        for (Unit u: Units) {
+            if ( !u.Group.equals(lastGroup) ) {
+                if ( g.getUnits().size() > 0 ) { Groups.add(g); }
+                g = new Group(u.Group, this.Type, this);
+                lastGroup = u.Group;
+            }
+            g.AddUnit(u);
+        }
+        Groups.add(g);
+
+        //Sort groups by name
+        Groups = sortByName(Groups);
+
+        //Rebuild units
+        Units.clear();
+        for ( Group grp : Groups ) {
+            Units.addAll(grp.getUnits());
+        }
     }
 
     public Vector sortByTonnage( Vector v ) {
@@ -375,6 +398,27 @@ public class Force extends AbstractTableModel {
         while( i < v.size() ) {
             // get the two items we'll be comparing
             if( ((Unit) v.get( i - 1 )).Tonnage <= ((Unit) v.get( i )).Tonnage ) {
+                i = j;
+                j += 1;
+            } else {
+                swap = v.get( i - 1 );
+                v.setElementAt( v.get( i ), i - 1 );
+                v.setElementAt( swap, i );
+                i -= 1;
+                if( i == 0 ) {
+                    i = 1;
+                }
+            }
+        }
+        return v;
+    }
+
+    public Vector sortByName( Vector v ) {
+        int i = 1, j = 2;
+        Object swap;
+        while( i < v.size() ) {
+            // get the two items we'll be comparing
+            if( ((Group) v.get( i - 1 )).getName().compareToIgnoreCase(((Group) v.get( i )).getName()) <= 0 ) {
                 i = j;
                 j += 1;
             } else {
@@ -404,6 +448,17 @@ public class Force extends AbstractTableModel {
             bf.BattleForceStats.add(stat);
         }
         return bf;
+    }
+
+    public Vector<BattleForce> toBattleForceByGroup() {
+        sortForPrinting();
+        Vector<BattleForce> Forces = new Vector<BattleForce>();
+
+        for ( Group g : Groups ) {
+            Forces.add(g.toBattleForce());
+        }
+
+        return Forces;
     }
 
     public Image getLogo() {

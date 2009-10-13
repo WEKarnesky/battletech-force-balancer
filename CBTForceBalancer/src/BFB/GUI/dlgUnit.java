@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.SpinnerNumberModel;
+import ssw.battleforce.BattleForceStats;
 import ssw.components.ifLoadout;
 import ssw.filehandlers.Media;
 import ssw.filehandlers.TXTWriter;
@@ -58,33 +59,38 @@ public class dlgUnit extends javax.swing.JDialog {
         initComponents();
 
         warriors = new Warriors(Parent.Prefs.get("LastPSNFile", "data/warriorlist.spn"));
-        lblModel.setText(u.TypeModel);
-        lblTonnage.setText(u.Tonnage + " Tons");
-        txtMechwarrior.setText(u.Mechwarrior);
-        cmbGunnery.setSelectedIndex(u.Gunnery);
-        cmbPiloting.setSelectedIndex(u.Piloting);
-        chkC3Active.setSelected(u.UsingC3);
-        txtMod.setText(u.MiscMod+"");
-        lblFilename.setText(u.Filename);
-        tpnMechwarriorQuirks.setText(u.MechwarriorQuirks);
-        tpnBattleMechQuirks.setText(u.UnitQuirks);
+        setupFrame();
+    }
+
+    private void setupFrame() {
+        lblModel.setText(unit.TypeModel);
+        lblTonnage.setText(unit.Tonnage + " Tons");
+        txtMechwarrior.setText(unit.Mechwarrior);
+        cmbGunnery.setSelectedIndex(unit.Gunnery);
+        cmbPiloting.setSelectedIndex(unit.Piloting);
+        chkC3Active.setSelected(unit.UsingC3);
+        txtMod.setText(unit.MiscMod+"");
+        lblFilename.setForeground(new Color(Color.black.getRGB()));
+        lblFilename.setText(unit.Filename);
+        tpnMechwarriorQuirks.setText(unit.MechwarriorQuirks);
+        tpnBattleMechQuirks.setText(unit.UnitQuirks);
         spnSkillSeperationLimit.setModel(new SpinnerNumberModel(3, 0, 7, 1));
         lstPersonnel.setModel(warriors.getModel());
 
-        skills = new Skills(u.BaseBV);
+        skills = new Skills(unit.BaseBV);
         setSkills();
 
-        u.LoadMech();
-        if ( u.m != null ) {
-            if ( u.m.IsOmnimech() ) {
-                String curConfig = u.m.GetLoadout().GetName();
-                int BV = u.m.GetCurrentBV();
-                for (int i=0; i < u.m.GetLoadouts().size(); i++) {
-                    ifLoadout config = (ifLoadout) u.m.GetLoadouts().get(i);
-                    u.m.SetCurLoadout(config.GetName());
-                    cmbConfiguration.addItem(config.GetName() + " (" + u.m.GetCurrentBV() + ")");
+        unit.LoadMech();
+        if ( unit.m != null ) {
+            if ( unit.m.IsOmnimech() ) {
+                String curConfig = unit.m.GetLoadout().GetName();
+                int BV = unit.m.GetCurrentBV();
+                for (int i=0; i < unit.m.GetLoadouts().size(); i++) {
+                    ifLoadout config = (ifLoadout) unit.m.GetLoadouts().get(i);
+                    unit.m.SetCurLoadout(config.GetName());
+                    cmbConfiguration.addItem(config.GetName() + " (" + unit.m.GetCurrentBV() + ")");
                 }
-                u.m.SetCurLoadout(curConfig);
+                unit.m.SetCurLoadout(curConfig);
                 cmbConfiguration.setSelectedItem(curConfig + " (" + BV + ")");
                 Default = false;
             } else {
@@ -93,9 +99,12 @@ public class dlgUnit extends javax.swing.JDialog {
             setC3();
             setTRO();
             setImage();
+            setBattleForce();
+            btnSelectMech.setVisible(false);
         } else {
             pnlConfiguration.setVisible(false);
             lblFilename.setForeground(new Color(Color.red.getRGB()));
+            btnSelectMech.setVisible(true);
         }
     }
 
@@ -146,6 +155,25 @@ public class dlgUnit extends javax.swing.JDialog {
         }
     }
 
+    private void setBattleForce() {
+        BattleForceStats stats = new BattleForceStats(unit.m);
+        lblBFMV.setText(stats.getMovement());
+
+        lblBFShort.setText(stats.getShort()+"");
+        lblBFMedium.setText(stats.getMedium()+"");
+        lblBFLong.setText(stats.getLong()+"");
+        lblBFExtreme.setText(stats.getExtreme()+"");
+
+        lblBFWt.setText(stats.getWeight()+"");
+        lblBFOV.setText(stats.getOverheat()+"");
+
+        lblBFArmor.setText(stats.getArmor()+"");
+        lblBFStructure.setText(stats.getInternal()+"");
+        lblBFPoints.setText(stats.getPointValue()+"");
+
+        lblBFSA.setText(stats.getAbilitiesString());
+    }
+
     private void setSkills() {
         lstSkills.setModel(skills.getListModel());
     }
@@ -176,6 +204,7 @@ public class dlgUnit extends javax.swing.JDialog {
         chkC3Active = new javax.swing.JCheckBox();
         jLabel5 = new javax.swing.JLabel();
         jToolBar2 = new javax.swing.JToolBar();
+        btnSelectMech = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
@@ -222,6 +251,30 @@ public class dlgUnit extends javax.swing.JDialog {
         tpnBattleMechQuirks = new javax.swing.JTextPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         tpnMechwarriorQuirks = new javax.swing.JTextPane();
+        jPanel10 = new javax.swing.JPanel();
+        pnlBFStats = new javax.swing.JPanel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        lblBFMV = new javax.swing.JLabel();
+        lblBFWt = new javax.swing.JLabel();
+        lblBFOV = new javax.swing.JLabel();
+        lblBFExtreme = new javax.swing.JLabel();
+        lblBFShort = new javax.swing.JLabel();
+        lblBFMedium = new javax.swing.JLabel();
+        lblBFLong = new javax.swing.JLabel();
+        lblBFArmor = new javax.swing.JLabel();
+        lblBFStructure = new javax.swing.JLabel();
+        lblBFSA = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        lblBFPoints = new javax.swing.JLabel();
         pnlFile = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblFilename = new javax.swing.JLabel();
@@ -334,6 +387,21 @@ public class dlgUnit extends javax.swing.JDialog {
         jToolBar2.setFloatable(false);
         jToolBar2.setRollover(true);
 
+        btnSelectMech.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/plug.png"))); // NOI18N
+        btnSelectMech.setText("File");
+        btnSelectMech.setFocusable(false);
+        btnSelectMech.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSelectMech.setMaximumSize(new java.awt.Dimension(29, 41));
+        btnSelectMech.setMinimumSize(new java.awt.Dimension(29, 41));
+        btnSelectMech.setPreferredSize(new java.awt.Dimension(29, 41));
+        btnSelectMech.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSelectMech.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectMechActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnSelectMech);
+
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/disk-black.png"))); // NOI18N
         btnSave.setText("Save");
         btnSave.setFocusable(false);
@@ -402,7 +470,7 @@ public class dlgUnit extends javax.swing.JDialog {
                     .addComponent(lblModel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkC3Active)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -841,6 +909,101 @@ public class dlgUnit extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Quirks", jPanel3);
 
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
+        pnlBFStats.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBFStats.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel66.setText("MV");
+        pnlBFStats.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        jLabel67.setText("S (+0)");
+        pnlBFStats.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
+
+        jLabel68.setText("M (+2)");
+        pnlBFStats.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, -1));
+
+        jLabel69.setText("L (+4)");
+        pnlBFStats.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, -1));
+
+        jLabel70.setText("E (+6)");
+        pnlBFStats.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, -1, -1));
+
+        jLabel71.setText("Wt.");
+        pnlBFStats.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
+
+        jLabel72.setText("OV");
+        pnlBFStats.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, -1, -1));
+
+        jLabel73.setText("Armor:");
+        pnlBFStats.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
+
+        jLabel74.setText("Structure:");
+        pnlBFStats.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, -1, -1));
+
+        jLabel75.setText("Special Abilities:");
+        pnlBFStats.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+
+        lblBFMV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFMV.setText("0");
+        pnlBFStats.add(lblBFMV, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 30, -1));
+
+        lblBFWt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFWt.setText("1");
+        pnlBFStats.add(lblBFWt, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 30, -1));
+
+        lblBFOV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFOV.setText("0");
+        pnlBFStats.add(lblBFOV, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 30, -1));
+
+        lblBFExtreme.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFExtreme.setText("0");
+        pnlBFStats.add(lblBFExtreme, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 30, -1));
+
+        lblBFShort.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFShort.setText("0");
+        pnlBFStats.add(lblBFShort, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 30, -1));
+
+        lblBFMedium.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFMedium.setText("0");
+        pnlBFStats.add(lblBFMedium, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 30, -1));
+
+        lblBFLong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFLong.setText("0");
+        pnlBFStats.add(lblBFLong, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 30, -1));
+
+        lblBFArmor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFArmor.setText("0");
+        pnlBFStats.add(lblBFArmor, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 30, -1));
+
+        lblBFStructure.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBFStructure.setText("0");
+        pnlBFStats.add(lblBFStructure, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 30, -1));
+
+        lblBFSA.setText("Placeholder");
+        pnlBFStats.add(lblBFSA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 520, 20));
+
+        jLabel37.setText("Points:");
+        pnlBFStats.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 30, -1, -1));
+
+        lblBFPoints.setText("0");
+        pnlBFStats.add(lblBFPoints, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, -1));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlBFStats, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(pnlBFStats, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(148, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("BattleForce", jPanel10);
+
         jLabel1.setText("File:");
 
         lblFilename.setText("k:\\location");
@@ -1051,6 +1214,27 @@ public class dlgUnit extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnLoadFileActionPerformed
 
+    private void btnSelectMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectMechActionPerformed
+        Media media = new Media();
+        //Preferences sswPrefs = Preferences.userNodeForPackage("/ssw/gui/frmMain".getClass());
+        File mech = media.SelectFile(Parent.Prefs.get("ListPath", ""), "ssw", "Select Mech File");
+
+        if ( mech != null ) {
+            try {
+                Media.Messager("Selected " + mech.getCanonicalPath());
+                unit.Filename = mech.getCanonicalPath();
+                unit.LoadMech();
+                if ( unit.m != null ) {
+                    unit.BaseBV = unit.m.GetCurrentBV();
+                    unit.Refresh();
+                    setupFrame();
+                }
+            } catch (IOException ex) {
+                Media.Messager("Error loading file\n" + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnSelectMechActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;
     private javax.swing.JButton btnClose;
@@ -1061,6 +1245,7 @@ public class dlgUnit extends javax.swing.JDialog {
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnRandomGen;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSelectMech;
     private javax.swing.JButton btnSelectWarrior;
     private javax.swing.JCheckBox chkC3Active;
     private javax.swing.JComboBox cmbConfiguration;
@@ -1078,12 +1263,24 @@ public class dlgUnit extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1099,6 +1296,17 @@ public class dlgUnit extends javax.swing.JDialog {
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lblBFArmor;
+    private javax.swing.JLabel lblBFExtreme;
+    private javax.swing.JLabel lblBFLong;
+    private javax.swing.JLabel lblBFMV;
+    private javax.swing.JLabel lblBFMedium;
+    private javax.swing.JLabel lblBFOV;
+    private javax.swing.JLabel lblBFPoints;
+    private javax.swing.JLabel lblBFSA;
+    private javax.swing.JLabel lblBFShort;
+    private javax.swing.JLabel lblBFStructure;
+    private javax.swing.JLabel lblBFWt;
     private javax.swing.JLabel lblBaseBV;
     private javax.swing.JLabel lblConfig;
     private javax.swing.JLabel lblFilename;
@@ -1110,6 +1318,7 @@ public class dlgUnit extends javax.swing.JDialog {
     private javax.swing.JLabel lblTotalBV;
     private javax.swing.JList lstPersonnel;
     private javax.swing.JList lstSkills;
+    private javax.swing.JPanel pnlBFStats;
     private javax.swing.JPanel pnlConfiguration;
     private javax.swing.JPanel pnlFile;
     private javax.swing.JRadioButton rdoGunnery;

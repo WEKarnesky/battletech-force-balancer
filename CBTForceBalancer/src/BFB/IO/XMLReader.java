@@ -59,6 +59,25 @@ public class XMLReader {
         return forces;
     }
 
+    public Scenario ReadScenario( String filename ) throws Exception {
+        Scenario scenario = new Scenario();
+        filename = CommonTools.SafeFileName( filename );
+        db = dbf.newDocumentBuilder();
+        load = db.parse( filename );
+
+        if ( load.getFirstChild().getNodeName().equals("scenario") ) {
+            scenario = new Scenario( load.getFirstChild() );
+        } else if ( load.getFirstChild().getNodeName().equals("forces") ) {
+            NodeList nl = load.getElementsByTagName("force");
+            Node n = load.getFirstChild();
+            scenario.setName(n.getAttributes().getNamedItem("scenario").getTextContent().trim());
+            scenario.AddForce( new Force(nl.item(0)) );
+            scenario.AddForce( new Force(nl.item(1)) );
+        }
+
+        return scenario;
+    }
+
     public void ReadUnit( Force force, String filename ) throws Exception {
         filename = CommonTools.SafeFileName( filename );
 

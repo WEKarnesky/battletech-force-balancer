@@ -53,6 +53,10 @@ public class PagePrinter {
         pages.append(print, page);
     }
 
+    public void Clear() {
+        pages = new Book();
+    }
+
     public void selectService( String printerName ) {
         PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
         for (PrintService printer : services ) {

@@ -74,17 +74,17 @@ public class Warrior {
     }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
-        file.write(CommonTools.Tabs(1) + "<warrior name=\"" + this.Name.trim() + "\" status=\"" + this.Status.trim() + "\">");
+        file.write(CommonTools.Tabs(5) + "<warrior name=\"" + this.Name.trim() + "\" status=\"" + this.Status.trim() + "\">");
         file.newLine();
-        file.write(CommonTools.Tabs(2) + "<affiliation faction=\"" + this.Faction.trim() + "\" rank=\"" + this.getRank().trim() + "\" />");
+        file.write(CommonTools.Tabs(6) + "<affiliation faction=\"" + this.Faction.trim() + "\" rank=\"" + this.getRank().trim() + "\" />");
         file.newLine();
-        file.write(CommonTools.Tabs(2) + "<skills gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" mod=\"" + this.getManeiDomini() + "\" />");
+        file.write(CommonTools.Tabs(6) + "<skills gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" mod=\"" + this.getManeiDomini() + "\" />");
         file.newLine();
-        file.write(CommonTools.Tabs(2) + "<quirks>" + this.Quirks.trim() + "</quirks>");
+        file.write(CommonTools.Tabs(6) + "<quirks>" + this.Quirks.trim() + "</quirks>");
         file.newLine();
-        file.write(CommonTools.Tabs(2) + "<notes>" + this.Notes + "</notes>");
+        file.write(CommonTools.Tabs(6) + "<notes>" + this.Notes + "</notes>");
         file.newLine();
-        file.write(CommonTools.Tabs(1) + "</warrior>");
+        file.write(CommonTools.Tabs(5) + "</warrior>");
         file.newLine();
     }
 

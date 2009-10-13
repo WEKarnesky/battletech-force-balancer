@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import ssw.battleforce.BattleForceStats;
 import ssw.components.Mech;
 import ssw.filehandlers.MechList;
 import ssw.filehandlers.MechListData;
@@ -39,7 +40,7 @@ public class TXTWriter {
     }
 
     public void WriteList(String filename, MechList list) throws IOException {
-        if ( !filename.endsWith(".txt") ) { filename += ".txt"; }
+        if ( !filename.endsWith(".csv") ) { filename += ".csv"; }
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
         FR.write( CSVFormat("UNIT_TYPE") );
@@ -101,6 +102,30 @@ public class TXTWriter {
         FR.write(cost.Render());
         FR.close();
     }
+
+    public void WriteBFList(String filename, MechList list) throws IOException {
+        if ( !filename.endsWith(".csv") ) { filename += ".csv"; }
+        BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
+
+        String message = "";
+        for ( int i=0; i < list.Size(); i++ ) {
+            ssw.Force.Unit u = ((MechListData) list.Get(i)).getUnit();
+            u.LoadMech();
+            if ( u.m != null ) {
+                BattleForceStats stat = new BattleForceStats(u.m);
+                FR.write(stat.SerializeCSV());
+                FR.newLine();
+            } else {
+                message += u.TypeModel + "\n";
+            }
+        }
+
+        if ( !message.isEmpty() ) {
+            CommonTools.Messager("Could not write out the following:\n" + message);
+        }
+    }
+
+
     
     public String CSVFormat( String data ) {
         return "\"" + data + "\", ";

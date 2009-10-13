@@ -241,8 +241,8 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
             list = new MechList(MechListPath, useIndex);
 
-            if (list.Size() > 0) {
-                setupList(list);
+            if (getList().Size() > 0) {
+                setupList(getList());
             }
 
             String displayPath = MechListPath;
@@ -252,7 +252,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                 }
             }
             useIndex = true;
-            this.lblLoading.setText(list.Size() + " Mechs loaded from " + displayPath);
+            this.lblLoading.setText(getList().Size() + " Mechs loaded from " + displayPath);
             this.lblLoading.setToolTipText(MechListPath);
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
@@ -1170,7 +1170,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void tblMechDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMechDataMouseClicked
         if ( evt.getClickCount() == 2 ) {
-            if ( tblMechData.getModel().getRowCount() < list.Size() ) {
+            if ( tblMechData.getModel().getRowCount() < getList().Size() ) {
                 addChosen();
             } else {
                 LoadMech();
@@ -1181,7 +1181,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tblMechDataMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (list == null) LoadList();
+        if (getList() == null) LoadList();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnOpenMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenMechActionPerformed
@@ -1229,7 +1229,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         if (! txtName.getText().isEmpty() ) { filters.setName( txtName.getText() ); }
 
 
-        filtered = list.Filter(filters);
+        filtered = getList().Filter(filters);
         setupList(filtered);
     }//GEN-LAST:event_Filter
 
@@ -1253,7 +1253,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_txtMaxCostFilter
 
     private void btnClearFilterFilter(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFilterFilter
-        setupList(list);
+        setupList(getList());
         cmbTech.setSelectedIndex(0);
         cmbEra.setSelectedIndex(0);
         cmbClass.setSelectedIndex(0);
@@ -1388,7 +1388,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         parent.Prefs.put("ListDirectory", dir);
         try {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            out.WriteList(dir + File.separator + "MechListing.txt", list);
+            out.WriteList(dir + File.separator + "MechListing.txt",getList());
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             javax.swing.JOptionPane.showMessageDialog(this, "Mech List output to " + dir);
         } catch (IOException ex) {
@@ -1530,6 +1530,10 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
         //do nothing
+    }
+
+    public MechList getList() {
+        return list;
     }
 
 }

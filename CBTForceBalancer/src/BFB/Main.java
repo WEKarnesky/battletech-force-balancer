@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB;
 
 import BFB.GUI.frmBase;
-import java.awt.Dialog.ModalExclusionType;
 import java.awt.Font;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;

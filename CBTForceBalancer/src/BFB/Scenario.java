@@ -29,91 +29,140 @@ package BFB;
 
 import BFB.Common.CommonTools;
 import BFB.Common.Constants;
+import BFB.GUI.abTable;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
+import org.w3c.dom.Node;
+import ssw.filehandlers.Media;
 
-public class Scenario {
+public class Scenario implements ifSerializable {
+    public int VersionNumber = 2;
+    private boolean allowOverwrite = true;
     private String Name = "",
-                    Notes = "";
-    public Force[] Forces = new Force[]{new Force(), new Force()};
+                    Source = "",
+                    Situation = "",
+                    Setup = "",
+                    Attacker = "",
+                    Defender = "",
+                    VictoryConditions = "",
+                    SpecialRules = "",
+                    Aftermath = "";
+    private Vector<Force> forces = new Vector<Force>();
+    private Warchest warchest = new Warchest();
 
     public Scenario() {
-
     }
 
-    /**
-     * @return the Name
-     */
-    public String getName() {
-        return Name;
-    }
+    public Scenario( Node node ) {
+        String errorMessage = "";
 
-    /**
-     * @param Name the Name to set
-     */
-    public void setName(String Name) {
-        this.Name = Name;
-    }
+        this.Name = node.getAttributes().getNamedItem("name").getTextContent().trim();
+        this.VersionNumber = Integer.parseInt(node.getAttributes().getNamedItem("version").getTextContent().trim());
+        this.allowOverwrite = Boolean.parseBoolean(node.getAttributes().getNamedItem("overwrite").getTextContent().trim());
 
-    /**
-     * @return the Notes
-     */
-    public String getNotes() {
-        return Notes;
-    }
+        for (int i=0; i < node.getChildNodes().getLength(); i++) {
+            Node n = node.getChildNodes().item(i);
+            if (n.getNodeName().equals("situation")) { setSituation(n.getTextContent()); }
+            if (n.getNodeName().equals("setup")) { setSetup(n.getTextContent()); }
+            if (n.getNodeName().equals("victoryconditions")) { setVictoryConditions(n.getTextContent()); }
+            if (n.getNodeName().equals("aftermath")) { setAftermath(n.getTextContent()); }
 
-    /**
-     * @param Notes the Notes to set
-     */
-    public void setNotes(String Notes) {
-        this.Notes = Notes;
+            if (n.getNodeName().equals("attacker")) {
+                setAttacker(n.getAttributes().getNamedItem("description").getTextContent().trim());
+                try {
+                    forces.add(new Force(n.getChildNodes().item(1), VersionNumber));
+                } catch (Exception ex) {
+                    errorMessage += "Error loading Attacker (" + ex.getMessage() + ")\n";
+                }
+            }
+            if (n.getNodeName().equals("defender")) {
+                setDefender(n.getAttributes().getNamedItem("description").getTextContent().trim());
+                try {
+                    forces.add(new Force(n.getChildNodes().item(1), VersionNumber));
+                } catch (Exception ex) {
+                    errorMessage += "Error loading Defender (" + ex.getMessage() + ")\n";
+                }
+            }
+            if (n.getNodeName().equals("warchest")) {
+                setWarchest(new Warchest(n.getFirstChild()));
+            }
+        }
+
+        if ( !errorMessage.isEmpty() ) {
+            Media.Messager("Errors occured during load:\n" + errorMessage);
+        }
     }
 
     public Force topForce() {
-        return Forces[0];
+        return getForces().get(0);
     }
 
     public Force bottomForce() {
-        return Forces[1];
+        return getForces().get(1);
+    }
+
+    public void AddForce( Force f ) {
+        forces.add(f);
     }
 
     public void AddListener( TableModelListener listener ) {
-        for ( Force force : Forces ) {
+        for ( Force force : getForces() ) {
             force.addTableModelListener(listener);
         }
     }
 
     public void setupTable(JTable[] tables) {
         int i = 0;
-        for ( Force force : Forces ) {
+        for ( Force force : getForces() ) {
             force.setupTable(tables[i]);
             i++;
         }
 
-        Forces[0].OpForSize = Forces[1].Units.size();
-        Forces[1].OpForSize = Forces[0].Units.size();
+        forces.get(0).OpForSize = getForces().get(1).Units.size();
+        forces.get(1).OpForSize = getForces().get(0).Units.size();
+    }
+
+    public void setModel( abTable model ) {
+        for ( Force force : getForces() ) {
+            force.setCurrentModel(model);
+        }
     }
 
     public void SerializeXML(BufferedWriter file) throws IOException {
-        file.write( "<scenario>" );
+        file.write( "<scenario name=\"" + this.Name + "\" version=\"" + VersionNumber + "\" overwrite=\"" + allowOverwrite + "\">" );
         file.newLine();
 
-        file.write( CommonTools.tab + "<name>" + this.Name + "</name>" );
+        file.write( CommonTools.tab + "<situation>" + this.Situation + "</situation>" );
         file.newLine();
 
-        file.write( CommonTools.tab + "<notes>" + this.Notes + "</notes>" );
+        file.write( CommonTools.tab + "<setup>" + this.Setup + "</setup>" );
         file.newLine();
 
-        file.write( CommonTools.tab + "<forces>" );
+        file.write( CommonTools.tab + "<attacker description=\"" + this.Attacker + "\">" );
         file.newLine();
 
-        for ( Force force : Forces ) {
-            force.SerializeXML(file);
-        }
+        getAttackerForce().SerializeXML(file);
 
-        file.write( CommonTools.tab + "</forces>" );
+        file.write( CommonTools.tab + "</attacker>" );
+        file.newLine();
+
+        file.write( CommonTools.tab + "<defender description=\"" + this.Attacker + "\">" );
+        file.newLine();
+
+        getDefenderForce().SerializeXML(file);
+
+        file.write( CommonTools.tab + "</defender>" );
+        file.newLine();
+
+        getWarchest().SerializeXML(file);
+
+        file.write( CommonTools.tab + "<victoryconditions>" + this.VictoryConditions + "</victoryconditions>" );
+        file.newLine();
+
+        file.write( CommonTools.tab + "<aftermath>" + this.Aftermath + "</aftermath>" );
         file.newLine();
 
         file.write("</scenario>");
@@ -122,14 +171,125 @@ public class Scenario {
     public String SerializeClipboard() {
         String data = "";
 
-        data += this.Name + Constants.NL;
-        data += this.Notes + Constants.NL;
-
-        for ( Force force : Forces ) {
-            data += force.SerializeClipboard();
-        }
+        data += this.Name + Constants.NL + Constants.NL;
+        data += "Situation" + Constants.NL + this.Situation + Constants.NL + Constants.NL;
+        data += "Setup" + Constants.NL + this.Setup + Constants.NL + Constants.NL;
+        data += "Attacker" + Constants.NL + this.Attacker + Constants.NL + Constants.NL;
+        data += getAttackerForce().SerializeClipboard() + Constants.NL;
+        data += "Defender" + Constants.NL + this.Defender + Constants.NL + Constants.NL;
+        data += getDefenderForce().SerializeClipboard() + Constants.NL;
+        data += getWarchest().SerializeClipboard() + Constants.NL;
+        data += "Victory Conditions" + Constants.NL + this.VictoryConditions + Constants.NL + Constants.NL;
+        data += "Aftermath" + Constants.NL + this.Aftermath + Constants.NL + Constants.NL;
 
         return data;
     }
-    
+
+    public String SerializeData() {
+        return SerializeClipboard();
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public String getSituation() {
+        return Situation;
+    }
+
+    public void setSituation(String Situation) {
+        this.Situation = Situation;
+    }
+
+    public String getSetup() {
+        return Setup;
+    }
+
+    public void setSetup(String Setup) {
+        this.Setup = Setup;
+    }
+
+    public String getAttacker() {
+        return Attacker;
+    }
+
+    public void setAttacker(String Attacker) {
+        this.Attacker = Attacker;
+    }
+
+    public Force getAttackerForce() {
+        return topForce();
+    }
+
+    public String getDefender() {
+        return Defender;
+    }
+
+    public void setDefender(String Defender) {
+        this.Defender = Defender;
+    }
+
+    public Force getDefenderForce() {
+        return bottomForce();
+    }
+
+    public String getVictoryConditions() {
+        return VictoryConditions;
+    }
+
+    public void setVictoryConditions(String VictoryConditions) {
+        this.VictoryConditions = VictoryConditions;
+    }
+
+    public String getSpecialRules() {
+        return SpecialRules;
+    }
+
+    public void setSpecialRules(String SpecialRules) {
+        this.SpecialRules = SpecialRules;
+    }
+
+    public String getAftermath() {
+        return Aftermath;
+    }
+
+    public void setAftermath(String Aftermath) {
+        this.Aftermath = Aftermath;
+    }
+
+    public Vector<Force> getForces() {
+        return forces;
+    }
+
+    public void setForces(Vector<Force> forces) {
+        this.forces = forces;
+    }
+
+    public Warchest getWarchest() {
+        return warchest;
+    }
+
+    public void setWarchest(Warchest warchest) {
+        this.warchest = warchest;
+    }
+
+    public String getSource() {
+        return Source;
+    }
+
+    public void setSource(String Source) {
+        this.Source = Source;
+    }
+
+    public boolean isOverwriteable() {
+        return allowOverwrite;
+    }
+
+    public void setOverwriteable(boolean allowOverwrite) {
+        this.allowOverwrite = allowOverwrite;
+    }
 }

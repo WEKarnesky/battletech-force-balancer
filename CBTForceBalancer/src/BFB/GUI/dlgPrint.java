@@ -20,10 +20,12 @@ import BFB.IO.Printer;
 import BFB.Preview.dlgPreview;
 import BFB.Unit;
 import java.awt.Cursor;
+import java.util.Vector;
 import java.util.prefs.Preferences;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.DefaultComboBoxModel;
+import ssw.battleforce.BattleForce;
 import ssw.print.*;
 
 public class dlgPrint extends javax.swing.JDialog {
@@ -52,6 +54,7 @@ public class dlgPrint extends javax.swing.JDialog {
         chkPrintFireChits.setSelected(bfbPrefs.getBoolean(Constants.Print_FireDeclaration, false));
         chkPrintRecordsheets.setSelected(bfbPrefs.getBoolean(Constants.Print_Recordsheet, true));
         chkPrintBattleforce.setSelected(bfbPrefs.getBoolean(Constants.Print_BattleForce, false));
+        chkBFOnePerPage.setSelected(bfbPrefs.getBoolean(Constants.Format_OneForcePerPage, false));
 
 
         PrintService defaultPrinter = PrintServiceLookup.lookupDefaultPrintService();
@@ -75,6 +78,7 @@ public class dlgPrint extends javax.swing.JDialog {
         chkCanon.setEnabled(chkPrintRecordsheets.isSelected());
         chkImage.setEnabled(chkPrintRecordsheets.isSelected() || chkPrintBattleforce.isSelected());
         chkLogo.setEnabled(chkPrintRecordsheets.isSelected() || chkPrintBattleforce.isSelected());
+        chkBFOnePerPage.setEnabled(chkPrintBattleforce.isSelected());
 
         chkUseHexConversion.setEnabled(chkPrintRecordsheets.isSelected());
         cmbHexConvFactor.setEnabled(chkPrintRecordsheets.isSelected());
@@ -129,11 +133,29 @@ public class dlgPrint extends javax.swing.JDialog {
         }
 
         if ( chkPrintBattleforce.isSelected() ) {
-            PrintBattleforce topBF = new PrintBattleforce(parent.topForce.toBattleForce());
-            PrintBattleforce bottomBF = new PrintBattleforce(parent.bottomForce.toBattleForce());
+            if ( chkBFOnePerPage.isSelected() ) {
+                Vector<BattleForce> forces = new Vector<BattleForce>();
+                forces.addAll(parent.topForce.toBattleForceByGroup());
+                forces.addAll(parent.bottomForce.toBattleForceByGroup());
 
-            printer.Append( Printer.Letter.toPage(), topBF );
-            printer.Append( Printer.Letter.toPage(), bottomBF );
+                for ( BattleForce f : forces ) {
+                    PrintBattleforce bf = new PrintBattleforce(f);
+                    bf.setPrintLogo(chkLogo.isSelected());
+                    bf.setPrintMechs(chkImage.isSelected());
+                    printer.Append( Printer.Letter.toPage(), bf);
+                }
+            } else {
+                PrintBattleforce topBF = new PrintBattleforce(parent.topForce.toBattleForce());
+                topBF.setPrintLogo(chkLogo.isSelected());
+                topBF.setPrintMechs(chkImage.isSelected());
+
+                PrintBattleforce bottomBF = new PrintBattleforce(parent.bottomForce.toBattleForce());
+                bottomBF.setPrintLogo(chkLogo.isSelected());
+                bottomBF.setPrintMechs(chkImage.isSelected());
+
+                printer.Append( Printer.Letter.toPage(), topBF );
+                printer.Append( Printer.Letter.toPage(), bottomBF );
+            }
         }
 
         if ( chkPrintRecordsheets.isSelected() ) {
@@ -176,6 +198,7 @@ public class dlgPrint extends javax.swing.JDialog {
         bfbPrefs.putBoolean(Constants.Print_FireDeclaration, chkPrintFireChits.isSelected());
         bfbPrefs.putBoolean(Constants.Print_Recordsheet, chkPrintRecordsheets.isSelected());
         bfbPrefs.putBoolean(Constants.Print_BattleForce, chkPrintBattleforce.isSelected());
+        bfbPrefs.putBoolean(Constants.Format_OneForcePerPage, chkBFOnePerPage.isSelected());
     }
 
     private void setStatus( String message ) {
@@ -218,6 +241,7 @@ public class dlgPrint extends javax.swing.JDialog {
         lblOneHex = new javax.swing.JLabel();
         btnImageMgr = new javax.swing.JButton();
         chkRS = new javax.swing.JCheckBox();
+        chkBFOnePerPage = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         btnPrint = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -340,7 +364,7 @@ public class dlgPrint extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbPrinters, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         pnlWhereLayout.setVerticalGroup(
             pnlWhereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,6 +455,13 @@ public class dlgPrint extends javax.swing.JDialog {
             }
         });
 
+        chkBFOnePerPage.setText("Print One Unit Per Page");
+        chkBFOnePerPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkBFOnePerPageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlHowLayout = new javax.swing.GroupLayout(pnlHow);
         pnlHow.setLayout(pnlHowLayout);
         pnlHowLayout.setHorizontalGroup(
@@ -451,7 +482,8 @@ public class dlgPrint extends javax.swing.JDialog {
                         .addGap(21, 21, 21)
                         .addGroup(pnlHowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(chkBFOnePerPage))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         pnlHowLayout.setVerticalGroup(
@@ -474,7 +506,9 @@ public class dlgPrint extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chkLogo)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkBFOnePerPage)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         btnPrint.setText("Print");
@@ -532,7 +566,7 @@ public class dlgPrint extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPreview)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -607,11 +641,16 @@ public class dlgPrint extends javax.swing.JDialog {
         Verify();
 }//GEN-LAST:event_chkRSVerify
 
+    private void chkBFOnePerPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkBFOnePerPageActionPerformed
+        Verify();
+    }//GEN-LAST:event_chkBFOnePerPageActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnImageMgr;
     private javax.swing.JButton btnPreview;
     private javax.swing.JButton btnPrint;
+    private javax.swing.JCheckBox chkBFOnePerPage;
     private javax.swing.JCheckBox chkCanon;
     private javax.swing.JCheckBox chkImage;
     private javax.swing.JCheckBox chkLogo;
