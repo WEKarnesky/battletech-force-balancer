@@ -42,7 +42,7 @@ import javax.swing.table.TableRowSorter;
 import org.w3c.dom.*;
 
 public class Warriors extends AbstractTableModel {
-    private Vector list = new Vector();
+    private Vector<Warrior> list = new Vector<Warrior>();
     private String defaultPath = "data/WarriorList.psn",
                     Title = "",
                     PersonnelFile = "";
@@ -123,8 +123,7 @@ public class Warriors extends AbstractTableModel {
         file.write( "<warriors title=\"" + this.Title + "\">" );
         file.newLine();
 
-        for (int i = 0; i < list.size(); i++) {
-            Warrior w = (Warrior) list.get(i);
+        for ( Warrior w : list ) {
             w.SerializeXML(file);
         }
 
@@ -174,7 +173,7 @@ public class Warriors extends AbstractTableModel {
         }
     }
     public Object getClassOf( int row, int col ) {
-        Warrior w = (Warrior) list.get( row );
+        Warrior w = list.get( row );
         switch( col ) {
             case 0:
                 return w.getName();
@@ -188,7 +187,7 @@ public class Warriors extends AbstractTableModel {
         return "";
     }
     public Object getValueAt( int row, int col ) {
-        Warrior w = (Warrior) list.get( row );
+        Warrior w = list.get( row );
         switch( col ) {
             case 0:
                 return w.getName();

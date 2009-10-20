@@ -168,9 +168,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         } catch ( IOException ie ) {
             Media.Messager(ie.getMessage());
+            System.out.println(ie.getMessage());
             return;
         } catch ( Exception e ) {
             Media.Messager("Issue loading file:\n " + e.getMessage());
+            System.out.println(e.getMessage());
             return;
         }
     }
@@ -182,7 +184,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             force.LogoPath = Logo.getCanonicalPath();
             setLogo(lblLogo, Logo);
         } catch (IOException ex) {
-            //do nothing
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -215,7 +217,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
                 lblLogo.setIcon(icon);
             } catch ( Exception e ) {
-
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -286,21 +288,21 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         FileSelector openFile = new FileSelector();
         File forceFile = openFile.SelectFile(Prefs.get("LastOpenUnit", ""), "force", "Load Force");
 
+        WaitCursor();
         if (forceFile != null) {
             XMLReader reader = new XMLReader();
             try {
-                this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 reader.ReadUnit( force, forceFile.getCanonicalPath() );
                 force.RefreshBV();
                 Refresh();
 
                Prefs.put("LastOpenUnit", forceFile.getCanonicalPath());
-               this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             } catch (Exception e) {
-               javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
-               return;
+                Media.Messager("Issue loading file!\n" + e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
+        DefaultCursor();
     }
 
     public void saveForce( Force force ) {
@@ -318,7 +320,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             write.SerializeForce(force, filename);
             javax.swing.JOptionPane.showMessageDialog( this, "Force written to " + filename );
         } catch (IOException ex) {
-            Logger.getLogger(frmBase.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -339,8 +341,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void overrideSkill( Force force, int Gunnery, int Piloting ) {
         for ( int i=0; i < force.Units.size(); i++ ) {
             Unit u = (Unit) force.Units.get(i);
-            u.Gunnery = Gunnery;
-            u.Piloting = Piloting;
+            u.setGunnery(Gunnery);
+            u.setPiloting(Piloting);
             u.Refresh();
         }
         force.RefreshBV();
@@ -1886,7 +1888,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                Prefs.put("LastOpenBFBFile", forceFile.getName());
                Prefs.put("CurrentBFBFile", forceFile.getPath());
             } catch (Exception e) {
-               javax.swing.JOptionPane.showMessageDialog( this, "Issue loading file:\n " + e.getMessage() );
+               Media.Messager("Issue loading file:\n " + e.getMessage() );
+               System.out.println(e.getMessage());
                return;
             } finally {
                 DefaultCursor();
@@ -1914,6 +1917,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                     return;
             }
         } else {
+            System.err.flush();
+            System.out.flush();
             dOpen.dispose();
             this.dispose();
         }
@@ -1986,7 +1991,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             Prefs.put("CurrentBFBFile", filename);
             javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+            Media.Messager(e.getMessage());
+            System.out.println(e.getMessage());
         }
         DefaultCursor();
     }//GEN-LAST:event_mnuSaveActionPerformed
@@ -2025,7 +2031,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 u.LoadMech();
                 Mech m = u.m;
                 if (m != null) {
-                    printer.AddMech(m, u.Mechwarrior, u.Gunnery, u.Piloting, true, true, true);
+                    printer.AddMech(m,u.getMechwarrior(), u.getGunnery(), u.getPiloting(), true, true, true);
                 }
             }
 
@@ -2079,16 +2085,16 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         try {
             mw.Write( dir + File.separator + topForce.ForceName );
         } catch (IOException ex) {
-            //do nothing
-            javax.swing.JOptionPane.showMessageDialog(this, "Unable to save " + topForce.ForceName + "\n" + ex.getMessage() );
+            Media.Messager("Unable to save " + topForce.ForceName + "\n" + ex.getMessage() );
+            System.out.println(ex.getMessage());
         }
 
         mw.setForce(bottomForce);
         try {
             mw.Write( dir + File.separator + bottomForce.ForceName );
         } catch ( IOException ex ) {
-            //do nothing
-            javax.swing.JOptionPane.showMessageDialog(this, "Unable to save " + bottomForce.ForceName + "\n" + ex.getMessage() );
+            Media.Messager("Unable to save " + bottomForce.ForceName + "\n" + ex.getMessage() );
+            System.out.println(ex.getMessage());
         }
 
         javax.swing.JOptionPane.showMessageDialog(this, "Your forces have been exported to " + dir);
@@ -2159,12 +2165,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveAsActionPerformed
         if ( txtScenarioName.getText().isEmpty() ) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a scenario name before saving.");
+            Media.Messager("Please enter a scenario name before saving.");
             return;
         }
 
         if ( !topForce.isSaveable() || !bottomForce.isSaveable() ) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a force name and at least one unit in each list before saving.");
+            Media.Messager("Please enter a force name and at least one unit in each list before saving.");
             return;
         }
 
@@ -2186,7 +2192,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             Prefs.put("CurrentBFBFile", filename);
             javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+            System.out.println(e.getMessage());
+            Media.Messager(e.getMessage());
         }
         DefaultCursor();
 }//GEN-LAST:event_mnuSaveAsActionPerformed
@@ -2210,10 +2217,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             txtWrite.Write(filename.getCanonicalPath());
 
             Prefs.put("TXTDirectory", filename.getCanonicalPath());
-            javax.swing.JOptionPane.showMessageDialog(this, "Your forces have been exported to " + filename.getCanonicalPath());
+            Media.Messager("Your forces have been exported to " + filename.getCanonicalPath());
         } catch (IOException ex) {
             //do nothing
-            javax.swing.JOptionPane.showMessageDialog(this, "Unable to save \n" + ex.getMessage() );
+            System.out.println(ex.getMessage());
+            Media.Messager("Unable to save \n" + ex.getMessage() );
         }
         DefaultCursor();
     }//GEN-LAST:event_mnuExportTextActionPerformed
@@ -2308,7 +2316,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 u.LoadMech();
                 Mech m = u.m;
                 if (m != null) {
-                    printer.AddMech(m, u.Mechwarrior, u.Gunnery, u.Piloting, false, false, false);
+                    printer.AddMech(m,u.getMechwarrior(), u.getGunnery(), u.getPiloting(), false, false, false);
                 }
             }
             printer.setTRO(true);
@@ -2406,10 +2414,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         Prefs.put("ListDirectory", dir);
         try {
             out.WriteList(dir + File.separator + "MechListing.csv", dOpen.getList());
-            javax.swing.JOptionPane.showMessageDialog(this, "Mech List output to " + dir);
+            Media.Messager("Mech List output to " + dir);
         } catch (IOException ex) {
             //do nothing
-            javax.swing.JOptionPane.showMessageDialog(this, "Unable to output list\n" + ex.getMessage() );
+            System.out.println(ex.getMessage());
+            Media.Messager("Unable to output list\n" + ex.getMessage() );
         }
         DefaultCursor();
     }//GEN-LAST:event_mnuBVListActionPerformed
@@ -2430,10 +2439,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         Prefs.put("ListDirectory", dir);
         try {
             out.WriteBFList(dir + File.separator + "BattleForceListing.csv", dOpen.getList());
-            javax.swing.JOptionPane.showMessageDialog(this, "BattleForce List output to " + dir);
+            Media.Messager("BattleForce List output to " + dir);
         } catch (IOException ex) {
-            //do nothing
-            javax.swing.JOptionPane.showMessageDialog(this, "Unable to output list\n" + ex.getMessage() );
+            System.out.println(ex.getMessage());
+            Media.Messager("Unable to output list\n" + ex.getMessage() );
         }
         DefaultCursor();
     }//GEN-LAST:event_mnuBFListActionPerformed

@@ -67,6 +67,7 @@ class Preview extends JComponent {
 
     public void setPageable( Pageable pageable ) {
         this.pageable = pageable;
+        this.index = 0;
         PageFormat format = pageable.getPageFormat(index);
         if (zoom == 0.0) {
             this.zoom = viewportSize.width / format.getWidth();

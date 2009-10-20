@@ -55,7 +55,7 @@ public class Group {
         for ( int i=0; i < Units.size(); i++ ) {
             Unit u = (Unit) Units.get(i);
             u.LoadMech();
-            BattleForceStats stat = new BattleForceStats(u.m, u.Group, u.Gunnery, u.Piloting);
+            BattleForceStats stat = new BattleForceStats(u.m, u.Group,u.getGunnery(), u.getPiloting());
             bf.BattleForceStats.add(stat);
         }
         return bf;

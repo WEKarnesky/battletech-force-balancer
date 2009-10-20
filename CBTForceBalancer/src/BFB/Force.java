@@ -80,6 +80,10 @@ public class Force extends AbstractTableModel implements ifSerializable {
     }
 
     public Force(Node ForceNode, int Version) throws Exception {
+        Load( ForceNode, Version);
+    }
+
+    public void Load( Node ForceNode, int Version ) {
         this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
         this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
         for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
@@ -96,27 +100,32 @@ public class Force extends AbstractTableModel implements ifSerializable {
     }
 
     public void Load( Node ForceNode ) throws Exception {
-        this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
-        this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
-        if ( ForceNode.getAttributes().getNamedItem("type") != null )
-            this.Type = ForceNode.getAttributes().getNamedItem("type").getTextContent().trim();
-        
-        if ( this.Type.isEmpty() ) { this.Type = BattleForce.InnerSphere; }
-        for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
-            Node n = ForceNode.getChildNodes().item(i);
-            if (n.getNodeName().equals("unit")) {
-                try {
-                    Units.add(new Unit(n));
-                } catch (Exception e) {
-                    throw e;
+        try {
+            this.ForceName = ForceNode.getAttributes().getNamedItem("name").getTextContent().trim();
+            if ( ForceNode.getAttributes().getNamedItem("logo") != null )
+                this.LogoPath = ForceNode.getAttributes().getNamedItem("logo").getTextContent().trim();
+            if ( ForceNode.getAttributes().getNamedItem("type") != null )
+                this.Type = ForceNode.getAttributes().getNamedItem("type").getTextContent().trim();
+
+            if ( this.Type.isEmpty() ) { this.Type = BattleForce.InnerSphere; }
+            if ( ForceNode.getChildNodes().item(0).getNodeName().equals("group") ) {
+                Load( ForceNode, 2 );
+            } else {
+                for (int i=0; i < ForceNode.getChildNodes().getLength(); i++) {
+                    Node n = ForceNode.getChildNodes().item(i);
+                    if (n.getNodeName().equals("unit")) {
+                        try {
+                            Units.add(new Unit(n));
+                        } catch (Exception e) {
+                            throw e;
+                        }
+                    }
                 }
             }
+            RefreshBV();
+        } catch ( Exception e ) {
+            throw new Exception("Unable to load Force");
         }
-        RefreshBV();
-    }
-
-    public void Load2( Node forceNode ) {
-
     }
 
     public void RefreshBV() {
@@ -444,7 +453,7 @@ public class Force extends AbstractTableModel implements ifSerializable {
         for ( int i=0; i < Units.size(); i++ ) {
             Unit u = (Unit) Units.get(i);
             u.LoadMech();
-            BattleForceStats stat = new BattleForceStats(u.m, u.Group, u.Gunnery, u.Piloting);
+            BattleForceStats stat = new BattleForceStats(u.m, u.Group,u.getGunnery(), u.getPiloting());
             bf.BattleForceStats.add(stat);
         }
         return bf;
@@ -520,7 +529,7 @@ public class Force extends AbstractTableModel implements ifSerializable {
             case 1:
                 return "";
             case 2:
-                return u.Mechwarrior;
+                return u.getMechwarrior();
             case 3:
                 return u.Group;
             case 4:
@@ -528,9 +537,9 @@ public class Force extends AbstractTableModel implements ifSerializable {
             case 5:
                 return u.BaseBV;
             case 6:
-                return u.Gunnery;
+                return u.getGunnery();
             case 7:
-                return u.Piloting;
+                return u.getPiloting();
             case 8:
                 return u.MiscMod;
             case 9:
@@ -548,7 +557,7 @@ public class Force extends AbstractTableModel implements ifSerializable {
             case 1:
                 return Constants.UnitTypes[u.UnitType];
             case 2:
-                return u.Mechwarrior;
+                return u.getMechwarrior();
             case 3:
                 return u.Group;
             case 4:
@@ -556,9 +565,9 @@ public class Force extends AbstractTableModel implements ifSerializable {
             case 5:
                 return u.BaseBV;
             case 6:
-                return u.Gunnery;
+                return u.getGunnery();
             case 7:
-                return u.Piloting;
+                return u.getPiloting();
             case 8:
                 return u.MiscMod;
             case 9:
@@ -593,16 +602,16 @@ public class Force extends AbstractTableModel implements ifSerializable {
         Unit u = (Unit) Units.get( row );
         switch( col ) {
             case 2:
-                u.Mechwarrior = value.toString();
+                u.setMechwarrior(value.toString());
                 break;
             case 3:
                 u.Group = value.toString();
                 break;
             case 6:
-                u.Gunnery = Integer.parseInt(value.toString());
+                u.setGunnery(Integer.parseInt(value.toString()));
                 break;
             case 7:
-                u.Piloting = Integer.parseInt(value.toString());
+                u.setPiloting(Integer.parseInt(value.toString()));
                 break;
             case 8:
                 u.MiscMod = Float.parseFloat(value.toString());

@@ -108,17 +108,14 @@ public class TXTWriter {
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
         String message = "";
-        for ( int i=0; i < list.Size(); i++ ) {
-            ssw.Force.Unit u = ((MechListData) list.Get(i)).getUnit();
-            u.LoadMech();
-            if ( u.m != null ) {
-                BattleForceStats stat = new BattleForceStats(u.m);
-                FR.write(stat.SerializeCSV());
-                FR.newLine();
-            } else {
-                message += u.TypeModel + "\n";
-            }
+        FR.write("Element,PV,Wt,MV,S,M,L,E,OV,Armor,Internal,Special Abilities");
+        FR.newLine();
+        for ( MechListData mech : list.getList() ) {
+            FR.write(mech.getBattleForceStats().SerializeCSV());
+            FR.newLine();
         }
+
+        FR.close();
 
         if ( !message.isEmpty() ) {
             CommonTools.Messager("Could not write out the following:\n" + message);

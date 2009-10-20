@@ -32,8 +32,6 @@ import BFB.Common.CommonTools;
 import BFB.Common.Constants;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.w3c.dom.Node;
 import ssw.battleforce.BattleForceStats;
 import ssw.components.Mech;
@@ -43,13 +41,13 @@ import ssw.filehandlers.XMLReader;
 public class Unit implements ifSerializable {
     public String TypeModel = "",
                   Type = "",
-                  Model = "",
-                  Mechwarrior = "",
-                  Filename = "",
+                  Model = "";
+    private String Mechwarrior = "";
+    public String Filename = "",
                   Configuration = "",
-                  Group = "",
-                  MechwarriorQuirks = "",
-                  UnitQuirks = "";
+                  Group = "";
+    private String MechwarriorQuirks = "";
+    public String UnitQuirks = "";
     public float BaseBV = 0.0f,
                  MiscMod = 1.0f,
                  Tonnage = 20.0f,
@@ -57,14 +55,13 @@ public class Unit implements ifSerializable {
                  ModifierBV = 0.0f,
                  C3BV = 0.0f,
                  TotalBV = 0.0f;
-    public int Piloting = 5,
-               Gunnery = 4,
-               UnitType = Constants.BattleMech;
+    private int Piloting = 5;
+    private int Gunnery = 4;
+    public int UnitType = Constants.BattleMech;
     public Warrior warrior = new Warrior();
     public boolean UsingC3 = false;
     public Mech m = null;
-    public Warrior pilot = new Warrior();
-    private BattleForceStats BFStats;
+    private BattleForceStats BFStats = new BattleForceStats();
 
     public Unit(){
     }
@@ -77,6 +74,7 @@ public class Unit implements ifSerializable {
         this.BaseBV = m.getBV();
         this.Filename = m.getFilename();
         this.Configuration = m.getConfig();
+        this.BFStats = m.getBattleForceStats();
     }
 
     public Unit( Node n ) throws Exception {
@@ -104,6 +102,10 @@ public class Unit implements ifSerializable {
         }
         this.Refresh();
         TypeModel = Type + " " + Model;
+        this.warrior.setGunnery(Gunnery);
+        this.warrior.setPiloting(Piloting);
+        this.warrior.setName(Mechwarrior);
+        this.warrior.setQuirks(MechwarriorQuirks);
     }
 
     public Unit( Node n, int Version ) {
@@ -128,8 +130,12 @@ public class Unit implements ifSerializable {
                     this.MechwarriorQuirks = warrior.getQuirks();
                     this.Mechwarrior = (warrior.getRank() + " " + warrior.getName()).trim();
                 } catch (Exception ex) {
-                    Logger.getLogger(Unit.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex.getMessage());
                 }
+            }
+            if ( node.getNodeName().equals("battleforce") ) {
+                this.BFStats = new BattleForceStats( node );
+                this.BFStats.setElement(this.TypeModel);
             }
         }
         this.Refresh();
@@ -139,11 +145,17 @@ public class Unit implements ifSerializable {
         SkillsBV = 0;
         ModifierBV = 0;
         TotalBV = 0;
-        SkillsBV += CommonTools.GetSkillBV(BaseBV, Gunnery, Piloting);
+        SkillsBV += CommonTools.GetSkillBV(BaseBV, getGunnery(), getPiloting());
         ModifierBV += CommonTools.GetModifierBV(SkillsBV, MiscMod);
-        TotalBV += CommonTools.GetFullAdjustedBV(BaseBV, Gunnery, Piloting, MiscMod);
+        TotalBV += CommonTools.GetFullAdjustedBV(BaseBV, getGunnery(), getPiloting(), MiscMod);
         if (UsingC3) { C3BV += TotalBV * .05;}
-        BFStats = null;
+
+        if ( BFStats.getPointValue() == 0 ) {
+            LoadMech();
+            if ( m != null ) {
+                BFStats = new BattleForceStats(m);
+            }
+        }
     }
 
     public void UpdateByMech() {
@@ -154,22 +166,19 @@ public class Unit implements ifSerializable {
     }
 
     public String GetSkills(){
-        return Gunnery + "/" + Piloting;
+        return getGunnery() + "/" + getPiloting();
     }
 
     public void RenderPrint(PrintSheet p) {
         p.setFont(CommonTools.PlainFont);
         p.WriteStr(TypeModel, 120);
-        p.WriteStr(Mechwarrior, 140);
+        p.WriteStr(getMechwarrior(), 140);
         p.WriteStr(Constants.UnitTypes[UnitType], 60);
         p.WriteStr(String.format("%1$,.2f", Tonnage), 50);
         p.WriteStr(String.format("%1$,.0f", BaseBV), 40);
         p.WriteStr(GetSkills(), 30);
-        //p.WriteStr(String.format("%1$,.0f", SkillsBV), 50);
         p.WriteStr(String.format("%1$,.2f", MiscMod), 40);
-        //p.WriteStr(String.format("%1$,.0f", TotalBV), 50);
         p.WriteStr(Boolean.valueOf(UsingC3).toString(), 30);
-        //p.WriteStr(String.format("%1$,.0f", C3BV), 30);
         p.WriteStr(String.format("%1$,.0f", TotalBV), 0);
         p.NewLine();
     }
@@ -177,44 +186,13 @@ public class Unit implements ifSerializable {
     public void SerializeXML(BufferedWriter file) throws IOException {
         file.write(CommonTools.Tabs(4) + "<unit type=\"" + this.Type + "\" model=\"" + this.Model + "\" config=\"" + this.Configuration + "\" tonnage=\"" + this.Tonnage + "\" bv=\"" + this.BaseBV + "\" design=\"" + this.UnitType + "\" file=\"" + this.Filename + "\" c3status=\"" + this.UsingC3 + "\">");
         file.newLine();
+        BFStats.SerializeXML(file, 5);
+        file.newLine();
         file.write(CommonTools.Tabs(5) + "<quirks>" + this.UnitQuirks + "</quirks>");
         file.newLine();
         warrior.SerializeXML(file);
         file.write(CommonTools.Tabs(4) + "</unit>");
         file.newLine();
-
-        /*
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<type>" + this.Type.trim() + "</type>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<model>" + this.Model.trim() + "</model>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<config>" + this.Configuration.trim() + "</config>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<tonnage>" + this.Tonnage + "</tonnage>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<group>" + this.Group.trim() + "</group>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<mechwarrior>" + this.Mechwarrior.trim() + "</mechwarrior>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<basebv>" + this.BaseBV + "</basebv>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<modifier>" + this.MiscMod + "</modifier>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<piloting>" + this.Piloting + "</piloting>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<gunnery>" + this.Gunnery + "</gunnery>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<unittype>" + this.UnitType + "</unittype>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<usingc3>" + this.UsingC3 + "</usingc3>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<mechwarriorquirks>" + this.MechwarriorQuirks + "</mechwarriorquirks>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<unitquirks>" + this.UnitQuirks + "</unitquirks>");
-        file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + CommonTools.tab + "<ssw>" + this.Filename.trim() + "</ssw>");
-        file.newLine();
-        */
     }
 
     public void SerializeMUL(BufferedWriter file) throws IOException {
@@ -229,7 +207,7 @@ public class Unit implements ifSerializable {
 
         file.write(CommonTools.tab + "<entity chassis=\"" + this.Type + "\" model=\"" + this.Model + "\">");
         file.newLine();
-        file.write(CommonTools.tab + CommonTools.tab + "<pilot name=\"" + this.Mechwarrior + "\" gunnery=\"" + this.Gunnery + "\" piloting=\"" + this.Piloting + "\" />");
+        file.write(CommonTools.tab + CommonTools.tab + "<pilot name=\"" + this.getMechwarrior() + "\" gunnery=\"" + this.getGunnery() + "\" piloting=\"" + this.getPiloting() + "\" />");
         file.newLine();
         file.write(CommonTools.tab + "</entity>");
         file.newLine();
@@ -241,9 +219,9 @@ public class Unit implements ifSerializable {
         data += CommonTools.spaceRight(this.TypeModel.trim(), 30) + Constants.Tab;
         data += String.format("%1$,.0f", Tonnage) + Constants.Tab;
         data += String.format("%1$,.0f", BaseBV) + "" + Constants.Tab;
-        data += CommonTools.spaceRight(this.Mechwarrior, 30) + Constants.Tab;
+        data += CommonTools.spaceRight(this.getMechwarrior(), 30) + Constants.Tab;
         data += CommonTools.spaceRight(this.Group, 20) + Constants.Tab;
-        data += this.Gunnery + "/" + this.Piloting + Constants.Tab;
+        data += this.getGunnery() + "/" + this.getPiloting() + Constants.Tab;
         data += String.format("%1$,.0f", TotalBV) + "";
 
         return data;
@@ -262,7 +240,7 @@ public class Unit implements ifSerializable {
                     this.m.SetCurLoadout(this.Configuration.trim());
                 }
             } catch (Exception ex) {
-                //do nothing
+                System.out.println(ex.getMessage());
             }
         }
     }
@@ -272,8 +250,40 @@ public class Unit implements ifSerializable {
 
         LoadMech();
         if ( m != null ) {
-            BFStats = new BattleForceStats(m, Group, Gunnery, Piloting);
+            BFStats = new BattleForceStats(m, Group, getGunnery(), getPiloting());
         }
         return BFStats;
+    }
+
+    public String getMechwarrior() {
+        return warrior.getName();
+    }
+
+    public void setMechwarrior(String Mechwarrior) {
+        warrior.setName(Mechwarrior);
+    }
+
+    public String getMechwarriorQuirks() {
+        return warrior.getQuirks();
+    }
+
+    public void setMechwarriorQuirks(String MechwarriorQuirks) {
+        warrior.setQuirks(MechwarriorQuirks);
+    }
+
+    public int getPiloting() {
+        return warrior.getPiloting();
+    }
+
+    public void setPiloting(int Piloting) {
+        warrior.setPiloting(Piloting);
+    }
+
+    public int getGunnery() {
+        return warrior.getGunnery();
+    }
+
+    public void setGunnery(int Gunnery) {
+        warrior.setGunnery(Gunnery);
     }
 }

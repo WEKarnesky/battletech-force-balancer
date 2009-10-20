@@ -167,7 +167,7 @@ public class dlgPrint extends javax.swing.JDialog {
                 for ( int m=0; m < force.Units.size(); m++ ) {
                     Unit u = (Unit) force.Units.get(m);
                     u.LoadMech();
-                    PrintMech pm = new PrintMech(u.m, u.Mechwarrior, u.Gunnery, u.Piloting);
+                    PrintMech pm = new PrintMech(u.m,u.getMechwarrior(), u.getGunnery(), u.getPiloting());
                     pm.setCanon(chkCanon.isSelected());
                     pm.setCharts(chkTables.isSelected());
                     if ( chkUseHexConversion.isSelected() ) {

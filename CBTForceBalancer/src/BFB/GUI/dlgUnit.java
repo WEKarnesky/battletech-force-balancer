@@ -65,14 +65,14 @@ public class dlgUnit extends javax.swing.JDialog {
     private void setupFrame() {
         lblModel.setText(unit.TypeModel);
         lblTonnage.setText(unit.Tonnage + " Tons");
-        txtMechwarrior.setText(unit.Mechwarrior);
-        cmbGunnery.setSelectedIndex(unit.Gunnery);
-        cmbPiloting.setSelectedIndex(unit.Piloting);
+        txtMechwarrior.setText(unit.getMechwarrior());
+        cmbGunnery.setSelectedIndex(unit.getGunnery());
+        cmbPiloting.setSelectedIndex(unit.getPiloting());
         chkC3Active.setSelected(unit.UsingC3);
         txtMod.setText(unit.MiscMod+"");
         lblFilename.setForeground(new Color(Color.black.getRGB()));
         lblFilename.setText(unit.Filename);
-        tpnMechwarriorQuirks.setText(unit.MechwarriorQuirks);
+        tpnMechwarriorQuirks.setText(unit.getMechwarriorQuirks());
         tpnBattleMechQuirks.setText(unit.UnitQuirks);
         spnSkillSeperationLimit.setModel(new SpinnerNumberModel(3, 0, 7, 1));
         lstPersonnel.setModel(warriors.getModel());
@@ -1057,13 +1057,13 @@ public class dlgUnit extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbGunneryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGunneryActionPerformed
-        unit.Gunnery = cmbGunnery.getSelectedIndex();
+        unit.setGunnery(cmbGunnery.getSelectedIndex());
         unit.Refresh();
         setBV();
     }//GEN-LAST:event_cmbGunneryActionPerformed
 
     private void cmbPilotingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPilotingActionPerformed
-        unit.Piloting = cmbPiloting.getSelectedIndex();
+        unit.setPiloting(cmbPiloting.getSelectedIndex());
         unit.Refresh();
         setBV();
     }//GEN-LAST:event_cmbPilotingActionPerformed
@@ -1149,12 +1149,12 @@ public class dlgUnit extends javax.swing.JDialog {
     }//GEN-LAST:event_btnMechImageActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        unit.Mechwarrior = txtMechwarrior.getText();
-        unit.Gunnery = cmbGunnery.getSelectedIndex();
-        unit.Piloting = cmbPiloting.getSelectedIndex();
+        unit.setMechwarrior(txtMechwarrior.getText());
+        unit.setGunnery(cmbGunnery.getSelectedIndex());
+        unit.setPiloting(cmbPiloting.getSelectedIndex());
         unit.MiscMod = Float.parseFloat(txtMod.getText());
         unit.UsingC3 = chkC3Active.isSelected();
-        unit.MechwarriorQuirks = tpnMechwarriorQuirks.getText();
+        unit.setMechwarriorQuirks(tpnMechwarriorQuirks.getText());
         unit.UnitQuirks = tpnBattleMechQuirks.getText();
         unit.Refresh();
         force.isDirty = true;
@@ -1168,7 +1168,7 @@ public class dlgUnit extends javax.swing.JDialog {
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
         Printer printer = new Printer();
-        printer.AddMech(unit.m, unit.Mechwarrior, unit.Gunnery, unit.Piloting);
+        printer.AddMech(unit.m,unit.getMechwarrior(), unit.getGunnery(), unit.getPiloting());
         printer.Print();
 }//GEN-LAST:event_btnPrintActionPerformed
 
@@ -1179,9 +1179,9 @@ public class dlgUnit extends javax.swing.JDialog {
     private void btnSelectWarriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectWarriorActionPerformed
         if ( lstPersonnel.getSelectedIndex() > -1 ) {
             Warrior w = (Warrior) lstPersonnel.getSelectedValue();
-            unit.Gunnery = w.getGunnery();
-            unit.Piloting = w.getPiloting();
-            unit.Mechwarrior = w.getName();
+            unit.setGunnery(w.getGunnery());
+            unit.setPiloting(w.getPiloting());
+            unit.setMechwarrior(w.getName());
             unit.MiscMod = Float.parseFloat(w.getManeiDomini()+"");
 
             txtMechwarrior.setText((w.getRank() + " " + w.getName()).trim());

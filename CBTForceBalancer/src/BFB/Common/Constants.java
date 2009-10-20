@@ -27,10 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.Common;
 
-/**
- *
- * @author justin
- */
 public class Constants {
     public final static String AppName = "Battletech Force Balancer",
                         AppDescription = "Battletech Force Balancer",
@@ -46,7 +42,8 @@ public class Constants {
                         Format_Tables = "UseCharts",
                         Format_CanonPattern = "UseCanonDots",
                         Format_ConvertTerrain = "UseMiniConversion",
-                        Format_TerrainModifier = "MiniConversionRate";
+                        Format_TerrainModifier = "MiniConversionRate",
+                        Format_OneForcePerPage = "OneForcePerPage";
     public final static int BattleMech = 0,
                             IndustrialMech = 1,
                             ProtoMech = 2,
@@ -67,4 +64,33 @@ public class Constants {
     public final static String NL = System.getProperty( "line.separator" );
     public final static String Tab = "\t";
 
+    public enum UnitType {
+        BattleMech("BattleMech", 0),
+        Vehicle("Vehicle", 3),
+        BattleArmor("Battle Armor", 5),
+        Fighter("Fighter", 7),
+        SmallCraft("Small Craft", 8),
+        Spaceship("Spaceship", 9),
+        SupportVehicle("Support Vehicle", 10);
+
+        String name = "";
+        int value = -1;
+        UnitType( String Name, int Value ) {
+            this.name = Name;
+            this.value = Value;
+        }
+
+        public String Name() {
+            return name;
+        }
+
+        public int toValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 }

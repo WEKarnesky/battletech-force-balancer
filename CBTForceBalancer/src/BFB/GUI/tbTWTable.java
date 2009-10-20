@@ -112,7 +112,7 @@ public class tbTWTable extends abTable {
             case 1:
                 return "";
             case 2:
-                return u.Mechwarrior;
+                return u.getMechwarrior();
             case 3:
                 return u.Group;
             case 4:
@@ -120,9 +120,9 @@ public class tbTWTable extends abTable {
             case 5:
                 return u.BaseBV;
             case 6:
-                return u.Gunnery;
+                return u.getGunnery();
             case 7:
-                return u.Piloting;
+                return u.getPiloting();
             case 8:
                 return u.MiscMod;
             case 9:
@@ -140,7 +140,7 @@ public class tbTWTable extends abTable {
             case 1:
                 return Constants.UnitTypes[u.UnitType];
             case 2:
-                return u.Mechwarrior;
+                return u.getMechwarrior();
             case 3:
                 return u.Group;
             case 4:
@@ -148,9 +148,9 @@ public class tbTWTable extends abTable {
             case 5:
                 return u.BaseBV;
             case 6:
-                return u.Gunnery;
+                return u.getGunnery();
             case 7:
-                return u.Piloting;
+                return u.getPiloting();
             case 8:
                 return u.MiscMod;
             case 9:
@@ -185,16 +185,16 @@ public class tbTWTable extends abTable {
         Unit u = (Unit) force.Units.get( row );
         switch( col ) {
             case 2:
-                u.Mechwarrior = value.toString();
+                u.setMechwarrior(value.toString());
                 break;
             case 3:
                 u.Group = value.toString();
                 break;
             case 6:
-                u.Gunnery = Integer.parseInt(value.toString());
+                u.setGunnery(Integer.parseInt(value.toString()));
                 break;
             case 7:
-                u.Piloting = Integer.parseInt(value.toString());
+                u.setPiloting(Integer.parseInt(value.toString()));
                 break;
             case 8:
                 u.MiscMod = Float.parseFloat(value.toString());

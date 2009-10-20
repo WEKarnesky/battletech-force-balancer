@@ -41,6 +41,7 @@ public class XMLWriter {
     private String Scenario = "";
     private Force leftForce;
     private Force rightForce;
+    private Scenario scenario;
 
     public XMLWriter() {
         
@@ -56,6 +57,27 @@ public class XMLWriter {
         this.Scenario = "";
         leftForce = left;
         rightForce = right;
+    }
+
+    public XMLWriter( Scenario scenario ) {
+        this.scenario = scenario;
+    }
+
+    public void WriteScenario( Scenario scenario, String filename ) throws IOException {
+        BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
+
+        // beginning of an XML file:
+        FR.write( "<?xml version=\"1.0\" encoding =\"UTF-8\"?>" );
+        FR.newLine();
+
+        scenario.SerializeXML(FR);
+
+        FR.newLine();
+        FR.close();
+    }
+
+    public void WriteScenario( String filename ) throws IOException {
+        WriteScenario( this.scenario, filename );
     }
 
     public void WriteXML( String filename ) throws IOException {

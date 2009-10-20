@@ -95,7 +95,7 @@ public class PrintDeclaration implements Printable {
                         shift = 30;
                     }
                     Graphic.drawString(unit.TypeModel, currentX+shift, currentY);
-                    Graphic.drawString((unit.Group + " (" + unit.Mechwarrior + ")").replace("()", ""), currentX+shift, currentY+10);
+                    Graphic.drawString((unit.Group + " (" + unit.getMechwarrior() + ")").replace("()", ""), currentX+shift, currentY+10);
                     Graphic.drawRect(currentX, currentY-12, 175, 30);
                     Graphic.setFont(CommonTools.BoldFont);
                     Graphic.drawString(Types[k], currentX+125, currentY+3);
