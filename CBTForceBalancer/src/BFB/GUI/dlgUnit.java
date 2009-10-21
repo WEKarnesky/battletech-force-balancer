@@ -27,20 +27,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import BFB.Common.CommonTools;
-import BFB.*;
+import Force.*;
+import Print.BFBPrinter;
+import Print.PagePrinter;
+import Print.PrintMech;
+import filehandlers.Media;
+import filehandlers.MechWriter;
+import filehandlers.TXTWriter;
+import battleforce.BattleForceStats;
+import components.ifMechLoadout;
+
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.SpinnerNumberModel;
-import ssw.battleforce.BattleForceStats;
-import ssw.components.ifLoadout;
-import ssw.filehandlers.Media;
-import ssw.filehandlers.TXTWriter;
-import ssw.filehandlers.XMLWriter;
-import ssw.print.Printer;
 
 public class dlgUnit extends javax.swing.JDialog {
     private Force force;
@@ -86,7 +88,7 @@ public class dlgUnit extends javax.swing.JDialog {
                 String curConfig = unit.m.GetLoadout().GetName();
                 int BV = unit.m.GetCurrentBV();
                 for (int i=0; i < unit.m.GetLoadouts().size(); i++) {
-                    ifLoadout config = (ifLoadout) unit.m.GetLoadouts().get(i);
+                    ifMechLoadout config = (ifMechLoadout) unit.m.GetLoadouts().get(i);
                     unit.m.SetCurLoadout(config.GetName());
                     cmbConfiguration.addItem(config.GetName() + " (" + unit.m.GetCurrentBV() + ")");
                 }
@@ -1139,7 +1141,7 @@ public class dlgUnit extends javax.swing.JDialog {
             unit.m.SetSSWImage(imageFile.getCanonicalPath());
             setImage();
 
-            XMLWriter writer = new XMLWriter();
+            MechWriter writer = new MechWriter();
             writer.setMech(unit.m);
             writer.WriteXML(unit.Filename);
         } catch (IOException ex) {
@@ -1167,8 +1169,10 @@ public class dlgUnit extends javax.swing.JDialog {
 }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        Printer printer = new Printer();
-        printer.AddMech(unit.m,unit.getMechwarrior(), unit.getGunnery(), unit.getPiloting());
+        PagePrinter printer = new PagePrinter();
+        unit.LoadMech();
+        PrintMech pm = new PrintMech(unit.m, unit.getMechwarrior(), unit.getGunnery(), unit.getPiloting());
+        printer.Append( BFBPrinter.Letter.toPage(), pm);
         printer.Print();
 }//GEN-LAST:event_btnPrintActionPerformed
 
@@ -1209,7 +1213,7 @@ public class dlgUnit extends javax.swing.JDialog {
                 lstPersonnel.setModel(warriors.getModel());
                 Parent.Prefs.put("LastPSNFile", pFile.getCanonicalPath());
             } catch ( IOException ex ) {
-                CommonTools.Messager("Could not load file\n" + ex.getMessage());
+                Media.Messager("Could not load file\n" + ex.getMessage());
             }
         }
     }//GEN-LAST:event_btnLoadFileActionPerformed

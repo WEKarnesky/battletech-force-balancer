@@ -28,14 +28,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
+import IO.RUSReader;
+import Force.*;
+import list.*;
+import filehandlers.Media;
+
 import BFB.Common.Constants;
-import BFB.FSL;
-import BFB.Force;
-import BFB.IO.FileSelector;
-import BFB.IO.RUSReader;
 import BFB.IO.TXTWriter;
-import BFB.RUS;
-import BFB.Unit;
 import java.awt.Cursor;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
@@ -49,10 +48,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.TableRowSorter;
-import ssw.filehandlers.ListFilter;
-import ssw.filehandlers.MechList;
-import ssw.filehandlers.MechListData;
-import ssw.filehandlers.Media;
 
 public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     private frmBase parent;
@@ -60,7 +55,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                      filtered,
                      chosen = new MechList();
     private String MechListPath = "",
-                    BaseRUSPath = "./random/tables/",
+                    BaseRUSPath = "./Data/Tables/",
                     RUSDirectory = "",
                     RUSPath = BaseRUSPath;
     private Force force;
@@ -1235,8 +1230,8 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void btnOpenDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDirActionPerformed
         setMechListPath(parent.Prefs.get("ListPath", ""));
-        FileSelector selector = new FileSelector();
-        setMechListPath(selector.GetDirectorySelection(MechListPath));
+        Media media = new Media();
+        setMechListPath(media.GetDirectorySelection(this, MechListPath));
         
         this.setVisible(true);
         parent.Prefs.put("ListPath", MechListPath);
@@ -1380,15 +1375,15 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void btnTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTextActionPerformed
         TXTWriter out = new TXTWriter();
-        FileSelector fs = new FileSelector();
+        Media media = new Media();
         String dir = "";
-        dir = fs.GetDirectorySelection(parent.Prefs.get("ListDirectory", ""));
+        dir = media.GetDirectorySelection(this, parent.Prefs.get("ListDirectory", ""));
         if ( dir.isEmpty() ) { return; }
 
         parent.Prefs.put("ListDirectory", dir);
         try {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            out.WriteList(dir + File.separator + "MechListing.txt",getList());
+            out.WriteList(dir + File.separator + "MechListing.txt", getList());
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             javax.swing.JOptionPane.showMessageDialog(this, "Mech List output to " + dir);
         } catch (IOException ex) {

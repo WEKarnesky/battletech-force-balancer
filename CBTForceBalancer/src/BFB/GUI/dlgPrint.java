@@ -11,22 +11,19 @@
 
 package BFB.GUI;
 
-import BFB.Common.Constants;
-import BFB.Force;
-import BFB.IO.PagePrinter;
-import BFB.IO.PrintDeclaration;
-import BFB.IO.PrintSheet;
-import BFB.IO.Printer;
+import Print.*;
+import Force.*;
+import common.*;
+import battleforce.BattleForce;
+
 import BFB.Preview.dlgPreview;
-import BFB.Unit;
 import java.awt.Cursor;
 import java.util.Vector;
 import java.util.prefs.Preferences;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.DefaultComboBoxModel;
-import ssw.battleforce.BattleForce;
-import ssw.print.*;
+
 
 public class dlgPrint extends javax.swing.JDialog {
     private PrintService[] service = PrintServiceLookup.lookupPrintServices(null, null);
@@ -66,8 +63,6 @@ public class dlgPrint extends javax.swing.JDialog {
         }
 
         Verify();
-
-        //Media.Messager( runtime.maxMemory() / 1024 + " available");
     }
 
     private void Verify() {
@@ -121,15 +116,15 @@ public class dlgPrint extends javax.swing.JDialog {
         printer.selectService(cmbPrinters.getSelectedItem().toString());
 
         if ( chkPrintForce.isSelected() ) {
-            PrintSheet sheet = new PrintSheet();
+            ForceList sheet = new ForceList();
             sheet.AddForces(new Force[]{parent.topForce, parent.bottomForce});
-            printer.Append( Printer.Letter.toPage(), sheet );
+            printer.Append( BFBPrinter.Letter.toPage(), sheet );
         }
 
         if ( chkPrintFireChits.isSelected() ) {
             PrintDeclaration fire = new PrintDeclaration();
             fire.AddForces(new Force[]{parent.topForce, parent.bottomForce});
-            printer.Append( Printer.Letter.toPage(), fire );
+            printer.Append( BFBPrinter.Letter.toPage(), fire );
         }
 
         if ( chkPrintBattleforce.isSelected() ) {
@@ -139,22 +134,22 @@ public class dlgPrint extends javax.swing.JDialog {
                 forces.addAll(parent.bottomForce.toBattleForceByGroup());
 
                 for ( BattleForce f : forces ) {
-                    PrintBattleforce bf = new PrintBattleforce(f);
+                    Battleforce bf = new Battleforce(f);
                     bf.setPrintLogo(chkLogo.isSelected());
                     bf.setPrintMechs(chkImage.isSelected());
-                    printer.Append( Printer.Letter.toPage(), bf);
+                    printer.Append( BFBPrinter.Letter.toPage(), bf);
                 }
             } else {
-                PrintBattleforce topBF = new PrintBattleforce(parent.topForce.toBattleForce());
+                Battleforce topBF = new Battleforce(parent.topForce.toBattleForce());
                 topBF.setPrintLogo(chkLogo.isSelected());
                 topBF.setPrintMechs(chkImage.isSelected());
 
-                PrintBattleforce bottomBF = new PrintBattleforce(parent.bottomForce.toBattleForce());
+                Battleforce bottomBF = new Battleforce(parent.bottomForce.toBattleForce());
                 bottomBF.setPrintLogo(chkLogo.isSelected());
                 bottomBF.setPrintMechs(chkImage.isSelected());
 
-                printer.Append( Printer.Letter.toPage(), topBF );
-                printer.Append( Printer.Letter.toPage(), bottomBF );
+                printer.Append( BFBPrinter.Letter.toPage(), topBF );
+                printer.Append( BFBPrinter.Letter.toPage(), bottomBF );
             }
         }
 
@@ -179,7 +174,7 @@ public class dlgPrint extends javax.swing.JDialog {
                     if ( chkLogo.isSelected() ) {
                         pm.setLogoImage(force.getLogo());
                     }
-                    printer.Append( Printer.Letter.toPage(), pm);
+                    printer.Append( BFBPrinter.Letter.toPage(), pm);
                 }
             }
         }

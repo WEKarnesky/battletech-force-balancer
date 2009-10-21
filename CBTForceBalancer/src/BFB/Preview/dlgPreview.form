@@ -34,7 +34,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="spnPreview" pref="680" max="32767" attributes="0"/>
+              <Component id="spnPreview" pref="660" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -67,7 +67,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="101" max="32767" attributes="0"/>
+                  <EmptySpace pref="121" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -107,7 +107,7 @@
                       <Component id="chkPrintBattleforce" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="chkPrintRecordsheets" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="33" max="32767" attributes="0"/>
+                      <EmptySpace pref="53" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -159,7 +159,7 @@
             <Component class="javax.swing.JButton" name="btnBack">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/arrow-180.png"/>
+                  <Image iconType="3" name="/BFB/Images/arrow-180.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Prev"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -170,7 +170,7 @@
             <Component class="javax.swing.JButton" name="btnForward">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/arrow.png"/>
+                  <Image iconType="3" name="/BFB/Images/arrow.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Next"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -183,7 +183,7 @@
             <Component class="javax.swing.JButton" name="btnPageWidth">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/document-resize.png"/>
+                  <Image iconType="3" name="/BFB/Images/document-resize.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Width"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -194,7 +194,7 @@
             <Component class="javax.swing.JButton" name="btnPageHeight">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/document-resize-actual.png"/>
+                  <Image iconType="3" name="/BFB/Images/document-resize-actual.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Page"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -207,7 +207,7 @@
             <Component class="javax.swing.JButton" name="btnZoomIn">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/magnifier-zoom.png"/>
+                  <Image iconType="3" name="/BFB/Images/magnifier-zoom.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Zoom In"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -218,7 +218,7 @@
             <Component class="javax.swing.JButton" name="btnZoomOut">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/magnifier-zoom-out.png"/>
+                  <Image iconType="3" name="/BFB/Images/magnifier-zoom-out.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Zoom Out"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -231,7 +231,7 @@
             <Component class="javax.swing.JButton" name="btnPrint">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/printer.png"/>
+                  <Image iconType="3" name="/BFB/Images/printer.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Print"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -245,7 +245,7 @@
             <Component class="javax.swing.JButton" name="btnCloseDialog">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/ssw/Images/home.png"/>
+                  <Image iconType="3" name="/BFB/Images/home.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Close"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -331,7 +331,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="31" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

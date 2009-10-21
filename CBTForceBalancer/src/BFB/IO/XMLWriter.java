@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.IO;
 
-import BFB.*;
+import Force.*;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;

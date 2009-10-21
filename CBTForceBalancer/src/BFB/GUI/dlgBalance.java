@@ -27,10 +27,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import BFB.Force;
-import BFB.Skills;
-import BFB.Skills.Skill;
-import BFB.Unit;
+import Force.*;
+
+import Force.Skills;
+import Force.Skills.Skill;
 
 public class dlgBalance extends javax.swing.JDialog {
     public boolean Result = false;
@@ -64,11 +64,16 @@ public class dlgBalance extends javax.swing.JDialog {
         rdoGunnery = new javax.swing.JRadioButton();
         rdoPiloting = new javax.swing.JRadioButton();
         rdoNeither = new javax.swing.JRadioButton();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        cmbSkillLevel = new javax.swing.JComboBox();
+        btnRandomGen = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Auto Balance Skills");
+        setResizable(false);
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Limiters"));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Maximize Skills By BV Limit"));
 
         jLabel2.setText("Max BV:");
 
@@ -100,7 +105,7 @@ public class dlgBalance extends javax.swing.JDialog {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -120,13 +125,12 @@ public class dlgBalance extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(spnSkillSeperationLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFilter)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(btnFilter))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBVLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -143,34 +147,79 @@ public class dlgBalance extends javax.swing.JDialog {
                 .addComponent(rdoGunnery)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rdoPiloting)
-                .addGap(41, 41, 41))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Random Generate Skills"));
+
+        jLabel12.setText("Skill Level:");
+
+        cmbSkillLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Random", "Green", "Regular", "Veteran", "Elite" }));
+
+        btnRandomGen.setText("Generate");
+        btnRandomGen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRandomGenActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12)
+                .addContainerGap(63, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(btnRandomGen)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(cmbSkillLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbSkillLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRandomGen)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        for ( int i=0; i<force.Units.size(); i++ ) {
-            Unit u = (Unit) force.Units.get(i);
+        for ( Unit u : force.Units ) {
             Skills skills = new Skills(u.BaseBV);
             skills.setMaxBV(Float.parseFloat(txtBVLimit.getText()));
             skills.setMaxSeperation(Integer.parseInt(spnSkillSeperationLimit.getValue().toString()));
             if ( rdoGunnery.isSelected() ) { skills.setMaxSkill(Skills.Gunnery); }
             if ( rdoPiloting.isSelected() ) { skills.setMaxSkill(Skills.Piloting); }
             Skill skill = skills.getBestSkills();
-            u.Gunnery = skill.getGunnery();
-            u.Piloting = skill.getPiloting();
+            u.setGunnery(skill.getGunnery());
+            u.setPiloting(skill.getPiloting());
             u.Refresh();
         }
         force.isDirty = true;
@@ -179,13 +228,31 @@ public class dlgBalance extends javax.swing.JDialog {
         force.RefreshBV();
 }//GEN-LAST:event_btnFilterActionPerformed
 
+    private void btnRandomGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandomGenActionPerformed
+        Skills skills = new Skills();
+        for ( Unit u : force.Units ) {
+            Skill skill = skills.generateRandomSkills(cmbSkillLevel.getSelectedItem().toString());
+            u.setGunnery(skill.getGunnery());
+            u.setPiloting(skill.getPiloting());
+            u.Refresh();
+        }
+        force.isDirty = true;
+        Result = true;
+        this.setVisible(false);
+        force.RefreshBV();
+}//GEN-LAST:event_btnRandomGenActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFilter;
     private javax.swing.ButtonGroup btnGrpMinimize;
+    private javax.swing.JButton btnRandomGen;
+    private javax.swing.JComboBox cmbSkillLevel;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JRadioButton rdoGunnery;
     private javax.swing.JRadioButton rdoNeither;
     private javax.swing.JRadioButton rdoPiloting;

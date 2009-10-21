@@ -5,17 +5,17 @@
 
 package BFB.IO;
 
-import BFB.Common.CommonTools;
-import BFB.Force;
+import filehandlers.Media;
+import Force.Force;
+import Force.Unit;
+import list.*;
+import components.Mech;
+import utilities.CostBVBreakdown;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import ssw.battleforce.BattleForceStats;
-import ssw.components.Mech;
-import ssw.filehandlers.MechList;
-import ssw.filehandlers.MechListData;
-import ssw.utilities.CostBVBreakdown;
 
 public class TXTWriter {
     Force[] forces;
@@ -79,7 +79,7 @@ public class TXTWriter {
 
         String message = "";
         for ( int i=0; i < list.Size(); i++ ) {
-            ssw.Force.Unit u = ((MechListData) list.Get(i)).getUnit();
+            Unit u = ((MechListData) list.Get(i)).getUnit();
             u.LoadMech();
             if ( u.m != null ) {
                 WriteCost( u.m, filename.replace("MechListing.txt", "") );
@@ -89,7 +89,7 @@ public class TXTWriter {
         }
 
         if ( !message.isEmpty() ) {
-            CommonTools.Messager("Could not write out the following:\n" + message);
+            Media.Messager("Could not write out the following:\n" + message);
         }
     }
 
@@ -118,7 +118,7 @@ public class TXTWriter {
         FR.close();
 
         if ( !message.isEmpty() ) {
-            CommonTools.Messager("Could not write out the following:\n" + message);
+            Media.Messager("Could not write out the following:\n" + message);
         }
     }
 

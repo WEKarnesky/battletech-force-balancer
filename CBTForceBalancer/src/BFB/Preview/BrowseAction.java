@@ -34,7 +34,7 @@ class BrowseAction extends AbstractAction {
 
         if ( !iconName.isEmpty() ) {
             ImageIcon icon = null;
-            icon = new ImageIcon(getClass().getResource("/ssw/Images/" + iconName));
+            icon = new ImageIcon(getClass().getResource("/BFB/Images/" + iconName));
             this.putValue(Action.SMALL_ICON, icon);
         }
 

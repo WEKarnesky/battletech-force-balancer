@@ -27,9 +27,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import BFB.*;
-import BFB.Common.*;
-import BFB.GUI.abTable;
+import Force.*;
+import common.*;
+import Force.View.abTable;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
@@ -138,7 +139,7 @@ public class tbTWTable extends abTable {
             case 0:
                 return u.TypeModel;
             case 1:
-                return Constants.UnitTypes[u.UnitType];
+                return CommonTools.UnitTypes[u.UnitType];
             case 2:
                 return u.getMechwarrior();
             case 3:

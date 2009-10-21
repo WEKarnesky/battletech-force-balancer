@@ -27,8 +27,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.IO;
 
-import BFB.*;
-import BFB.Common.CommonTools;
+import common.CommonTools;
+import Force.*;
+
 import BFB.GUI.frmBase;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,6 +43,7 @@ public class XMLReader {
     DocumentBuilder db;
 
     public Force[] ReadFile( frmBase parent, String filename ) throws Exception {
+        System.out.println("Loading Forces from " + filename);
         Parent = parent;
         Force[] forces = new Force[2];
         filename = CommonTools.SafeFileName( filename );
@@ -60,6 +62,7 @@ public class XMLReader {
     }
 
     public Scenario ReadScenario( String filename ) throws Exception {
+        System.out.println("Loading Scenario from " + filename);
         Scenario scenario = new Scenario();
         filename = CommonTools.SafeFileName( filename );
         db = dbf.newDocumentBuilder();
@@ -79,15 +82,21 @@ public class XMLReader {
     }
 
     public void ReadUnit( Force force, String filename ) throws Exception {
+        System.out.println("Loading Force from " + filename);
         filename = CommonTools.SafeFileName( filename );
 
-        db = dbf.newDocumentBuilder();
-        load = db.parse( filename );
-        NodeList n = load.getElementsByTagName("force");
-        if ( n.getLength() > 0 ) { force.Load(n.item(0)); }
+        try {
+            db = dbf.newDocumentBuilder();
+            load = db.parse( filename );
+            NodeList n = load.getElementsByTagName("force");
+            if ( n.getLength() > 0 ) { force.Load(n.item(0)); }
+        } catch ( Exception e ) {
+            throw e;
+        }
     }
 
     public void ReadMUL( Force force, String filename ) throws Exception {
+        System.out.println("Loading MUL from " + filename);
         filename = CommonTools.SafeFileName( filename );
 
         db = dbf.newDocumentBuilder();
@@ -96,6 +105,7 @@ public class XMLReader {
     }
 
     public Node ReadWarriors( String filename ) throws Exception {
+        System.out.println("Loading Warriors from " + filename);
         filename = CommonTools.SafeFileName( filename );
 
         db = dbf.newDocumentBuilder();
