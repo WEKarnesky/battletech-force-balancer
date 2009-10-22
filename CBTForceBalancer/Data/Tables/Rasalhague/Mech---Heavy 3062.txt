@@ -1,0 +1,35 @@
+ARC-2R Archer,8
+ARC-4M Archer,40
+BL-6-KNT Black Knight,20
+BMB-12D Bombardier,40
+CHP-1N Champion,40
+CPLT-K2 Catapult,10
+CRD-3R Crusader,1
+CRD-4K Crusader,2
+CRD-5M Crusader,10
+DAI-01 Daikyu,10
+DRG-1N Dragon,2
+DRG-5K Grand Dragon,110
+DRG-5N Dragon,90
+EXT-4D Exterminator,10
+FLS-8K Flashman,30
+GAL-1GLS Gallowglas,40
+GHR-5H Grasshopper,1
+GHR-5J Grasshopper,3
+GLT-3N Guillotine,40
+JM6-S JagerMech,4
+LNC25-01 Lancelot,20
+MAD-3R Marauder,2
+MAD-5S Marauder,10
+ON1-K Orion,5
+OSR-2C Ostroc,2
+QKD-4G Quickdraw,10
+QKD-5K Quickdraw,4
+QKD-5M Quickdraw,10
+RFL-3N Rifleman,4
+RFL-5M Rifleman,10
+TDR-5S Thunderbolt,2
+TDR-9S Thunderbolt,40
+WHM-6K Warhammer,3
+WHM-7S Warhammer,40
+WR-DG-02FC War Dog,40

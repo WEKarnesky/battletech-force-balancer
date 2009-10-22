@@ -1,0 +1,10 @@
+LCT-1V Locust (BattleMech) 
+MLN-1B Merlin (BattleMech) 
+STG-3R Stinger (BattleMech) 
+WSP-1A Wasp (BattleMech) 
+
+LTN-G15 Lightning (Aerospace Fighter) 
+SYD-21 Seydlitz (Aerospace Fighter) 
+
+Hunter (Tracked Vehicle) 
+Vedette (Tracked Vehicle) 

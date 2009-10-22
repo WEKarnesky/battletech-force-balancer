@@ -1,0 +1,21 @@
+ALB-3U Albatross,20
+AS7-D Atlas,5
+AS7-K Atlas,10
+AWS-8Q Awesome,3
+AWS-9M Awesome,10
+CP-11-A Cyclops,5
+CRK-5003-1 Crockett,60
+GRN-D-01 Grand Crusader,80
+HGN-732 Highlander,160
+KGC-000 King Crab,40
+KGC-001 King Crab,40
+LGB-7Q Longbow,8
+LGB-7V Longbow,20
+MR-5M Cerberus,40
+MR-V2 Cerberus,40
+SPT-N2 Spartan,10
+STK-5M Stalker,40
+THG-11E Thug,30
+T-IT-N10M Grand Titan,30
+VQR-2A Vanquisher,50
+VTR-9K Victor,10

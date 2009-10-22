@@ -1,0 +1,16 @@
+Heavy Vehicle Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+Zhukov(75), 1
+Po(60), 2
+LRM Carrier(60), 3
+Burke(75), 4
+Magi(70), 5
+Demon(60), 6
+Brutus(75), 5
+SRM Carrier(60), 4
+Pike(60), 3
+Thumper(60), 2
+Padilla(75), 1
+

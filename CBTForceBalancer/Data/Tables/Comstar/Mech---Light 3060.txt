@@ -1,0 +1,18 @@
+C-SK1 Cossack,40
+FS9-S Firestarter,3
+HER-1S Hermes,55
+HSR-200-D Hussar,45
+HSR-400-D Hussar,40
+LCT-1E Locust,5
+MCY-99 Mercury,110
+MON-66 Mongoose,60
+NTK-2Q Night Hawk,40
+NXS1-A Nexus,80
+OW-1 Owens,35
+SDR-9K Venom,40
+RTX1-O Raptor,10
+STH-1D Stealth,20
+THE-N Thorn,80
+TLN-5W Talon,20
+UM-R63 UrbanMech,20
+ZPH-1A Tarantula,40

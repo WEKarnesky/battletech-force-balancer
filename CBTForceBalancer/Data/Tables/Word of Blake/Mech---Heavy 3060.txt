@@ -1,0 +1,21 @@
+ANV-3M Anvil,20
+BL-6-KNT Black Knight,65
+BL-9-KNT Black Knight,10
+BMB-12D Bombardier,40
+CRD-5M Crusader,30
+CHP-1N Champion,25
+CHP-3N Champion,40
+EXC-B2 Excalibur,30
+EXT-4D Exterminator,40
+FLS-8K Flashman,55
+GLT-3N Guillotine,50
+LNC25-01 Lancelot,80
+ON1-M Orion,20
+P1 Perseus,40
+ST-8A Shootist,45
+TMP-3M Tempest,40
+TYM-1A Toyama,40
+WHM-6R Warhammer,5
+WHM-7M Warhammer,20
+WR-DG-02-FC War Dog,15
+YMN-6Y Yeoman,5

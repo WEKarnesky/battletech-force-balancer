@@ -1,0 +1,16 @@
+Light Vehicles Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+Hawk Moth(25), 1
+Chevalier(35), 2
+Beagle(15), 3
+Sprint(10), 4
+Lightning(35), 5
+Blizzard(25), 6
+Galleon(30), 5
+Pinto(30), 4
+Main Gauche(30), 3
+Nightshade(25), 2
+Gabriel(5), 1
+

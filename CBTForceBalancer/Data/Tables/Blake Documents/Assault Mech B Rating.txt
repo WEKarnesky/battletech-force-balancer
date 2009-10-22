@@ -1,0 +1,16 @@
+Assault Mech B Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+SPT-N3 Spartan(80), 1
+ZEU-10WB Zeus(80), 2
+EMP-6M Emperor(90), 3
+TIT-N10M Grand Titan(100), 4
+KGC-001 King Crab(100), 5
+THG-12E Thug(80), 6
+MR-5M Cerberus(95), 5
+BNC-8S Banshee(95), 4
+VKG-3W Viking(85), 3
+MAD-5W Marauder II(100), 2
+HGN-736 Highlander(90), 1
+

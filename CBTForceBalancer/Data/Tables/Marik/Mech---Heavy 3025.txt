@@ -1,0 +1,12 @@
+ARC-2R Archer,80
+CPLT-C1 Catapult,10
+CRD-3R Crusader,80
+GHR-5H Grasshopper,50
+MAD-3M Marauder,30
+ON-1K Orion,60
+OTL-4D Ostsol,10
+RFL-3N Rifleman,50
+QKD-4G Quickdraw,40
+TDR-5S Thunderbolt,40
+WHM-6L Warhammer,40
+WHM-6R Warhammer,60

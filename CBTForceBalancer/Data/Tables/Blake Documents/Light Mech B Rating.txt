@@ -1,0 +1,16 @@
+Light Mech B Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+OTT-9CS Ostscout(35), 1
+COM-2B Commando(25), 2
+GUR-2G Gurkha(35), 3
+LCT-5M Locust(20), 4
+NXS1-A Nexus(25), 5
+MCY-102 Mercury(20), 6
+HSR-500-D Hussar(30), 5
+NXS1-B Nexus(25), 4
+FNHK-9K1B Falcon hawk(25), 3
+FS9-B Firestarter(35), 2
+PNT-14S Panther(35), 1
+

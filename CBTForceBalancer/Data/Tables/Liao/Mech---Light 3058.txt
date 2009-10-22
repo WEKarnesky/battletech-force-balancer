@@ -1,0 +1,26 @@
+D9-G9 Duan Gung,10
+FS9-H Firestarter,30
+FS9-S Firestarter,50
+HSR-300-D Hussar,3
+JA-KL-1532 Jackel,120
+JR7-D Jenner,30
+JR7-F Jenner,20
+JR7-K Jenner,40
+JVN-10N Javelin,20
+JVN-10P Javelin,5
+LCT-1L Locust,30
+LCT-1V Locust,45
+LCT-3M Locust,80
+RVN-1X Raven,8
+RVN-3L Raven,90
+SDR-5V Spider,50
+SDR-7M Spider,50
+STG-3R Stinger,68
+STG-5M Stinger,100
+UM-R60 UrbanMech,20
+UM-R60L UrbanMech,10
+UM-R63 UrbanMech,100
+WSP-1A Wasp,30
+WSP-1L Wasp,23
+WSP-3M Wasp,80
+ZPH-1A Tarantula,40

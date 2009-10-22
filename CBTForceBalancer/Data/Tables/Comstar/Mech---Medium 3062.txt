@@ -1,0 +1,20 @@
+ASN-21 Assassin,2
+ASN-23 Assassin,15
+BEO-12 Beowulf,50
+BJ2-O Blackjack,80
+CLT-2-3U Clint,20
+CRB-27 Crab,50
+END-6Q Enfield,10
+FS9-O Firestarter,40
+GRM-R-PR29 Grim Reaper,50
+HBK-4G Hunchback,5
+HBK-5N Hunchback,20
+KTO-19 Kintaro,10
+KTO-21 Kintaro,30
+PXH-1 Pheonix Hawk,3
+RJN101-A Raijin,20
+SR1-O Strider,10
+STN-3L Sentinel,15
+TSN-1C Tessen,60
+WVE-5N Wyvern,25
+WVE-9N Wyvern,30

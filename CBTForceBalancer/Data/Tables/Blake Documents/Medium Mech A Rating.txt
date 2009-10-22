@@ -1,0 +1,16 @@
+Medium Mech A Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+LGH-6W Lightray(55), 1
+RJN-200-B Raijin II(50), 2
+CRB-4S Crab(50), 3
+BLF-21 Blue Flame(45), 4
+SCP-12C Scorpion(55), 5
+BNC-5W Bucaneer(55), 6
+RJN-200-A Raijin II(50), 5
+LGH-4W Lightray(55), 4
+KTO-21 Kintaro(55), 3
+GRMR-PR31 Grim Reaper(55), 2
+C-PRT-O Preta(45), 1
+

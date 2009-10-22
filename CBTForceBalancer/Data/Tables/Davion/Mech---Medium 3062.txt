@@ -1,0 +1,43 @@
+ASN-21 Assassin,5
+ASN-23 Assassin,15
+BJ-2 Blackjack,30
+BJ-3 Blackjack,5
+BJ2-O Blackjack,130
+BSW-X1 Bushwacker,20
+BSW-S2 Bushwacker,20
+CN9-A Centurion,3
+CN9-D Centurion,30
+CN9-D3 Centurion,5
+CN10-B Centurion,40
+DV-6M Dervish,20
+DV-7D Dervish,38
+ENF-4R Enforcer,12
+ENF-5D Enforcer,60
+ENF-6M Enforcer III,80
+ENF-6T Enforcer III,20
+FS9-O Firestarter,90
+GRF-1N Griffin,2
+HBK-4G Hunchback,4
+HCT-3F Hatchetman,2
+HCT-5S Hatchetman,38
+LNX-9Q Lynx,40
+NGS-4S Nightsky,20
+NGS-5T Nightsky,10
+PXH-1 Phoenix Hawk,17
+PXH-1D Phoenix Hawk,34
+PXH-3M Phoenix Hawk,40
+PXH-3S Phoenix Hawk,40
+SHD-2D2 Shadow Hawk,17
+SNT-O4 Sentry,50
+SR1-O Strider,40
+STH-1D Stealth,40
+STY-3C Starslayer,5
+TBT-5N Trebuchet,4
+TBT-7M Trebuchet,13
+VT-2T Vulcan,7
+VT-5M Vulcan,2
+VT-5T Vulcan,3
+WTC-4M Watchman,40
+WTH-2 Whitworth,25
+WVR-6R Wolverine,1
+WVR-7D Wolverine,17

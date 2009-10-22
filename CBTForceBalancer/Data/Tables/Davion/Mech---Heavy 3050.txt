@@ -1,0 +1,27 @@
+ARC-2R Archer,40
+AXM-1N Axman,20
+AXM-2N Axman,10
+CES-3R Caesar,40
+CPLT-C1 Catapult,20
+CPLT-C4 Catapult,30
+CRD-3D Crusader,40
+CRD-4D Crusader,40
+CTF-1X Cataphract,30
+CTF-3D Cataphract,50
+FLC-8R Falconer,10
+GHR-5H Grasshopper,40
+JM6-A JagerMech,50
+JM6-DD JagerMech,60
+JM6-S JagerMech,50
+ON1-K Orion,20
+Ostol,20
+Ostroc,20
+MAD-3D Marauder,80
+MAD-3R Marauder,40
+MAD-5D Marauder,40
+MAD-5S Marauder,40
+QKD-5K Quickdraw,50
+RFL-3N Rifleman,60
+TDR-5S Thunderbolt,40
+WHM-6D Warhammer,40
+WHM-7S Warhammer,40

@@ -1,0 +1,11 @@
+AS7-D Atlas,50
+AWS-8Q Awesome,40
+BNC-3E Banshee,50
+BLR-1G BattleMaster,80
+CGR-1A1 Charger,150
+CGR-1A9 Charger,45
+CGR-SB Charger,45
+GOL-1H Goliath,20
+LGB-OW Longbow,10
+STK-3F Stalker,50
+VTR-9B Victor,60

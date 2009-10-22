@@ -1,0 +1,10 @@
+AWS-8Q Awesome,80
+AWS-8T Awesome,40
+BLR-1G BattleMaster,110
+BNC-3E Banshee,10
+CGR-1A1 Charger,20
+CP-10Z Cyclops,70
+GOL-1H Goliath,40
+LGB-7Q Longbow,40
+STK-3F Stalker,120
+VTR-9B Victor,20

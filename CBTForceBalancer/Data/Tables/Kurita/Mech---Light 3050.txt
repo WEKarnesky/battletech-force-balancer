@@ -1,0 +1,21 @@
+FS9-H Firestarter,20
+JR7-C Jenner (C3),40
+JR7-D Jenner,60
+JR7-F Jenner,50
+JR7-K Jenner,80
+JVN-10N Javelin,60
+JVN-10P Javelin,40
+LCT-1V Locust,50
+OTT-7J Ostscout,20
+PNT-9R Panther,90
+PNT-10K Panther,10
+PNT-C Panther (C3),80
+SDR-5D Spider,10
+SDR-5K Spider,5
+SDR-5V Spider,30
+SDR-7M Spider,40
+SDR-C Spider (C3),40
+STG-3R Stinger,50
+UM-R60 UrbanMech,10
+WSP-1A Wasp,40
+WSP-1K Wasp,50

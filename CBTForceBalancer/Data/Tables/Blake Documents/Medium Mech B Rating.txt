@@ -1,0 +1,16 @@
+Medium Mech B Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+GRMR-PR30 Grim Reaper(55), 1
+STN-5WB Sentinel(45), 2
+TBT-8B Trebuchet(50), 3
+BNC-3R Bucaneer(55), 4
+CDA-3M Cicada(40), 5
+INI-02 Initiate(40), 6
+CRB-30 Crab(50), 5
+HER-5C Hermes II(40), 4
+KW2-LHW Linehlder(55), 3
+WFT-B Wolf Trap(45), 2
+SHD-11CS Shadow Hawk(55), 1
+

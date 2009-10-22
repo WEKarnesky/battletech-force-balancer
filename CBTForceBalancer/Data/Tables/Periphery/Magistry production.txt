@@ -1,0 +1,13 @@
+LCT-1V Locust (BattleMech) 
+SHD-2H Shadow Hawk (BattleMech) 
+STG-3R Stinger (BattleMech) 
+WSP-1A Wasp (BattleMech) 
+
+Leopard (Dropship) 
+
+SB-27 Sabre (Aerospace Fighter) 
+
+Heavy LRM Carrier (Tracked Vehicle) 
+Heavy LRM Carrier (Tracked Vehicle) 
+Manticore (Tracked Vehicle) 
+Pike (Tracked Vehicle) 

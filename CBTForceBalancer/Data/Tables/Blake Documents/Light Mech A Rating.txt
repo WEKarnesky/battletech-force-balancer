@@ -1,0 +1,16 @@
+Light A Rating Mech Random Assignment Tables.txt
+per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+HSR-950-D Hussar(30), 1
+NXS2-B Nexus II(25), 2
+OTT-9CS Ostscout(35), 3
+GUR-2G Gurkha(35), 4
+RDS-2A Red Shift(20), 5
+FNHK-9K1B Falcon Hawk(25), 6
+NXS2-A Nexus II(25), 5
+GUR-4G Gurkha(35), 4
+RDS-2B Red Shift(20), 3
+MCY-104 Mercury(20), 2
+C-MK-O Malak(30), 1
+

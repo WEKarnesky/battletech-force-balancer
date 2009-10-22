@@ -1,0 +1,31 @@
+AS7-D Atlas,2
+AS7-K Atlas,40
+AWS-8Q Awesome,10
+AWS-9M Awesome,40
+BLR-1S BattleMaster,3
+BLR-3M BattleMaster,40
+BLR-3S BattleMaster,3
+BNC-3M Banshee,1
+BNC-3S Banshee,2
+BNC-5S Banshee,30
+CGR-SB Charger,2
+CGR-1A9 Charger,4
+CGR-3K Charger,50
+CP-10-Z Cyclops,2
+CRK-5003-2 Crockett,20
+GUN-1ERD Gunslinger,20
+HGN-732 Highlander,40
+HTM-27T Hatamoto-Chi,40
+KGC-000 King Crab,5
+LGB-7Q Longbow,10
+LGB-7V Longbow,40
+MAL-1R Mauler,10
+STK-3F Stalker,4
+THG-11E Thug,40
+T-IT-N10M Grand Titan,40
+VKG-2F Viking,40
+VKG-2G Viking,10
+VTR-9B Victor,2
+VTR-9K Victor,10
+ZEU-6S Zeus,3
+ZEU-9S Zeus,110

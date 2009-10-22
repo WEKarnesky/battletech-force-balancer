@@ -1,0 +1,35 @@
+ANV-3M Anvil,40
+ARC-2R Archer,5
+CPLT-A1 Catapult,20
+CPLT-C1 Catapult,20
+CPLT-C3 Catapult,45
+CPLT-C4 Catapult,25
+CPLT-C5 Catapult,90
+CPLT-K2 Catapult,20
+CRD-3R Crusader,15
+CRD-5M Crusader,30
+CTF-1X Cataphract,7
+CTF-2X Cataphract,3
+CTF-3L Cataphract,100
+GHR-5H Grasshopper,20
+GHR-5J Grasshopper,38
+GLT-5M Guillotine,15
+HEL-3D Helios,10
+HRC-LS-9000 Hercules,40
+JM6-S JagerMech,13
+JN-G8A Jinggau,70
+LHU-2B Lao Hu,10
+MAD-3R Marauder,17
+ON1-K Orion,30
+ON1-VA Orion,3
+Ostol,2
+QKD-4H Quickdraw,3
+QKD-5M Quickdraw,10
+RFL-3N Rifleman,8
+THR-1L Thunder,120
+TSG-9H Ti Ts'ang,40
+TSG-9J Ti Ts'ang,20
+WHM-6L Warhammer,17
+WHM-6R Warhammer,17
+WHM-7M Warhammer,60
+WR-DG-02FC War Dog,8

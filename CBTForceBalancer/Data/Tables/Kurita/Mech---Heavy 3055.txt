@@ -1,0 +1,33 @@
+ARC-2K Archer,15
+ARC-2R Archer,3
+ARC-4M Archer,40
+CPLT-C1 Catapult,8
+CPLT-K2 Catapult,35
+CRD-3K Crusader,20
+CRD-4K Crusader,20
+DAI-01 Daikyu,80
+DRG-1C Dragon,25
+DRG-1G Grand Dragon,20
+DRG-1N Dragon,30
+DRG-5K Grand Dragon,60
+DRG-5N Dragon,50
+DRG-C Grand Dragon (C3),60
+GHR-5H Grasshopper,13
+GHR-C Grasshopper (C3),40
+JM6-DD JagerMech,70
+JM6-S JagerMech,15
+MAD-3R Marauder,20
+MAD-5D Marauder,50
+ON1-K Orion,10
+OSR-2C Ostroc,25
+OSR-2D Ostroc,20
+OTL-4D Ostsol,10
+QKD-4G Quickdraw,25
+QKD-4H Quickdraw,10
+QKD-5K Quickdraw,40
+QKD-5M Quickdraw,40
+QKD-C Quickdraw (C3),40
+RFL-3N Rifleman,20
+TDR-5S Thunderbolt,25
+WHM-6K Warhammer,20
+WHM-6R Warhammer,25

@@ -1,0 +1,27 @@
+ANV-3M Anvil,80
+ARC-2R Archer,15
+ARC-4M Archer,50
+CPLT-C1 Catapult,50
+CRD-3R Crusader,20
+CRD-5M Crusader,60
+GHR-5H Grasshopper,13
+GLT-5M Guillotine,70
+HRC-LS-9000 Hercules,40
+MAD-3M Marauder,10
+MAD-5M Marauder,40
+ON-1K Orion,25
+ON-1M Orion,110
+OTL-4D Ostsol,3
+OTL-5M Ostsol,50
+P1 Perseus,40
+RFL-3N Rifleman,13
+RFL-5M Rifleman,30
+QKD-4G Quickdraw,15
+QKD-5M Quickdraw,20
+TDR-5S Thunderbolt,30
+TDR-7M Thunderbolt,50
+TMP-3M Tempest,40
+WHM-6L Warhammer,5
+WHM-6R Warhammer,25
+WHM-7M Warhammer,40
+WR-DG-02-FC War Dog,20

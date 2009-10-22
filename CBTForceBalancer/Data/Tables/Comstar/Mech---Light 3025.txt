@@ -1,0 +1,9 @@
+FS9-S Firestarter,20
+HER-1S Hermes,50
+HSR-200-D Hussar,80
+HSR-400-D Hussar,10
+LCT-1E Locust,40
+MCY-99 Mercury,120
+MON-66 Mongoose,80
+THE-N Thorn,40
+TLN-5W Talon,40

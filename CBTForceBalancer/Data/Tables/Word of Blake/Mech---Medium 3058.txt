@@ -1,0 +1,20 @@
+APL-1M Apollo,40
+ASN-21 Assassin,5
+ASN-23 Assassin,10
+BCN-3R Buccaneer,80
+CDA-3M Cicada,50
+CLT-2-3U Clint,3
+CRB-27 Crab,60
+HBK-4G Hunchback,20
+HBK-5N Hunchback,5
+HBK-5M Hunchback,20
+HER-5S Hermes II,40
+HUR-WO-R4L Huron Warrior,80
+KTO-19 Kintaro,50
+PXH-1 Pheonix Hawk,10
+STN-3L Sentinel,30
+TBT-7M Trebuchet,50
+TMP-3M Tempest,40
+TR-1 Wraith,40
+WVE-5N Wyvern,40
+WVE-9N Wyvern,40

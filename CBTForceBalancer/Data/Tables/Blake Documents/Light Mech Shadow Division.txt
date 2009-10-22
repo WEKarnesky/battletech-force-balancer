@@ -1,0 +1,16 @@
+Light Mech Shadow Division Random Assignment Tables.txt
+per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+C-MK-O Malak(30), 1
+C-MK-O Malak(30), 2
+HSR-950-D Hussar(30), 3
+GUR-4G Gurkha(35), 4
+MCY-102 Mercury(20), 5
+NXS2-B Nexus II(25), 6
+HER-4WB Hermes(30), 5
+PNT-14S Panther(35), 4
+C-MK-O Malak(30), 3
+C-MK-O Malak(30), 2
+Puma Prime(35), 1
+

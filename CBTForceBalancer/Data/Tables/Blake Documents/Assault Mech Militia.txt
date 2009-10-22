@@ -1,0 +1,16 @@
+Assault Mech Militia Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+THG-12E Thug(80), 1
+VNQ-2A Vanquisher(100), 2
+GRN-D04 Grand Crusader II(80), 3
+HGN-732 Highlander(90), 4
+KGC-001 King Crab(100), 5
+CRK-5003-1 Crockett(85), 6
+LGC-01 Legacy(80), 5
+MR-5M Cerberus(95), 4
+TIT-N10M Grand titan(100), 3
+TI-2P Titan II(100), 2
+TI-2PA Titan II(100), 1
+

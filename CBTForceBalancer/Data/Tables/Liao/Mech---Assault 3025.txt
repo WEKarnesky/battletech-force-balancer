@@ -1,0 +1,13 @@
+AS7-D Atlas,40
+AWS-8Q Awesome,30
+BLR-1G BattleMaster,90
+BNC-3E Banshee,50
+CGR-1A5 Charger,40
+CGR-1L Charger,60
+CP-10-Q Cyclops,60
+GOL-1H Goliath,40
+STC-2C Striker,30
+STC-2D Striker,10
+STK-3F Stalker,50
+STK-4N Stalker,40
+STK-4P Stalker,40

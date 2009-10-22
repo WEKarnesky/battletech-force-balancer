@@ -1,0 +1,31 @@
+AS7-D Atlas,8
+AS7-K Atlas,80
+AWS-8Q Awesome,30
+AWS-9M Awesome,40
+AWS-9Q Awesome,23
+BLR-1G BattleMaster,30
+BLR-3M BattleMaster,70
+BNC-3E Banshee,10
+CGR-1A1 Charger,45
+CGR-1A5 Charger,38
+CGR-1L Charger,12
+CGR-3K Charger,15
+CP-10-Q Cyclops,6
+CP-11-A Cyclops,30
+EMP-6A Emperor,80
+GOL-1H Goliath,8
+GOL-3M Goliath,40
+LGB-7V Longbow,40
+MR-5M Cerberus,15
+MR-V2 Cerberus,30
+PLG-3Z Pillager,8
+SRC-3C Sirocco,8
+STC-2C Striker,15
+STC-2D Striker,45
+STK-3F Stalker,60
+STK-4N Stalker,15
+STK-4P Stalker,20
+STK-5M Stalker,88
+T-IT-N10M Grand Titan,25
+Y-H9G Yu Huang,50
+Y-H10G Yu Huang,50

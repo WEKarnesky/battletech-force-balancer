@@ -1,0 +1,20 @@
+ASN-21 Assassin,10
+ASN-23 Assassin,40
+CN9-A Centurion,40
+CRB-27 Crab,20
+GRF-1DS Griffin,60
+HCT-3F Hatchetman,10
+HBK-4G Hunchback,30
+HBK-5M Hunchback,40
+KTO-20 Kintaro,10
+PXH-1 Phoenix Hawk,40
+PXH-3K Phoenix Hawk,30
+PXH-3M Phoenix Hawk,20
+SCP-1N Scorpion,10
+SHD-2H Shadow Hawk,30
+STN-3M Sentinel,10
+TBT-5S Trebuchet,50
+VL-2T Vulcan,20
+WTH-1 Whitworth,40
+WTH-2 Whitworth,50
+WVR-6K Wolverine,40

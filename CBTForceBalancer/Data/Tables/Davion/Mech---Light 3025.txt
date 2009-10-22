@@ -1,0 +1,14 @@
+COM-2D Commando,30
+FS9-H Firestarter,75
+HNT-171 Hornet,40
+JR7-D Jenner,10
+JVN-10F Javelin,70
+JVN-10N Javelin,60
+LCT-1V Locust,90
+Ostscout,10
+SDR-5D Spider,20
+STR-3R Stinger,50
+UrbanMech,30
+VLK-QA Valkyrie,60
+WLF-1 Wolfhound,10
+WSP-1A Wasp,80

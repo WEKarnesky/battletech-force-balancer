@@ -1,0 +1,25 @@
+ASN-21 Assassin,40
+CDA-2A Cicada,10
+CLN-7V Chameleon,30
+CRB-27 Crab,10
+CRB-C Crab (C3),40
+GRF-1N Griffin,40
+HBK-4G Hunchback,50
+KTO-20 Kintaro,40
+KTO-C Kintaro (C3),40
+PXH-1 Phoenix Hawk,40
+PXH-1K Phoenix Hawk,50
+PXH-3M Phoenix Hawk,40
+SCP-1N Scorpion,20
+SCP-1O Scorpion,10
+STN-3M Sentinel,20
+SHD-2H Shadow Hawk,50
+SHD-2K Shadow Hawk,40
+TBT-5N Trebuchet,40
+VL-2T Vulcan,40
+WFT-1 Wolftrap,40
+WFT-C Wolftrap (C3),80
+WTH-1 Whitworth,110
+WVR-6K Wolverine,60
+WVR-6R Wolverine,20
+WVR-7K Wolverine,40

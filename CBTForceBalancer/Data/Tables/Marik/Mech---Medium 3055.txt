@@ -1,0 +1,29 @@
+APL-1M Apollo,40
+CDA-2A Cicada,30
+CDA-3M Cicada,30
+CN9-A Centurion,20
+DV-6M Dervish,15
+DV-7D Dervish,15
+GRF-1N Griffen,40
+GRF-3M Griffen,40
+HER-2S Hermes II,55
+HER-5S Hermes II,40
+HBK-4G Hunchback,20
+HBK-4P Hunchback,40
+HBK-5M Hunchback,40
+HBK-5N Hunchback,40
+PXH-1 Phoenix Hawk,50
+PXH-3M Phoenix Hawk,60
+SCP-1N Scorpion,5
+SCP-1O Scorpion,10
+SHD-2H Shadow Hawk,60
+SHD-5M Shadow Hawk,40
+TBT-5J Trebuchet,10
+TBT-5N Trebuchet,30
+TBT-7M Trebuchet,50
+TR-1 Wraith,40
+VL-2T Vulcan,10
+VL-5M Vulcan,40
+WTH-1 Whitworth,35
+WVR-6M Wolverine,25
+WVR-7M Wolverine,40

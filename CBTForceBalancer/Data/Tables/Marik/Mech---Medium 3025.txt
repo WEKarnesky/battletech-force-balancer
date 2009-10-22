@@ -1,0 +1,12 @@
+CDA-2A Cicada,40
+CN9-A Centurion,40
+DV-6M Dervish,30
+GRF-1N Griffen,40
+HER-2S Hermes II,110
+HBK-4G Hunchback,40
+PXH-1 Phoenix Hawk,90
+SHD-2H Shadow Hawk,40
+TBT-5N Trebuchet,80
+VL-2T Vulcan,10
+WTH-1 Whitworth,70
+WVR-6M Wolverine,10

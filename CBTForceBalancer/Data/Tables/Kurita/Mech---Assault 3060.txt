@@ -1,0 +1,37 @@
+AKU-1X Akuma,40
+AS7-C Atlas (C3),50
+AS7-CM Atlas (CM),15
+AS7-D Atlas,10
+AS7-K Atlas,38
+AWS-8Q Awesome,8
+BNC-3E Banshee,10
+BLR-1G BattleMaster,15
+CGR-1A1 Charger,26
+CGR-1A9 Charger,9
+CGR-3K Charger,30
+CGR-C Charger,30
+CGR-SB Charger,9
+CP-10-Z Cyclops,4
+CP-11-C Cyclops,30
+CRK-5003-2 Katana,40
+CRK-5003-CM Katana (CM),40
+GOL-1H Goliath,4
+GUN-1ERD Gunslinger,40
+HTM-27T Hatamoto-Chi,67
+HTM-27U Hatamoto-Hi,30
+HTM-27V Hatamoto-Kaze,23
+HTM-27W Hatamoto-Ku,8
+HTM-27Y Hatamoto-Mizo,23
+HTM-CM Hatamoto-Chi (CM),8
+LGB-OW Longbow,3
+MAL-1R Mauler,50
+MAL-C Mauler,50
+MR-V2 Cerberus,40
+NG-C3A Naginata (CM),30
+OBK-M10 O-Bakemono,30
+STK-3F Stalker,10
+SD1-O Sunder,175
+TSH-7S Tai-Sho (CM),50
+VTR-9B Victor,10
+VTR-C Victor (C3),40
+VTR-9K Victor,19

@@ -1,0 +1,11 @@
+ASN-21 Assassin,20
+CN9-A Centurion,40
+GRF-1DS Griffin,60
+HCT-3F Hatchetman,10
+HBK-4G Hunchback,40
+PXH-1 Phoenix Hawk,80
+SCP-1N Scorpion,10
+SHD-2H Shadow Hawk,30
+TBT-5S Trebuchet,50
+WTH-1 Whitworth,60
+WVR-6K Wolverine,40

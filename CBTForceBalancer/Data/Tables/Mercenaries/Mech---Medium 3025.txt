@@ -1,0 +1,9 @@
+ASN-21 Assassin,40
+BJ-1 Blackjack,30
+CDA-2A Cicada,30
+CN9-A Centurion,10
+GRF-1N Griffin,20
+PXH-1 Phoenix Hawk,70
+SCP-1N Scorpion,90
+SHD-2H Shadow Hawk,50
+WTH-1 Whitworth,70

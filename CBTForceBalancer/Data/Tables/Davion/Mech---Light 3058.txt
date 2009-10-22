@@ -1,0 +1,36 @@
+ALM-7D Fireball,90
+BH-K305 Battle Hawk,60
+BZK-F3 Hollander,40
+COM-2D Commando,10
+COM-5S Commando,50
+DRT-3S Dart,40
+DRT-3S1 Dart,20
+FS9-H Firestarter,14
+FS9-S Firestarter,25
+FS9-S1 Firestarter,15
+HM-1 Hitman,10
+HNT-171 Hornet,20
+JR7-D Jenner,40
+JVN-10F Javelin,25
+JVN-10N Javelin,10
+JVN-10P Javelin,100
+LCT-1V Locust,40
+LCT-3M Locust,80
+OW-1 Owens,20
+Ostscout,3
+NTK-2Q Night Hawk,10
+RTX1-O Raptor,50
+RVN-3L Raven,10
+SCB-9A Scarabus,40
+SDR-5D Spider,5
+SPR-5F Specter,40
+STR-3R Stinger,29
+STR-5M Stinger,60
+UrbanMech,8
+VLK-QA Valkyrie,34
+VLK-QD Valkyrie,80
+WLF-1 Wolfhound,5
+WLF-2 Wolfhound,50
+WSP-1A Wasp,45
+WSP-3M Wasp,80
+ZPH-1A Tarantula,5

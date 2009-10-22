@@ -1,0 +1,30 @@
+APL-1M Apollo,30
+ASN-21 Assassin,13
+BJ-1 Blackjack,8
+BJ-2 Blackjack,50
+CDA-2A Cicada,12
+CDA-3M Cicada,10
+CLNT-2-3T Clint,10
+CN9-A Centurion,25
+CN9-D Centurion,40
+Dragonfly/Black Hawk,10
+DV-6M Dervish,8
+END-6Q Enfield,10
+ENF-5D Enforcer,15
+GRF-1N Griffin,40
+GRF-3M Griffin,3
+HBK-4G Hunchback,5
+HBK-5M Hunchback,15
+HCT-3F Hatchetman,30
+PXH-1 Phoenix Hawk,60
+PXH-3M Phoenix Hawk,30
+SCP-1N Scorpion,12
+SHD-2H Shadow Hawk,10
+SNK-1V Snake,5
+STH-1D Stealth,20
+TBT-5N Trebuchet,10
+TR1 Wraith,20
+VND-1R Vindicator,20
+VT-5M Vulcan,50
+WTH-1 Whitworth,15
+WVR-6R Wolverine,5

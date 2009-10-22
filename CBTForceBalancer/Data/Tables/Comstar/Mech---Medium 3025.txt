@@ -1,0 +1,7 @@
+ASN-21 Assassin,40
+CRB-27 Crab,80
+HBK-4G Hunchback,80
+KTO-19 Kintaro,80
+PXH-1 Pheonix Hawk,40
+STN-3L Sentinel,40
+WVE-5N Wyvern,80

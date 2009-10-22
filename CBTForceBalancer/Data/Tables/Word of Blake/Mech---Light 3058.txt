@@ -1,0 +1,17 @@
+FNHK-9K Falcon Hawk,40
+FS9-S Firestarter,5
+HER-1S Hermes,30
+HER-3S Hermes,60
+HMR-3M Hammer,40
+HSR-200-D Hussar,20
+HSR-400-D Hussar,10
+JA-KL-1532 Jackal,40
+LCT-1E Locust,10
+LCT-3M Locust,30
+MCY-97 Mercury,40
+MCY-99 Mercury,80
+MON-66 Mongoose,50
+SDR-7M Spider,40
+STG-5M Stinger,20
+THE-N Thorn,80
+TLN-5W Talon,40

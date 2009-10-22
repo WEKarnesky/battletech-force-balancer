@@ -1,0 +1,16 @@
+Heavy Aerospace B Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+SHV-O Shiva(85), 1
+F-700A Riever(100), 2
+AHB-643 Ahab(90), 3
+AHB-443 Ahab(90), 4
+RPR-100 Rapier(85), 5
+HMR-HD Hammerhead(75), 6
+HMR-HD Hammerhead(75), 5
+F-700 Riever(100), 4
+AHB-443 Ahab(90), 3
+AHB-643 Ahab(90), 2
+SHV-O Shiva(85), 1
+

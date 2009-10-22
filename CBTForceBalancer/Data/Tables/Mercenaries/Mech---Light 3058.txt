@@ -1,0 +1,26 @@
+COM-2D Commando,25
+DRT-3S Dart,20
+FS9-H Firestarter,8
+FS9-S Firestarter,10
+HMR-3M Hammer,20
+JR7-D Jenner,40
+JR7-K Jenner,25
+LCT-1E Locust,4
+LCT-1S Locust,5
+LCT-1V Locust,30
+OTT-7J Ostscout,20
+OW-1 Owens,10
+PNT-9R Panther,60
+PNT-10K Panther,50
+SCB-9A Scarabus,5
+SDR-5V Spider,30
+SDR-7M Spider,50
+SDR-9K Venom,30
+STG-3R Stinger,15
+Uller/Koshi,10
+UM-R60 UrbanMech,13
+VLK-QA Valkyrie,5
+VLK-QD Valkyrie,15
+WLF-2 Wolfhound,40
+WSP-1A Wasp,8
+WSP-3M Wasp,5

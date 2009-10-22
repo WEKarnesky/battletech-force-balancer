@@ -1,0 +1,16 @@
+Light Aerospace B Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+ZRO-115 Zero(35), 1
+CNT-3S Centurion(30), 2
+ZRO-114 Zero(35), 3
+THK-63 Tomahawk(45), 4
+F-12-S Cheetah(25), 5
+TRN-3T Trident(20), 6
+SWF-606 Swift(25), 5
+SPD-502 Spad(30), 4
+RGU-133E Rogue(40), 3
+SPD-504 Spad(30), 2
+SPD-504 Spad(30), 1
+

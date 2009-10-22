@@ -1,0 +1,21 @@
+ARC-4M Archer,20
+AV1-O Avatar,40
+BL-6-KNT Black Knight,60
+BL-9-KNT Black Knight,80
+BMB-12D Bombardier,30
+CHP-1N Champion,40
+CHP-3N Champion,20
+CTS-6Y Cestus,10
+EXC-B2 Excalibur,40
+EXT-4D Exterminator,30
+EXT-5E Exterminator,15
+FLS-8K Flashman,50
+GLT-3N Guillotine,60
+HEL-3D Helios,80
+JM6-D3 JagerMech III,5
+LNC25-01 Lancelot,50
+MGD-1A Rakshasa,20
+SJA-7D Shugenja,10
+ST-8A Shootist,80
+WHM-6R Warhammer,5
+WHM-7M Warhammer,40

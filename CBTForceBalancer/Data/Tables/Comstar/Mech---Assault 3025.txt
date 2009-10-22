@@ -1,0 +1,8 @@
+AS7-D Atlas,80
+AWS-8Q Awesome,40
+CRK-5003-1 Crockett,40
+HGN-732 Highlander,120
+KGC-000 King Crab,40
+LGB-7Q Longbow,40
+SPT-N2 Spartan,10
+THG-11E Thug,120

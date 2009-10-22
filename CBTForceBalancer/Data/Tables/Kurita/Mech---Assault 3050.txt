@@ -1,0 +1,20 @@
+AS7-CM Atlas (CM),80
+AS7-D Atlas,50
+AS7-K Atlas,80
+AWS-8Q Awesome,40
+BNC-3E Banshee,50
+BLR-1G BattleMaster,80
+CGR-1A1 Charger,140
+CGR-1A9 Charger,45
+CGR-3K Charger,10
+CGR-SB Charger,45
+CP-10-Z Cyclops,30
+CRK-5003-CM Katana (CM),40
+GOL-1H Goliath,20
+HTM-27T Hatamoto-Chi,40
+HTM-CM Hatamoto-Chi (CM),40
+LGB-OW Longbow,10
+MAL-1R Mauler,40
+STK-3F Stalker,50
+VTR-9B Victor,50
+VTR-9K Victor,10

@@ -1,0 +1,24 @@
+FNHK-9K Falcon Hawk,40
+FS9-H Firestarter,8
+HER-1S Hermes,3
+HER-3S Hermes,70
+HMR-3M Hammer,110
+JA-KL-1532 Jackal,40
+JR7-D Jenner,40
+JVN-10N Javelin,13
+JVN-10F Javelin,8
+JVN-10P Javelin,20
+LCT-1E Locust,10
+LCT-1V Locust,25
+LCT-3M Locust,110
+OTT-7J Ostscout,10
+OW-1 Owens,40
+PNT-9R Panther,15
+SDR-5V Spider,23
+SDR-7M Spider,50
+STG-3R Stinger,25
+STG-5M Stinger,60
+UM-R60 UrbanMech,5
+WSP-1A Wasp,40
+WSP-3M Wasp,80
+ZPH-1A Tarantula,50

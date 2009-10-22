@@ -1,0 +1,9 @@
+AS7-D Atlas,30
+AWS-8Q Awesome,30
+BLR-1S BattleMaster,40
+BNC-3M Banshee,30
+CGR-SB Charger,50
+CP-10-Z Cyclops,30
+STK-3F Stalker,40
+VTR-9B Victor,50
+ZEU-6S Zeus,60

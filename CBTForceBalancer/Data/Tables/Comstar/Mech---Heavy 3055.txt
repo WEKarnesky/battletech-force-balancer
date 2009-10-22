@@ -1,0 +1,14 @@
+ARC-4M Archer,20
+BL-6-KNT Black Knight,90
+BL-9-KNT Black Knight,5
+BMB-12D Bombardier,35
+CHP-1N Champion,40
+CHP-3N Champion,20
+EXC-B2 Excalibur,40
+EXT-4D Exterminator,60
+FLS-8K Flashman,80
+GLT-3N Guillotine,50
+LNC25-01 Lancelot,85
+MGD-1A Rakshasa,20
+ST-8A Shootist,40
+WHM-6R Warhammer,20

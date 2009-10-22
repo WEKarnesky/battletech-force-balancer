@@ -1,0 +1,26 @@
+ANV-3M Anvil,40
+APL-1M Apollo,30
+ASN-21 Assassin,2
+ASN-23 Assassin,3
+BCN-3R Buccaneer,40
+BJ2-O Blackjack,20
+CDA-3M Cicada,13
+CLT-2-3U Clint,1
+CRB-27 Crab,60
+FS9-O Firestarter,40
+GRM-R-PR29 Grim Reaper,80
+HBK-4G Hunchback,5
+HBK-5N Hunchback,2
+HBK-5M Hunchback,5
+HER-5S Hermes II,10
+HUR-WO-R4L Huron Warrior,40
+INI-02 Initiate,40
+KTO-19 Kintaro,40
+PXH-1 Pheonix Hawk,3
+RJN101-A Raijin,40
+STN-3L Sentinel,8
+TBT-7M Trebuchet,13
+TMP-3M Tempest,10
+TR-1 Wraith,50
+WVE-5N Wyvern,10
+WVE-9N Wyvern,50

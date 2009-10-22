@@ -1,0 +1,10 @@
+BL-6-KNT Black Knight,120
+BMB-12D Bombardier,30
+CHP-1N Champion,40
+EXC-B2 Excalibur,40
+EXT-4D Exterminator,80
+FLS-8K Flashman,80
+GLT-3N Guillotine,40
+LNC25-01 Lancelot,120
+ST-8A Shootist,40
+WHM-6R Warhammer,40

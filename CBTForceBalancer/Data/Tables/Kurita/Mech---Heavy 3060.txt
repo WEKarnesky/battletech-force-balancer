@@ -1,0 +1,43 @@
+ARC-2K Archer,6
+ARC-2R Archer,2
+ARC-4M Archer,15
+AV1-O Avatar,145
+BHKU-O Black Hawk-KU,90
+CPLT-C1 Catapult,3
+CPLT-K2 Catapult,40
+CRD-3K Crusader,8
+CRD-4K Crusader,8
+DAI-01 Daikyu,50
+DGR-3F Dragon Fire,40
+DRG-1C Dragon,10
+DRG-1G Grand Dragon,8
+DRG-1N Dragon,12
+DRG-5K Grand Dragon,67
+DRG-5N Dragon,20
+DRG-C Grand Dragon (C3),60
+GAL-1GLS Gallowglas,22
+GHR-5H Grasshopper,6
+GHR-C Grasshopper (C3),30
+HEL-C Helios (C3),40
+JM6-DD JagerMech,26
+JM6-S JagerMech,6
+MAD-3R Marauder,8
+MAD-5D Marauder,30
+MTR-5K Maelstrom,30
+NDA-1K No-Dachi,10
+ON1-K Orion,4
+OSR-2C Ostroc,10
+OSR-2D Ostroc,8
+OTL-4D Ostsol,4
+QKD-4G Quickdraw,10
+QKD-4H Quickdraw,4
+QKD-5K Quickdraw,50
+QKD-5M Quickdraw,38
+QKD-C Quickdraw (C3),50
+RFL-3N Rifleman,8
+SJA-7C Shugenja,50
+SJA-7D Shugenja (CM),40
+TDR-5S Thunderbolt,10
+WHM-6K Warhammer,8
+WHM-6R Warhammer,10
+WR-DG-02FC War Dog,30

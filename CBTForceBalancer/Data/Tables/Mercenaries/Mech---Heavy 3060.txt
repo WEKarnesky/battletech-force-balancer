@@ -1,0 +1,38 @@
+ARC-2R Archer,10
+ARC-4M Archer,13
+AV1-O Avatar,20
+AXM-1N Axeman,20
+CES-3R Caesar,50
+CPLT-C1 Catapult,8
+CRD-3R Crusader,3
+CRD-5M Crusader,8
+DGR-3F Dragon Fire,30
+GAL-1GLS Gallowglas,3
+GJR-5H Grasshopper,1
+GJR-5J Grasshopper,8
+JM6-D JagerMech,2
+JM6-DD JagerMech,15
+JM6-S JagerMech,3
+Loki,10
+MAD-3R Marauder,15
+MAD-5D Marauder,10
+MAD-5M Marauder,30
+Madcat,10
+ON1-K Orion,40
+ON1-M Orion,7
+OSR-2C Ostroc,4
+OTL-4D Ostol,13
+OTL-5M Ostol,60
+PTR-4D Penetrator,50
+QKD-5M Quickdraw,5
+RFL-3N Rifleman,10
+RFL-5M Rifleman,20
+TDR-5S Thunderbolt,5
+TDR-5SS Thunderbolt,2
+THR-1L Thunder,15
+Thor,10
+TMP-3M Tempest,40
+Viper,10
+Vulture,10
+WHM-6R Warhammer,30
+WHM-7M Warhammer,25

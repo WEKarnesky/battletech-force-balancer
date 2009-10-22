@@ -1,0 +1,28 @@
+BSN-4K Bishamon (CM),40
+FS9-H Firestarter,4
+HM-1 Hitman,30
+JR7-C Jenner (C3),40
+JR7-D Jenner,20
+JR7-F Jenner,10
+JR7-K Jenner,40
+JVN-10N Javelin,12
+JVN-10P Javelin,30
+KBO-7A Kabuto,50
+LCT-1V Locust,10
+OTT-7J Ostscout,4
+OW-1 Owens,90
+PNT-9R Panther,35
+PNT-10K Panther,77
+PNT-C Panther (C3),15
+RTX1-O Raptor,216
+SDR-5D Spider,3
+SDR-5K Spider,2
+SDR-5V Spider,6
+SDR-7M Spider,30
+SDR-9K Venom,38
+SDR-C Spider (C3),8
+SDR-C Venom (C3),20
+STG-3R Stinger,10
+UM-R60 UrbanMech,3
+WSP-1A Wasp,8
+WSP-1K Wasp,10

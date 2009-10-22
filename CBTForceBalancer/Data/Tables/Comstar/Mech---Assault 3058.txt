@@ -1,0 +1,16 @@
+AS7-D Atlas,20
+AS7-K Atlas,40
+AWS-8Q Awesome,10
+CP-11-A Cyclops,20
+CRK-5003-1 Crockett,80
+HGN-732 Highlander,110
+KGC-000 King Crab,40
+KGC-001 King Crab,40
+LGB-7V Longbow,80
+LGB-7Q Longbow,40
+NSR-9J Nightstar,40
+SPT-N2 Spartan,10
+ST-8A Shootist,40
+STK-5M Stalker,20
+THG-11E Thug,80
+VTR-9K Victor,40

@@ -1,0 +1,16 @@
+Assault Mech A Rating Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+C-SRP-O Seraph(85), 1
+VNQ-2B Vanquisher(100), 2
+MR-6B Cerberus(95), 3
+LGC-02 Legacy(80), 4
+CRK-5005-T Crockett(85), 5
+GRN-D04 Grand Crusader II(80), 6
+VNQ-2A Vanquisher(100), 5
+LGC-01 Legacy(80), 4
+GRN-D03 Grand Crusader II(80), 3
+KGC-008 King Crab(100), 2
+C-ANG-O Archangel(100), 1
+

@@ -1,0 +1,16 @@
+Assault Vehicles Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+Demolisher II(100), 1
+Alacorn(95), 2
+Ontos(95), 3
+Schrek(80), 4
+Demolisher(80), 5
+Puma(95), 6
+Rhino(80), 5
+Ontos(95), 4
+Partisan(80), 3
+Schiltron(80), 2
+Alacorn(95), 1
+

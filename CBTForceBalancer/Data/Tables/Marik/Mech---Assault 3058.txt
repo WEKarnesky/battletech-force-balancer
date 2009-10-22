@@ -1,0 +1,26 @@
+ALB-3U Albatross,10
+AS7-D Atlas,50
+AS7-K Atlas,40
+AWS-8Q Awesome,15
+AWS-8T Awesome,5
+AWS-9M Awesome,110
+AWS-9Q Awesome,40
+BLR-1G BattleMaster,55
+BLR-3M BattleMaster,60
+BNC-3E Banshee,13
+BNC-5S Banshee,20
+CGR-1A1 Charger,20
+CP-10Z Cyclops,23
+CP-11-A Cyclops,70
+GOL-1H Goliath,15
+GOL-3M Goliath,40
+GRN-D-01 Grand Crusader,10
+LGB-7Q Longbow,40
+MR-5M Cerberus,40
+MR-V2 Cerberus,40
+STK-3F Stalker,60
+STK-5M Stalker,50
+T-IT-N10M Grand Titan,40
+VTR-9B Victor,20
+VTR-9K Victor,10
+ZEU-6S Zeus,5

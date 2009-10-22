@@ -1,0 +1,29 @@
+BJ-2 Blackjack,80
+BJ-3 Blackjack,110
+BJ2-O Blackjack,120
+CDA-2A Cicada,13
+CDA-3C Cicada,20
+CLNT-1-2R Clint,13
+CLNT-2-3T Clint,10
+CLNT-2-3U Clint,30
+DV-6D Dervish,8
+DV-7D Dervish,40
+ENF-5D Enforcer,20
+HBK-4G Hunchback,5
+HBK-4P Hunchback,3
+HBK-5N Hunchback,10
+HCT-5S Hatchetman,40
+PXH-1 Phoenix Hawk,18
+PXH-3M Phoenix Hawk,80
+Scorpion,3
+STH-1D Stealth,10
+TBT-5N Trebuchet,8
+VL-2T Vulcan,8
+VT-5M Vulcan,10
+VT-5S Vulcan,50
+VND-1AA Vindicator,30
+VND-1R Vindicator,30
+VND-3L Vindicator,3
+WTH-2 Whitworth,10
+WVR-6R Wolverine,10
+WVR-7M Wolverine,80

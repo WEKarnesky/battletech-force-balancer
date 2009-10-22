@@ -1,0 +1,17 @@
+ASN-21 Assassin,40
+BJ-2 Blackjack,30
+CN9-A Centurion,40
+DV-6M Dervish,60
+ENF-4R Enforcer,80
+ENF-5D Enforcer,20
+GRF-1N Griffin,10
+HBK-4G Hunchback,30
+HCT-3F Hatchetman,20
+PXH-1 Phoenix Hawk,40
+PXH-1D Phoenix Hawk,80
+SHD-2D2 Shadow Hawk,40
+TBT-5N Trebuchet,50
+VT-2T Vulcan,50
+VT-5T Vulcan,20
+WTH-2 Whitworth,40
+WVR-6R Wolverine,10

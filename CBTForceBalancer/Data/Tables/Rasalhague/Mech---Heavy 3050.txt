@@ -1,0 +1,23 @@
+ARC-2R Archer,120
+ARC-4M Archer,40
+BMB-12D Bombardier,20
+CHP-1N Champion,10
+CPLT-K2 Catapult,40
+CRD-3R Crusader,15
+CRD-4K Crusader,30
+CRD-5M Crusader,40
+DRG-1N Dragon,30
+DRG-5K Grand Dragon,20
+DRG-5N Dragon,60
+GHR-5H Grasshopper,5
+GHR-5J Grasshopper,40
+JM6-S JagerMech,50
+MAD-3R Marauder,20
+MAD-5S Marauder,40
+ON1-K Orion,50
+OSR-2C Ostroc,30
+QKD-4G Quickdraw,40
+QKD-5K Quickdraw,50
+RFL-3N Rifleman,50
+TDR-5S Thunderbolt,30
+WHM-6K Warhammer,40

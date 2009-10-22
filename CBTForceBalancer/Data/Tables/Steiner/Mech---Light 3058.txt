@@ -1,0 +1,26 @@
+ALM-7D Fireball,40
+BZK-F3 Hollander,40
+COM-2D Commando,25
+COM-5S Commando,80
+DRT-3S Dart,40
+FS9-H Firestarter,12
+FS9-S Firestarter,40
+HNT-171 Hornet,3
+JVN-10N Javelin,3
+JVN-10P Javelin,40
+JR7-D Jenner,30
+LCT-1V Locust,51
+NTK-2Q Night Hawk,40
+PNT-9R Panther,10
+SDR-5V Spider,40
+SCB-9A Scarabus,40
+SPR-5F Spector,40
+STG-3R Stinger,45
+STG-3G Stinger,17
+STG-5M Stinger,80
+TLN-5W Talon,40
+UM-63 UrbanMech,8
+WLF-1 Wolfhound,10
+WLF-2 Wolfhound,40
+WSP-1A Wasp,29
+WSP-3M Wasp,80

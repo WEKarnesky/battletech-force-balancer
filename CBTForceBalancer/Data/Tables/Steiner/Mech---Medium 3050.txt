@@ -1,0 +1,23 @@
+ASN-21 Assassin,15
+ASN-23 Assassin,50
+BJ-1 Blackjack,50
+CDA-2A Cicada,40
+CLNT-2-3T Clint,25
+CLNT-2-3U Clint,50
+CN9-A Centurion,20
+CN9-D Centurion,40
+ENF-5D Enforcer,40
+GRF-1S Griffin,40
+GRF-3M Griffin,40
+HCT-3F Hatchetman,60
+HCT-5S Hatchetman,40
+PXH-1 Phoenix Hawk,80
+PXH-1D Phoenix Hawk,40
+SHD-2H Shadow Hawk,25
+SHD-2H2 Shadow Hawk,40
+TBT-5S Trebuchet,50
+VL-2T Vulcan,20
+VL-5S Vulcan,50
+WTH-1 Whitworth,50
+WVR-6R Wolverine,40
+WVR-7D Wolverine,40

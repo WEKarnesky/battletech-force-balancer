@@ -1,0 +1,17 @@
+ARC-2K Archer,40
+ARC-2R Archer,10
+CGR-1A1 Charger,40
+CPLT-C1 Catapult,30
+CRD-3K Crusader,40
+DRG-1C Dragon,25
+DRG-1N Dragon,35
+GHR-5H Grasshopper,50
+JM6-S JagerMech,60
+MAD-3R Marauder,40
+OSR-2C Ostroc,50
+QKD-4G Quickdraw,40
+QKD-4H Quickdraw,40
+RFL-3N Rifleman,40
+TDR-5S Thunderbolt,30
+WHM-6K Warhammer,40
+WHM-6R Warhammer,50

@@ -1,0 +1,22 @@
+ASN-21 Assassin,25
+BJ-1 Blackjack,15
+BJ-2 Blackjack,20
+CDA-2A Cicada,23
+CDA-3M Cicada,20
+CLNT-2-3T Clint,20
+CN9-A Centurion,50
+DV-6M Dervish,15
+ENF-5D Enforcer,30
+GRF-1N Griffin,60
+GRF-3M Griffin,5
+HBK-4G Hunchback,10
+HBK-5M Hunchback,30
+PXH-1 Phoenix Hawk,60
+SCP-1N Scorpion,23
+SHD-2H Shadow Hawk,20
+SNK-1V Snake,10
+TBT-5N Trebuchet,20
+VND-1R Vindicator,40
+VT-5M Vulcan,10
+WTH-1 Whitworth,30
+WVR-6R Wolverine,10

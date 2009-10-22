@@ -1,0 +1,13 @@
+ARC-2R Archer,30
+CPLT-C1 Catapult,30
+CRD-3R Crusader,10
+GJR-5H Grasshopper,10
+JM6-D JagerMech,20
+JM6-S JagerMech,40
+MAD-3R Marauder,40
+OSR-2C Ostroc,50
+OTL-4D Ostol,45
+RFL-3N Rifleman,60
+TDR-5S Thunderbolt,40
+TDR-5SS Thunderbolt,20
+WHM-6R Warhammer,50

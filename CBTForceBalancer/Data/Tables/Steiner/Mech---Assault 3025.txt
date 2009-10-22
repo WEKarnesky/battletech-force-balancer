@@ -1,0 +1,12 @@
+AS7-D Atlas,40
+AS7-S Atlas,90
+AWS-8Q Awesome,40
+BNC-3S Banshee,60
+CP-10-Z Cyclops,30
+HGN-733 Highlander,10
+LGB-7V Longbow,10
+STK-3F Stalker,20
+VTR-9B Victor,40
+VTR-9S Victor,50
+ZEU-6S Zeus,100
+ZEU-6T Zeus,50

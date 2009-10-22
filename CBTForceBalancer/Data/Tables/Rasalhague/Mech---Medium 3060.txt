@@ -1,0 +1,34 @@
+ASN-21 Assassin,2
+ASN-23 Assassin,30
+BEO-12 Beowulf,80
+CN9-A Centurion,5
+CRB-27 Crab,50
+DMO-1K Daimyo,5
+GRF-1DS Griffin,40
+GRF-1N Griffin,40
+GRF-3M Griffin,40
+GRM-R-PR29 Grim Reaper,40
+HCT-3F Hatchetman,2
+HCT-5S Hatchetman,15
+HBK-4G Hunchback,4
+HBK-5M Hunchback,100
+KIM-2 Komodo,10
+KTO-20 Kintaro,40
+PXH-1 Phoenix Hawk,5
+PXH-3K Phoenix Hawk,4
+PXH-3M Phoenix Hawk,80
+PXH-3S Phoenix Hawk,40
+SCP-1N Scorpion,2
+SHD-2H Shadow Hawk,4
+STN-3M Sentinel,20
+TBT-5S Trebuchet,7
+TBT-7M Trebuchet,40
+VL-2T Vulcan,3
+VL-5S Vulcan,50
+WFT-1 Wolf Trap,20
+WTH-1 Whitworth,5
+WTH-2 Whitworth,50
+WVE-5N Wyvern,30
+WVR-6K Wolverine,5
+WVR-7K Wolverine,50
+WVR-7M Wolverine,20

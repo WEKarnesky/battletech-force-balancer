@@ -1,0 +1,14 @@
+FS9-S Firestarter,5
+HER-1S Hermes,50
+HSR-200-D Hussar,30
+HSR-400-D Hussar,10
+LCT-1E Locust,10
+MCY-99 Mercury,110
+MON-66 Mongoose,120
+NXS1-A Nexus,40
+OW-1 Owens,40
+STH-1D Stealth,40
+THE-N Thorn,40
+TLN-5W Talon,40
+UM-R63 UrbanMech,20
+ZPH-1A Tarantula,40

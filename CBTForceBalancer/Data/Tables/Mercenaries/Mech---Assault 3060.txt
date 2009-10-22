@@ -1,0 +1,32 @@
+ALB-3U Albatross,10
+ANH-9A Annihilator,50
+AS7-D Atlas,40
+AS7-K Atlas,60
+AWS-8Q Awesome,2
+AWS-9M Awesome,30
+Behemoth,10
+BLR-1G BattleMaster,30
+BLR-3M BattleMaster,50
+BNC-3E Banshee,10
+BNC-5S Banshee,5
+BRZ-A3 Berserker,50
+CGR-1A1 Charger,12
+CP-10-Z Cyclops,5
+Daishi,10
+EMP-6A Emperor,30
+Gladiator,10
+GOL-1H Goliath,10
+GUN-1ERD Gunslinger,3
+MAD-5A Marauder II,60
+MAL-1R Mauler,3
+Man O' War,10
+Masakari,10
+MR-V2 Cerberus,40
+NSR-9J Nightstar,5
+SD1-O Sunder,10
+SHG-2F Shogun,8
+STK-3F Stalker,15
+T-IT-N10M Grand Titan,10
+VTR-9B Victor,20
+VTR-9K Victor,20
+ZEU-6S Zeus,10

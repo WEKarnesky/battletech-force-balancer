@@ -1,0 +1,32 @@
+C-SK1 Cossack,10
+D9-G9 Duan Gung,80
+EGL-2M Eagle,40
+FNHK-9K Falcon Hawk,20
+FS9-H Firestarter,15
+FS9-S Firestarter,38
+HMR-3M Hammer,30
+HSR-300-D Hussar,2
+JA-KL-1532 Jackel,80
+JR7-D Jenner,23
+JR7-F Jenner,15
+JR7-K Jenner,30
+JVN-10N Javelin,15
+JVN-10P Javelin,3
+LCT-1L Locust,23
+LCT-1V Locust,38
+LCT-3M Locust,50
+OW-1 Owens,10
+RVN-1X Raven,4
+RVN-3L Raven,67
+RVN-4L Raven,50
+SDR-5V Spider,38
+SDR-7M Spider,50
+STG-3R Stinger,34
+STG-5M Stinger,50
+UM-R60L UrbanMech,15
+UM-R60 UrbanMech,8
+UM-R63 UrbanMech,80
+WSP-1A Wasp,23
+WSP-1L Wasp,17
+WSP-3M Wasp,40
+ZPH-1A Tarantula,40

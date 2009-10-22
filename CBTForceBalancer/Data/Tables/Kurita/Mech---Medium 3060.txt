@@ -1,0 +1,42 @@
+ASN-21 Assassin,8
+ASN-23 Assassin,12
+BJ2-O Blackjack,115
+BSN-3K Bishamon,40
+BSN-4K Bishamon (CM),40
+CDA-2A Cicada,3
+CLN-7V Chameleon,6
+CRB-27 Crab,8
+CRB-C Crab (C3),40
+DMO-1K Daimyo,38
+FS9-O Firestarter,110
+GRF-1DS Griffin,19
+GRF-1N Griffin,8
+GRF-3M Griffin,38
+GRM-R-PR29 Grim Reaper,30
+HBK-4G Hunchback,10
+KIM-2 Komodo,40
+KIM-2A Komodo,10
+KTO-20 Kintaro,12
+KTO-C Kintaro (C3),10
+LNX-9C Lynx,20
+LNX-9Q Lynx,40
+PXH-1 Phoenix Hawk,8
+PXH-1K Phoenix Hawk,10
+PXH-3K Phoenix Hawk,15
+PXH-3M Phoenix Hawk,40
+SCP-1N Scorpion,4
+SCP-1O Scorpion,3
+STN-3M Sentinel,8
+SHD-2H Shadow Hawk,10
+SHD-2K Shadow Hawk,8
+SR1-O Strider,90
+TBT-5N Trebuchet,8
+TBT-7M Trebuchet,15
+VL-2T Vulcan,8
+WFT-1 Wolftrap,45
+WFT-C Wolftrap (C3),40
+WTH-1 Whitworth,21
+WTH-2 Whitworth,19
+WVR-6K Wolverine,12
+WVR-6R Wolverine,4
+WVR-7K Wolverine,50

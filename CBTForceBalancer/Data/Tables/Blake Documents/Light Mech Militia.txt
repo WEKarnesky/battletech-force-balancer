@@ -1,0 +1,16 @@
+Light Mech Militia Random Assignment Table.txt
+Per Jihad Secrets-The Blake Documents page 139
+Copyright WizKids games & FANPRO
+Entered in to RUS format by: Aaron "Bear" Gregory
+JA-KL-1532 Jackal(30), 1
+WSP-3L Wasp(20), 2
+GUR-2G Gurkha(35), 3
+RDS-2A Red Shift(20), 4
+LCT-3M Locust(20), 5
+MCY-102 Mercury(20), 6
+OW-1 Owens(35), 5
+FNHK-9K1B Falcon Hawk(25), 4
+ZPH-2A Tarantula(25), 3
+MCY-99 Mercury(20), 2
+NXS1-B Nexus(25), 1
+

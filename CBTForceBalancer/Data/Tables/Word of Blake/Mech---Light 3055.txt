@@ -1,0 +1,15 @@
+FS9-S Firestarter,10
+HER-1S Hermes,40
+HER-3S Hermes,30
+HSR-200-D Hussar,40
+HSR-400-D Hussar,10
+JA-KL-1532 Jackal,20
+LCT-1E Locust,20
+LCT-3M Locust,15
+MCY-97 Mercury,20
+MCY-99 Mercury,100
+MON-66 Mongoose,65
+SDR-7M Spider,20
+STG-5M Stinger,10
+THE-N Thorn,80
+TLN-5W Talon,20

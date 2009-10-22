@@ -1,0 +1,12 @@
+CDA-2A Cicada,10
+GRF-1N Griffin,40
+HBK-4G Hunchback,50
+PXH-1 Phoenix Hawk,80
+SCP-1N Scorpion,30
+SHD-2H Shadow Hawk,50
+SHD-2K Shadow Hawk,40
+TBT-5N Trebuchet,40
+VL-2T Vulcan,40
+WTH-1 Whitworth,110
+WVR-6K Wolverine,80
+WVR-6R Wolverine,40

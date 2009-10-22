@@ -1,0 +1,12 @@
+COM-2D Commando,75
+FS9-H Firestarter,50
+HNT-171 Hornet,10
+JVN-10N Javelin,20
+JR7-D Jenner,30
+LCT-1V Locust,90
+PNT-9R Panther,30
+SDR-5V Spider,40
+STG-3R Stinger,80
+UM-63 UrbanMech,30
+WLF-1 Wolfhound,10
+WSP-1A Wasp,50
