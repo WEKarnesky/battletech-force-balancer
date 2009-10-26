@@ -27,14 +27,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB;
 
-import BFB.IO.PrintSheet;
+import Print.ForceList;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
 public interface ifUnit {
     public void Refresh();
     public String GetSkills();
-    public void RenderPrint(PrintSheet p);
+    public void RenderPrint(ForceList p);
     public void SerializeXML(BufferedWriter file) throws IOException;
     public void SerializeMUL(BufferedWriter file) throws IOException;
     public String SerializeClipboard();

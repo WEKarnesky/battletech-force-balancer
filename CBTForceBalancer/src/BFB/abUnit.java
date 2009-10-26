@@ -5,9 +5,11 @@
 
 package BFB;
 
-import BFB.Common.CommonTools;
+import Force.Warrior;
+import common.CommonTools;
+import Print.ForceList;
+
 import BFB.Common.Constants;
-import BFB.IO.PrintSheet;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -50,7 +52,7 @@ public abstract class abUnit implements ifUnit {
         return Gunnery + "/" + Piloting;
     }
 
-    public void RenderPrint(PrintSheet p) {
+    public void RenderPrint(ForceList p) {
         p.setFont(CommonTools.PlainFont);
         p.WriteStr(TypeModel, 120);
         p.WriteStr(Mechwarrior, 140);

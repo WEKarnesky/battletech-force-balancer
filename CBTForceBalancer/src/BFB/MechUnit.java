@@ -5,15 +5,15 @@
 
 package BFB;
 
-import ssw.components.Mech;
-import ssw.filehandlers.XMLReader;
+import components.Mech;
+import filehandlers.MechReader;
 
 public class MechUnit extends abUnit {
 
     public void LoadDesign() {
         if ( design == null ) {
             try {
-                XMLReader reader = new XMLReader();
+                MechReader reader = new MechReader();
                 this.design = reader.ReadMech( this.Filename );
                 if ( ! this.Configuration.isEmpty() ) {
                     ((Mech) this.design).SetCurLoadout(this.Configuration.trim());

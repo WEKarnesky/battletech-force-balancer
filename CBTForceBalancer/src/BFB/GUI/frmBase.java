@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.GUI;
 
 import Force.*;
+import Force.View.*;
 import Print.*;
 import filehandlers.Media;
 import common.CommonTools;
@@ -43,10 +44,9 @@ import java.awt.Image;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.*;
 import javax.swing.ImageIcon;
 import javax.swing.event.TableModelEvent;
@@ -54,11 +54,29 @@ import javax.swing.event.TableModelListener;
 
 public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     public Scenario scenario = new Scenario();
-    public Force topForce = new Force();
-    public Force bottomForce = new Force();
     public Preferences Prefs;
     private dlgOpen dOpen;
     private Media media = new Media();
+
+    private KeyListener KeyTyped = new KeyListener() {
+        public void keyTyped(KeyEvent e) {
+            scenario.setName(txtScenarioName.getText());
+            scenario.setSetup(epnSetup.getText());
+            scenario.setSituation(epnSituation.getText());
+            scenario.setAttacker(epnAttacker.getText());
+            scenario.setDefender(epnDefender.getText());
+            scenario.setVictoryConditions(epnVictoryConditions.getText());
+            scenario.setAftermath(epnAftermath.getText());
+        }
+
+        public void keyPressed(KeyEvent e) {
+            //do nothing
+        }
+
+        public void keyReleased(KeyEvent e) {
+            //do nothing
+        }
+    };
 
     private TableModelListener ForceChanged = new TableModelListener() {
         public void tableChanged(TableModelEvent e) {
@@ -79,12 +97,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         dOpen.setMechListPath(Prefs.get("ListPath", ""));
         //dOpen.LoadList();
 
-        topForce.setCurrentModel(new tbTWTable(topForce));
-        bottomForce.setCurrentModel(new tbTWTable(bottomForce));
+        scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
+        scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
 
-        topForce.addTableModelListener(ForceChanged);
-        bottomForce.addTableModelListener(ForceChanged);
+        scenario.getAttackerForce().addTableModelListener(ForceChanged);
+        scenario.getDefenderForce().addTableModelListener(ForceChanged);
 
+        txtScenarioName.addKeyListener(KeyTyped);
+        epnSituation.addKeyListener(KeyTyped);
+        epnSetup.addKeyListener(KeyTyped);
+        epnAttacker.addKeyListener(KeyTyped);
+        epnDefender.addKeyListener(KeyTyped);
+        epnVictoryConditions.addKeyListener(KeyTyped);
+        epnAftermath.addKeyListener(KeyTyped);
         
         Refresh();
     }
@@ -94,50 +119,50 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         //scenario.setupTable(new JTable[]{tblTop, tblBottom});
 
-        topForce.setupTable(tblTop);
-        bottomForce.setupTable(tblBottom);
+        scenario.getAttackerForce().setupTable(tblTop);
+        scenario.getDefenderForce().setupTable(tblBottom);
 
-        topForce.OpForSize = bottomForce.Units.size();
-        bottomForce.OpForSize = topForce.Units.size();
+        scenario.getAttackerForce().OpForSize = scenario.getDefenderForce().Units.size();
+        scenario.getDefenderForce().OpForSize = scenario.getAttackerForce().Units.size();
         
-        setLogo( lblUnitLogoTop, new File(topForce.LogoPath) );
-        setLogo( lblUnitLogoBottom, new File(bottomForce.LogoPath) );
+        setLogo( lblUnitLogoTop, new File(scenario.getAttackerForce().LogoPath) );
+        setLogo( lblUnitLogoBottom, new File(scenario.getDefenderForce().LogoPath) );
 
-        txtUnitNameTop.setText(topForce.ForceName);
-        txtUnitNameBottom.setText(bottomForce.ForceName);
+        txtUnitNameTop.setText(scenario.getAttackerForce().ForceName);
+        txtUnitNameBottom.setText(scenario.getDefenderForce().ForceName);
 
-        if ( topForce.getType().equals(BattleForce.Comstar) ) {
+        if ( scenario.getAttackerForce().getType().equals(BattleForce.Comstar) ) {
             btnCSTop.setSelected(true);
-        } else if ( topForce.getType().equals(BattleForce.Clan) ) {
+        } else if ( scenario.getAttackerForce().getType().equals(BattleForce.Clan) ) {
             btnCLTop.setSelected(true);
         } else {
             btnISTop.setSelected(true);
         }
         
-        if ( bottomForce.getType().equals(BattleForce.Comstar) ) {
+        if ( scenario.getDefenderForce().getType().equals(BattleForce.Comstar) ) {
             btnCSBottom.setSelected(true);
-        } else if ( bottomForce.getType().equals(BattleForce.Clan) ) {
+        } else if ( scenario.getDefenderForce().getType().equals(BattleForce.Clan) ) {
             btnCLBottom.setSelected(true);
         } else {
             btnISBottom.setSelected(true);
         }
 
-        lblForceMod.setText( String.format( "%1$,.2f", CommonTools.GetForceSizeMultiplier( topForce.Units.size(), bottomForce.Units.size() )) );
+        lblForceMod.setText( String.format( "%1$,.2f", CommonTools.GetForceSizeMultiplier( scenario.getAttackerForce().Units.size(), scenario.getDefenderForce().Units.size() )) );
 
         if ( chkUseForceModifier.isSelected() ) {
-            topForce.OpForSize = bottomForce.Units.size();
-            bottomForce.OpForSize = topForce.Units.size();
+            scenario.getAttackerForce().OpForSize = scenario.getDefenderForce().Units.size();
+            scenario.getDefenderForce().OpForSize = scenario.getAttackerForce().Units.size();
         }
         
-        lblUnitsTop.setText(topForce.Units.size()+"");
-        lblTonnageTop.setText( String.format("%1$,.0f", topForce.TotalTonnage) );
-        lblBaseBVTop.setText( String.format("%1$,.0f", topForce.TotalBaseBV) );
-        lblTotalBVTop.setText( String.format("%1$,.0f", topForce.TotalForceBVAdjusted) );
+        lblUnitsTop.setText(scenario.getAttackerForce().Units.size()+"");
+        lblTonnageTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalTonnage) );
+        lblBaseBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalBaseBV) );
+        lblTotalBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalForceBVAdjusted) );
 
-        lblUnitsBottom.setText(bottomForce.Units.size()+"");
-        lblTonnageBottom.setText( String.format("%1$,.0f", bottomForce.TotalTonnage) );
-        lblBaseBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalBaseBV) );
-        lblTotalBVBottom.setText( String.format("%1$,.0f", bottomForce.TotalForceBVAdjusted) );
+        lblUnitsBottom.setText(scenario.getDefenderForce().Units.size()+"");
+        lblTonnageBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalTonnage) );
+        lblBaseBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalBaseBV) );
+        lblTotalBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalForceBVAdjusted) );
     }
 
     private void loadScenario( String filename ) {
@@ -157,22 +182,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             epnVictoryConditions.setText(scenario.getVictoryConditions());
             epnAftermath.setText(scenario.getAftermath());
 
-            topForce = scenario.topForce();
-            bottomForce = scenario.bottomForce();
+            scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
+            scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
 
-            topForce.setCurrentModel(new tbTWTable(topForce));
-            bottomForce.setCurrentModel(new tbTWTable(bottomForce));
+            scenario.getAttackerForce().addTableModelListener(ForceChanged);
+            scenario.getDefenderForce().addTableModelListener(ForceChanged);
 
-            //forces = reader.ReadFile(this, filename);
-            //topForce = forces[0];
-            //bottomForce = forces[1];
+            scenario.getAttackerForce().RefreshBV();
+            scenario.getDefenderForce().RefreshBV();
 
-            topForce.addTableModelListener(ForceChanged);
-            bottomForce.addTableModelListener(ForceChanged);
-
-            topForce.RefreshBV();
-            bottomForce.RefreshBV();
-
+            tblBonuses.setModel(scenario.getWarchest().getBonusTable());
+            tblObjectives.setModel(scenario.getWarchest().getObjectiveTable());
+            
             Refresh();
 
         } catch ( IOException ie ) {
@@ -268,7 +289,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }
 
     private void validateChanges() {
-        if ((topForce.isDirty) || (bottomForce.isDirty)) {
+        if ((scenario.getAttackerForce().isDirty) || (scenario.getDefenderForce().isDirty)) {
                     switch (javax.swing.JOptionPane.showConfirmDialog(this, "Would you like to save your changes?")) {
                         case javax.swing.JOptionPane.YES_OPTION:
                             this.mnuSaveActionPerformed(null);
@@ -375,24 +396,24 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         //Force List
         ForceList sheet = new ForceList();
-        sheet.AddForces(new Force[]{topForce, bottomForce});
+        sheet.AddForces(new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
         printer.Append( BFBPrinter.Letter.toPage(), sheet );
 
         /*
         //Fire Chits
         PrintDeclaration fire = new PrintDeclaration();
-        fire.AddForces(new Force[]{topForce, bottomForce});
+        fire.AddForces(new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
         printer.Append( Printer.Letter.toPage(), fire );
 
         //BattleForce
-        PrintBattleforce topBF = new PrintBattleforce(topForce.toBattleForce());
-        PrintBattleforce bottomBF = new PrintBattleforce(bottomForce.toBattleForce());
+        PrintBattleforce topBF = new PrintBattleforce(scenario.getAttackerForce().toBattleForce());
+        PrintBattleforce bottomBF = new PrintBattleforce(scenario.getDefenderForce().toBattleForce());
 
         printer.Append( Printer.Letter.toPage(), topBF );
         printer.Append( Printer.Letter.toPage(), bottomBF );
 
         //Recordsheets
-        Force[] forces = new Force[]{topForce, bottomForce};
+        Force[] forces = new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()};
 
         for ( int f=0; f < forces.length; f++ ) {
             Force force = forces[f];
@@ -570,6 +591,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jMenu6 = new javax.swing.JMenu();
         rmnuTWModel = new javax.swing.JRadioButtonMenuItem();
         rmnuBFModel = new javax.swing.JRadioButtonMenuItem();
+        rmnuInformation = new javax.swing.JRadioButtonMenuItem();
         jMenu2 = new javax.swing.JMenu();
         mnuDesignBattleMech = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -1760,6 +1782,16 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jMenu6.add(rmnuBFModel);
 
+        rmnuInformation.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        btnGrpViews.add(rmnuInformation);
+        rmnuInformation.setText("Information Line");
+        rmnuInformation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rmnuInformationActionPerformed(evt);
+            }
+        });
+        jMenu6.add(rmnuInformation);
+
         jMenu5.add(jMenu6);
 
         jMenuBar1.add(jMenu5);
@@ -1869,7 +1901,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_txtUnitNameBottomKeyTyped
 
     private void mnuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLoadActionPerformed
-        if ((topForce.isDirty) || (bottomForce.isDirty)) {
+        if ((scenario.getAttackerForce().isDirty) || (scenario.getDefenderForce().isDirty)) {
                     switch (javax.swing.JOptionPane.showConfirmDialog(this, "Would you like to save your changes?")) {
                         case javax.swing.JOptionPane.YES_OPTION:
                             this.mnuSaveActionPerformed(null);
@@ -1900,15 +1932,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_mnuLoadActionPerformed
 
     private void lblUnitLogoBottomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUnitLogoBottomMouseClicked
-        updateLogo(lblUnitLogoBottom, bottomForce);
+        updateLogo(lblUnitLogoBottom, scenario.getDefenderForce());
     }//GEN-LAST:event_lblUnitLogoBottomMouseClicked
 
     private void lblUnitLogoTopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUnitLogoTopMouseClicked
-        updateLogo(lblUnitLogoTop, topForce);
+        updateLogo(lblUnitLogoTop, scenario.getAttackerForce());
     }//GEN-LAST:event_lblUnitLogoTopMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if ((topForce.isDirty) || (bottomForce.isDirty)) {
+        if ((scenario.getAttackerForce().isDirty) || (scenario.getDefenderForce().isDirty)) {
             switch (javax.swing.JOptionPane.showConfirmDialog(this, "Would you like to save your changes?")) {
                 case javax.swing.JOptionPane.YES_OPTION:
                     this.mnuSaveActionPerformed(null);
@@ -1927,11 +1959,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_formWindowClosing
 
     private void txtUnitNameTopFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUnitNameTopFocusLost
-        topForce.ForceName = txtUnitNameTop.getText();
+        scenario.getAttackerForce().ForceName = txtUnitNameTop.getText();
     }//GEN-LAST:event_txtUnitNameTopFocusLost
 
     private void txtUnitNameBottomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUnitNameBottomFocusLost
-        bottomForce.ForceName = txtUnitNameBottom.getText();
+        scenario.getDefenderForce().ForceName = txtUnitNameBottom.getText();
     }//GEN-LAST:event_txtUnitNameBottomFocusLost
 
     private void mnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExitActionPerformed
@@ -1939,7 +1971,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_mnuExitActionPerformed
 
     private void mnuNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNewActionPerformed
-        if ((topForce.isDirty) || (bottomForce.isDirty)) {
+        if ((scenario.getAttackerForce().isDirty) || (scenario.getDefenderForce().isDirty)) {
                     switch (javax.swing.JOptionPane.showConfirmDialog(this, "Would you like to save your changes?")) {
                         case javax.swing.JOptionPane.YES_OPTION:
                             this.mnuSaveActionPerformed(null);
@@ -1949,8 +1981,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
 
         Prefs.put("CurrentBFBFile", "");
-        this.topForce.Clear();
-        this.bottomForce.Clear();
+        this.scenario.getAttackerForce().Clear();
+        this.scenario.getDefenderForce().Clear();
         this.txtScenarioName.setText("");
         this.lblUnitLogoTop.setIcon(null);
         this.lblUnitLogoBottom.setIcon(null);
@@ -1963,7 +1995,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             return;
         }
         
-        if ( !topForce.isSaveable() || !bottomForce.isSaveable() ) {
+        if ( !scenario.getAttackerForce().isSaveable() || !scenario.getDefenderForce().isSaveable() ) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please enter a force name and at least one unit in each list before saving.");
             return;
         }
@@ -1982,7 +2014,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             String filename = file.getCanonicalPath();
             if ( ! filename.endsWith(".bfb") ) { filename += ".bfb";}
 
-            //XMLWriter write = new XMLWriter(txtScenarioName.getText(), this.topForce, this.bottomForce);
+            //XMLWriter write = new XMLWriter(txtScenarioName.getText(), this.scenario.getAttackerForce(), this.scenario.getDefenderForce());
             //write.WriteXML(filename);
 
             XMLWriter writer = new XMLWriter();
@@ -2017,8 +2049,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void mnuPrintUnitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintUnitsActionPerformed
         WaitCursor();
         Vector forces = new Vector();
-        forces.add(topForce);
-        forces.add(bottomForce);
+        forces.add(scenario.getAttackerForce());
+        forces.add(scenario.getDefenderForce());
 
         PagePrinter printer = new PagePrinter();
         for (int f = 0; f <= forces.size()-1; f++){
@@ -2043,9 +2075,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         String[] call = { "java", "-Xmx256m", "-jar", "ssw.jar" };
         try {
             Runtime.getRuntime().exec(call);
-        } catch (IOException ex) {
-            Media.Messager(ex.getMessage());
-            System.out.println("Error calling SSW jar file");
+        } catch (Exception ex) {
+            Media.Messager("Error while trying to open SSW\n" + ex.getMessage());
+            System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_mnuDesignBattleMechActionPerformed
 
@@ -2067,11 +2099,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_btnPrintActionPerformed
 
     private void tblTopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTopMouseClicked
-        if ( evt.getClickCount() == 2 ) { editUnit(tblTop, topForce); }
+        if ( evt.getClickCount() == 2 ) { editUnit(tblTop, scenario.getAttackerForce()); }
     }//GEN-LAST:event_tblTopMouseClicked
 
     private void tblBottomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBottomMouseClicked
-        if ( evt.getClickCount() == 2 ) { editUnit(tblBottom, bottomForce); }
+        if ( evt.getClickCount() == 2 ) { editUnit(tblBottom, scenario.getDefenderForce()); }
     }//GEN-LAST:event_tblBottomMouseClicked
 
     private void btnMULExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMULExportActionPerformed
@@ -2082,19 +2114,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         if ( dir.isEmpty() ) { return; }
 
         Prefs.put("MULDirectory", dir);
-        mw.setForce(topForce);
+        mw.setForce(scenario.getAttackerForce());
         try {
-            mw.Write( dir + File.separator + topForce.ForceName );
+            mw.Write( dir + File.separator + scenario.getAttackerForce().ForceName );
         } catch (IOException ex) {
-            Media.Messager("Unable to save " + topForce.ForceName + "\n" + ex.getMessage() );
+            Media.Messager("Unable to save " + scenario.getAttackerForce().ForceName + "\n" + ex.getMessage() );
             System.out.println(ex.getMessage());
         }
 
-        mw.setForce(bottomForce);
+        mw.setForce(scenario.getDefenderForce());
         try {
-            mw.Write( dir + File.separator + bottomForce.ForceName );
+            mw.Write( dir + File.separator + scenario.getDefenderForce().ForceName );
         } catch ( IOException ex ) {
-            Media.Messager("Unable to save " + bottomForce.ForceName + "\n" + ex.getMessage() );
+            Media.Messager("Unable to save " + scenario.getDefenderForce().ForceName + "\n" + ex.getMessage() );
             System.out.println(ex.getMessage());
         }
 
@@ -2104,64 +2136,64 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void chkUseForceModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUseForceModifierActionPerformed
         lblForceMod.setVisible( chkUseForceModifier.isSelected() );
-        topForce.useUnevenForceMod = chkUseForceModifier.isSelected();
-        bottomForce.useUnevenForceMod = chkUseForceModifier.isSelected();
-        topForce.RefreshBV();
-        bottomForce.RefreshBV();
+        scenario.getAttackerForce().useUnevenForceMod = chkUseForceModifier.isSelected();
+        scenario.getDefenderForce().useUnevenForceMod = chkUseForceModifier.isSelected();
+        scenario.getAttackerForce().RefreshBV();
+        scenario.getDefenderForce().RefreshBV();
     }//GEN-LAST:event_chkUseForceModifierActionPerformed
 
     private void btnOpenBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenBottomActionPerformed
-        openForce( bottomForce );
+        openForce( scenario.getDefenderForce() );
     }//GEN-LAST:event_btnOpenBottomActionPerformed
 
     private void btnSaveBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveBottomActionPerformed
-        bottomForce.ForceName = txtUnitNameBottom.getText();
-        saveForce( bottomForce );
+        scenario.getDefenderForce().ForceName = txtUnitNameBottom.getText();
+        saveForce( scenario.getDefenderForce() );
     }//GEN-LAST:event_btnSaveBottomActionPerformed
 
     private void btnOpenTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenTopActionPerformed
-        openForce( topForce );
+        openForce( scenario.getAttackerForce() );
 }//GEN-LAST:event_btnOpenTopActionPerformed
 
     private void btnSaveTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTopActionPerformed
-        topForce.ForceName = txtUnitNameTop.getText();
-        saveForce( topForce );
+        scenario.getAttackerForce().ForceName = txtUnitNameTop.getText();
+        saveForce( scenario.getAttackerForce() );
 }//GEN-LAST:event_btnSaveTopActionPerformed
 
     private void btnAddBottom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBottom1ActionPerformed
-        OpenDialog(bottomForce);
+        OpenDialog(scenario.getDefenderForce());
     }//GEN-LAST:event_btnAddBottom1ActionPerformed
 
     private void btnAddTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTop1ActionPerformed
-        OpenDialog(topForce);
+        OpenDialog(scenario.getAttackerForce());
     }//GEN-LAST:event_btnAddTop1ActionPerformed
 
     private void btnEditTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTop1ActionPerformed
-        editUnit(tblTop, topForce);
+        editUnit(tblTop, scenario.getAttackerForce());
     }//GEN-LAST:event_btnEditTop1ActionPerformed
 
     private void btnEditBottom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditBottom1ActionPerformed
-        editUnit(tblBottom, bottomForce);
+        editUnit(tblBottom, scenario.getDefenderForce());
     }//GEN-LAST:event_btnEditBottom1ActionPerformed
 
     private void btnDeleteTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTop1ActionPerformed
-        removeUnits( tblTop, topForce );
+        removeUnits( tblTop, scenario.getAttackerForce() );
     }//GEN-LAST:event_btnDeleteTop1ActionPerformed
 
     private void btnDeleteBottom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBottom1ActionPerformed
-        removeUnits( tblBottom, bottomForce );
+        removeUnits( tblBottom, scenario.getDefenderForce() );
     }//GEN-LAST:event_btnDeleteBottom1ActionPerformed
 
     private void btnClipboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardActionPerformed
-        toClipboard( new Force[]{ topForce, bottomForce } );
+        toClipboard( new Force[]{ scenario.getAttackerForce(), scenario.getDefenderForce() } );
     }//GEN-LAST:event_btnClipboardActionPerformed
 
     private void btnClipboardTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardTopActionPerformed
-        toClipboard( new Force[]{ topForce } );
+        toClipboard( new Force[]{ scenario.getAttackerForce() } );
     }//GEN-LAST:event_btnClipboardTopActionPerformed
 
     private void btnClipboardBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboardBottomActionPerformed
-        toClipboard( new Force[]{ bottomForce } );
+        toClipboard( new Force[]{ scenario.getDefenderForce() } );
     }//GEN-LAST:event_btnClipboardBottomActionPerformed
 
     private void mnuSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveAsActionPerformed
@@ -2170,7 +2202,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             return;
         }
 
-        if ( !topForce.isSaveable() || !bottomForce.isSaveable() ) {
+        if ( !scenario.getAttackerForce().isSaveable() || !scenario.getDefenderForce().isSaveable() ) {
             Media.Messager("Please enter a force name and at least one unit in each list before saving.");
             return;
         }
@@ -2186,7 +2218,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             String filename = file.getCanonicalPath();
             if ( ! filename.endsWith(".bfb") ) { filename += ".bfb";}
 
-            XMLWriter write = new XMLWriter(txtScenarioName.getText(), this.topForce, this.bottomForce);
+            XMLWriter write = new XMLWriter(txtScenarioName.getText(), this.scenario.getAttackerForce(), this.scenario.getDefenderForce());
             write.WriteXML(filename);
             Prefs.put("LastOpenBFBFile", filename);
             Prefs.put("CurrentBFBFile", filename);
@@ -2199,7 +2231,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_mnuSaveAsActionPerformed
 
     private void mnuExportClipboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportClipboardActionPerformed
-        toClipboard( new Force[]{ topForce, bottomForce } );
+        toClipboard( new Force[]{ scenario.getAttackerForce(), scenario.getDefenderForce() } );
     }//GEN-LAST:event_mnuExportClipboardActionPerformed
 
     private void mnuExportMULActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportMULActionPerformed
@@ -2208,7 +2240,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuExportTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportTextActionPerformed
         WaitCursor();
-        TXTWriter txtWrite = new TXTWriter( new Force[]{ topForce, bottomForce } );
+        TXTWriter txtWrite = new TXTWriter( new Force[]{ scenario.getAttackerForce(), scenario.getDefenderForce() } );
         File filename = media.SelectFile(Prefs.get("TXTDirectory", ""), "txt", "Save");
         if ( filename == null ) { return; }
 
@@ -2227,7 +2259,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void txtTopGunKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTopGunKeyReleased
         if ( !txtTopGun.getText().isEmpty() && !txtTopPilot.getText().isEmpty() ) {
-            overrideSkill( topForce, Integer.parseInt(txtTopGun.getText()), Integer.parseInt(txtTopPilot.getText()) );
+            overrideSkill( scenario.getAttackerForce(), Integer.parseInt(txtTopGun.getText()), Integer.parseInt(txtTopPilot.getText()) );
         }
 }//GEN-LAST:event_txtTopGunKeyReleased
 
@@ -2237,7 +2269,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void txtTopPilotKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTopPilotKeyReleased
         if ( !txtTopGun.getText().isEmpty() && !txtTopPilot.getText().isEmpty() ) {
-            overrideSkill( topForce, Integer.parseInt(txtTopGun.getText()), Integer.parseInt(txtTopPilot.getText()) );
+            overrideSkill( scenario.getAttackerForce(), Integer.parseInt(txtTopGun.getText()), Integer.parseInt(txtTopPilot.getText()) );
         }
     }//GEN-LAST:event_txtTopPilotKeyReleased
 
@@ -2251,7 +2283,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void txtBottomGunKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBottomGunKeyReleased
         if ( !txtBottomGun.getText().isEmpty() && !txtBottomPilot.getText().isEmpty() ) {
-            overrideSkill( bottomForce, Integer.parseInt(txtBottomGun.getText()), Integer.parseInt(txtBottomPilot.getText()) );
+            overrideSkill( scenario.getDefenderForce(), Integer.parseInt(txtBottomGun.getText()), Integer.parseInt(txtBottomPilot.getText()) );
         }
 }//GEN-LAST:event_txtBottomGunKeyReleased
 
@@ -2261,20 +2293,20 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void txtBottomPilotKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBottomPilotKeyReleased
         if ( !txtBottomGun.getText().isEmpty() && !txtBottomPilot.getText().isEmpty() ) {
-            overrideSkill( bottomForce, Integer.parseInt(txtBottomGun.getText()), Integer.parseInt(txtBottomPilot.getText()) );
+            overrideSkill( scenario.getDefenderForce(), Integer.parseInt(txtBottomGun.getText()), Integer.parseInt(txtBottomPilot.getText()) );
         }
 }//GEN-LAST:event_txtBottomPilotKeyReleased
 
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
         PagePrinter printer = SetupPrinter();
-        dlgPreview prv = new dlgPreview("Print Preview", this, printer, new Force[]{topForce, bottomForce});
+        dlgPreview prv = new dlgPreview("Print Preview", this, printer, new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
         prv.setLocationRelativeTo(this);
         prv.setVisible(true);
     }//GEN-LAST:event_btnPreviewActionPerformed
 
     private void btnManageImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageImagesActionPerformed
         WaitCursor();
-        dlgMechImages img = new dlgMechImages(this, new Force[]{topForce, bottomForce});
+        dlgMechImages img = new dlgMechImages(this, new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
         if ( img.hasWork ) {
             img.setLocationRelativeTo(this);
             img.setVisible(true);
@@ -2297,8 +2329,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void mnuPrintRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintRSActionPerformed
         WaitCursor();
         Vector forces = new Vector();
-        forces.add(topForce);
-        forces.add(bottomForce);
+        forces.add(scenario.getAttackerForce());
+        forces.add(scenario.getDefenderForce());
 
         PagePrinter printer = new PagePrinter();
         for (int f = 0; f <= forces.size()-1; f++){
@@ -2325,11 +2357,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_mnuPrintRSActionPerformed
 
     private void txtUnitNameTopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitNameTopKeyReleased
-        topForce.ForceName = txtUnitNameTop.getText();
+        scenario.getAttackerForce().ForceName = txtUnitNameTop.getText();
     }//GEN-LAST:event_txtUnitNameTopKeyReleased
 
     private void txtUnitNameBottomKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUnitNameBottomKeyReleased
-        bottomForce.ForceName = txtUnitNameBottom.getText();
+        scenario.getDefenderForce().ForceName = txtUnitNameBottom.getText();
     }//GEN-LAST:event_txtUnitNameBottomKeyReleased
 
     private void tblTopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTopKeyReleased
@@ -2345,43 +2377,43 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tblBottomKeyReleased
 
     private void btnBalanceTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceTopActionPerformed
-        balanceSkills( topForce );
+        balanceSkills( scenario.getAttackerForce() );
     }//GEN-LAST:event_btnBalanceTopActionPerformed
 
     private void btnBalanceBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceBottomActionPerformed
-        balanceSkills( bottomForce );
+        balanceSkills( scenario.getDefenderForce() );
     }//GEN-LAST:event_btnBalanceBottomActionPerformed
 
     private void btnSwitchTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSwitchTopActionPerformed
-        switchUnits( tblTop, topForce, bottomForce );
+        switchUnits( tblTop, scenario.getAttackerForce(), scenario.getDefenderForce() );
     }//GEN-LAST:event_btnSwitchTopActionPerformed
 
     private void btnSwitchBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSwitchBottomActionPerformed
-        switchUnits( tblBottom, bottomForce, topForce );
+        switchUnits( tblBottom, scenario.getDefenderForce(), scenario.getAttackerForce() );
     }//GEN-LAST:event_btnSwitchBottomActionPerformed
 
     private void btnISTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnISTopActionPerformed
-        topForce.setType(BattleForce.InnerSphere);
+        scenario.getAttackerForce().setType(BattleForce.InnerSphere);
     }//GEN-LAST:event_btnISTopActionPerformed
 
     private void btnCLTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCLTopActionPerformed
-        topForce.setType(BattleForce.Clan);
+        scenario.getAttackerForce().setType(BattleForce.Clan);
     }//GEN-LAST:event_btnCLTopActionPerformed
 
     private void btnCSTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCSTopActionPerformed
-        topForce.setType(BattleForce.Comstar);
+        scenario.getAttackerForce().setType(BattleForce.Comstar);
     }//GEN-LAST:event_btnCSTopActionPerformed
 
     private void btnISBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnISBottomActionPerformed
-        bottomForce.setType(BattleForce.InnerSphere);
+        scenario.getDefenderForce().setType(BattleForce.InnerSphere);
     }//GEN-LAST:event_btnISBottomActionPerformed
 
     private void btnCLBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCLBottomActionPerformed
-        bottomForce.setType(BattleForce.Clan);
+        scenario.getDefenderForce().setType(BattleForce.Clan);
     }//GEN-LAST:event_btnCLBottomActionPerformed
 
     private void btnCSBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCSBottomActionPerformed
-        bottomForce.setType(BattleForce.Comstar);
+        scenario.getDefenderForce().setType(BattleForce.Comstar);
     }//GEN-LAST:event_btnCSBottomActionPerformed
 
     private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintActionPerformed
@@ -2443,15 +2475,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_mnuBFListActionPerformed
 
     private void rmnuTWModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuTWModelActionPerformed
-        topForce.setCurrentModel(new tbTWTable(topForce));
-        bottomForce.setCurrentModel(new tbTWTable(bottomForce));
+        scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
+        scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
         Refresh();
     }//GEN-LAST:event_rmnuTWModelActionPerformed
 
     private void rmnuBFModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuBFModelActionPerformed
         WaitCursor();
-        topForce.setCurrentModel(new tbBFTable(topForce));
-        bottomForce.setCurrentModel(new tbBFTable(bottomForce));
+        scenario.getAttackerForce().setCurrentModel(new tbBattleForce(scenario.getAttackerForce()));
+        scenario.getDefenderForce().setCurrentModel(new tbBattleForce(scenario.getDefenderForce()));
         Refresh();
         DefaultCursor();
     }//GEN-LAST:event_rmnuBFModelActionPerformed
@@ -2464,6 +2496,14 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             tblObjectives.setModel(scenario.getWarchest().getObjectiveTable());
         }
     }//GEN-LAST:event_btnAddObjectiveActionPerformed
+
+    private void rmnuInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuInformationActionPerformed
+        WaitCursor();
+        scenario.getAttackerForce().setCurrentModel(new tbChatInfo(scenario.getAttackerForce()));
+        scenario.getDefenderForce().setCurrentModel(new tbChatInfo(scenario.getDefenderForce()));
+        Refresh();
+        DefaultCursor();
+}//GEN-LAST:event_rmnuInformationActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBonus;
@@ -2601,6 +2641,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlTop;
     private javax.swing.JRadioButtonMenuItem rmnuBFModel;
+    private javax.swing.JRadioButtonMenuItem rmnuInformation;
     private javax.swing.JRadioButtonMenuItem rmnuTWModel;
     private javax.swing.JScrollPane spnBonus;
     private javax.swing.JScrollPane spnBottom;

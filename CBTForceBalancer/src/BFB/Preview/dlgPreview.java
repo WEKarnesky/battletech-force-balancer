@@ -604,7 +604,7 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
 
     private void btnImageMgrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImageMgrActionPerformed
         if ( Parent instanceof frmBase ) {
-            dlgMechImages dlgImg = new dlgMechImages((frmBase) Parent, new Force[]{Parent.topForce, Parent.bottomForce});
+            dlgMechImages dlgImg = new dlgMechImages((frmBase) Parent, new Force[]{Parent.scenario.getAttackerForce(), Parent.scenario.getDefenderForce()});
             if ( dlgImg.hasWork ) {
                 dlgImg.setLocationRelativeTo(this);
                 dlgImg.setVisible(true);

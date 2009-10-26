@@ -179,15 +179,17 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
             lstFiles.setModel(listModel);
         } catch (NullPointerException npe) {
-
+            Media.Messager("Could not load " + dirPath + ".\n" + npe.getMessage());
+            System.out.println(npe.getMessage());
         }
     }
 
     private void loadFSL() {
         try {
-            fsl.Load("./data/FactionList.txt");
+            fsl.Load("Data/FSL/FactionList.txt");
         } catch ( IOException ie ) {
-            //do nothing
+            Media.Messager("Could not load Faction Specific List\n" + ie.getMessage());
+            System.out.println(ie.getMessage());
         }
 
         tblFSL.setModel(fsl);
