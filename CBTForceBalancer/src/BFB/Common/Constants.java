@@ -63,34 +63,4 @@ public class Constants {
                                  "Support Vehicle", "Mobile Structure" };
     public final static String NL = System.getProperty( "line.separator" );
     public final static String Tab = "\t";
-
-    public enum UnitType {
-        BattleMech("BattleMech", 0),
-        Vehicle("Vehicle", 3),
-        BattleArmor("Battle Armor", 5),
-        Fighter("Fighter", 7),
-        SmallCraft("Small Craft", 8),
-        Spaceship("Spaceship", 9),
-        SupportVehicle("Support Vehicle", 10);
-
-        String name = "";
-        int value = -1;
-        UnitType( String Name, int Value ) {
-            this.name = Name;
-            this.value = Value;
-        }
-
-        public String Name() {
-            return name;
-        }
-
-        public int toValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
 }

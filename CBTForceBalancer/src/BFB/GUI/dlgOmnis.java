@@ -27,8 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import ssw.components.*;
-import ssw.filehandlers.MechListData;
+import list.MechListData;
 
 public class dlgOmnis extends javax.swing.JDialog {
     private frmBase parent;

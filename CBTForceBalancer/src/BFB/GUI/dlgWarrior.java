@@ -26,7 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package BFB.GUI;
 
-import BFB.*;
+import Force.Warrior;
+import Force.Warriors;
 
 public class dlgWarrior extends javax.swing.JDialog {
     private Warriors warriors;

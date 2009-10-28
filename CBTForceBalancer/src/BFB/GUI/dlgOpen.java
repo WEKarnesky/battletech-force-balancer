@@ -198,7 +198,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         cmbSource.setModel( fsl.getSources() );
         cmbFSLEra.setModel( fsl.getEras() );
 
-        //javax.swing.JOptionPane.showMessageDialog( this, fsl.Size() );
+        //Media.Messager( this, fsl.Size() );
     }
 
     private void Calculate() {
@@ -1262,7 +1262,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_btnClearFilterFilter
 
     private void tblMechDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMechDataKeyPressed
-        //javax.swing.JOptionPane.showMessageDialog(this, "You typed a " + evt.getKeyChar());
+        //Media.Messager(this, "You typed a " + evt.getKeyChar());
     }//GEN-LAST:event_tblMechDataKeyPressed
 
     private void lstFilesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstFilesValueChanged
@@ -1270,7 +1270,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         RUSReader reader = new RUSReader();
         try {
             String Path = BaseRUSPath + File.separator + RUSDirectory + File.separator + filename;
-            //javax.swing.JOptionPane.showMessageDialog(this, Path);
+            //Media.Messager(this, Path);
             reader.Load( Path, rus);
             lstOptions.setModel(rus.getDisplay());
         } catch ( Exception e ) {
@@ -1387,10 +1387,10 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             out.WriteList(dir + File.separator + "MechListing.txt", getList());
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            javax.swing.JOptionPane.showMessageDialog(this, "Mech List output to " + dir);
+            Media.Messager(this, "Mech List output to " + dir);
         } catch (IOException ex) {
             //do nothing
-            javax.swing.JOptionPane.showMessageDialog(this, "Unable to output list\n" + ex.getMessage() );
+            Media.Messager(this, "Unable to output list\n" + ex.getMessage() );
         }
 }//GEN-LAST:event_btnTextActionPerformed
 

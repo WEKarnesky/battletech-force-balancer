@@ -27,8 +27,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import BFB.*;
-import BFB.Common.CommonTools;
+import Force.Warrior;
+import Force.Warriors;
+import filehandlers.Media;
+
 import BFB.IO.XMLWriter;
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +39,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import ssw.filehandlers.Media;
 
 public class dlgPersonnel extends javax.swing.JDialog {
     public Warriors warriors;
@@ -461,7 +462,7 @@ public class dlgPersonnel extends javax.swing.JDialog {
                 lblStatus.setText("HMP Warrior file imported...");
                 warriors.setupTable(tblWarriors);
             } catch (IOException ex) {
-                javax.swing.JOptionPane.showMessageDialog(this, "An error occured while loading the request HMP Warrior file.\n" + ex.getMessage());
+                Media.Messager(this, "An error occured while loading the request HMP Warrior file.\n" + ex.getMessage());
             }
         }
     }//GEN-LAST:event_btnLoadHMPActionPerformed
@@ -483,7 +484,7 @@ public class dlgPersonnel extends javax.swing.JDialog {
             writer.SerializeWarriors(warriors, warriors.getPersonnelFile());
             lblStatus.setText("File saved...");
         } catch (IOException ex) {
-            CommonTools.Messager("Could not save your file!\n" + ex.getMessage());
+            Media.Messager("Could not save your file!\n" + ex.getMessage());
         }
     }//GEN-LAST:event_btnSaveFileActionPerformed
 
@@ -518,7 +519,7 @@ public class dlgPersonnel extends javax.swing.JDialog {
                 warriors = new Warriors(warFile.getCanonicalPath());
                 warriors.setupTable(tblWarriors);
             } catch (IOException ex) {
-                CommonTools.Messager("Could not open " + warFile.getName() + "\n" + ex.getMessage());
+                Media.Messager("Could not open " + warFile.getName() + "\n" + ex.getMessage());
             }
         }
     }//GEN-LAST:event_btnLoadFileActionPerformed

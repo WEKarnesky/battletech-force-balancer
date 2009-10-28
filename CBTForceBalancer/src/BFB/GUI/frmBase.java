@@ -116,7 +116,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }
 
     public void Refresh() {
-        //javax.swing.JOptionPane.showMessageDialog(this, "Refresh Fired");
+        //Media.Messager(this, "Refresh Fired");
 
         //scenario.setupTable(new JTable[]{tblTop, tblBottom});
 
@@ -336,7 +336,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     public void saveForce( Force force ) {
         if ( ! force.isSaveable() ) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a unit name and at least one unit before saving.");
+            Media.Messager(this, "Please enter a unit name and at least one unit before saving.");
             return;
         }
         String dirPath = media.GetDirectorySelection(this, Prefs.get("LastOpenUnit", ""));
@@ -346,7 +346,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         try {
             String filename = dirPath + File.separator + CommonTools.FormatFileName(force.ForceName) + ".force";
             write.SerializeForce(force, filename);
-            javax.swing.JOptionPane.showMessageDialog( this, "Force written to " + filename );
+            Media.Messager( this, "Force written to " + filename );
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -1991,12 +1991,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveActionPerformed
         if ( txtScenarioName.getText().isEmpty() ) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a scenario name before saving.");
+            Media.Messager(this, "Please enter a scenario name before saving.");
             return;
         }
         
         if ( !scenario.getAttackerForce().isSaveable() || !scenario.getDefenderForce().isSaveable() ) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a force name and at least one unit in each list before saving.");
+            Media.Messager(this, "Please enter a force name and at least one unit in each list before saving.");
             return;
         }
 
@@ -2022,7 +2022,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             
             Prefs.put("LastOpenBFBFile", filename);
             Prefs.put("CurrentBFBFile", filename);
-            javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
+            Media.Messager(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
             Media.Messager(e.getMessage());
             System.out.println(e.getMessage());
@@ -2126,7 +2126,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             System.out.println(ex.getMessage());
         }
 
-        javax.swing.JOptionPane.showMessageDialog(this, "Your forces have been exported to " + dir);
+        Media.Messager(this, "Your forces have been exported to " + dir);
         DefaultCursor();
 }//GEN-LAST:event_btnMULExportActionPerformed
 
@@ -2218,7 +2218,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             write.WriteXML(filename);
             Prefs.put("LastOpenBFBFile", filename);
             Prefs.put("CurrentBFBFile", filename);
-            javax.swing.JOptionPane.showMessageDialog(this, "Forces saved to " + filename);
+            Media.Messager(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
             System.out.println(e.getMessage());
             Media.Messager(e.getMessage());
