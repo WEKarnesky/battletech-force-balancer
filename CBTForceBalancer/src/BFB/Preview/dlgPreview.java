@@ -11,6 +11,7 @@ import battleforce.BattleForce;
 
 import BFB.GUI.dlgMechImages;
 import BFB.GUI.frmBase;
+import filehandlers.ImageTracker;
 import filehandlers.Media;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -30,12 +31,14 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
     private frmBase Parent;
     private Scenario scenario;
     private PagePrinter printer;
+    private ImageTracker imageTracker;
     private Preferences bfbPrefs = Preferences.userNodeForPackage("/bfb/gui/frmBase".getClass());
     private Preferences sswPrefs = Preferences.userNodeForPackage("/ssw/gui/frmMain".getClass());
 
-    public dlgPreview(String title, Component owner, Pageable pageable, double zoom) {
+    public dlgPreview(String title, Component owner, Pageable pageable, double zoom, ImageTracker images) {
         super(title);
         initComponents();
+        imageTracker = images;
         preview = new Preview(pageable, zoom, spnPreview.getSize());
         spnPreview.setViewportView(preview);
 
@@ -58,22 +61,22 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
         });
     }
 
-    public dlgPreview(String title, Component owner, Pageable pageable) {
-        this(title, owner, pageable, 0.0);
+    public dlgPreview(String title, Component owner, Pageable pageable, ImageTracker images) {
+        this(title, owner, pageable, 0.0, images);
     }
 
-    public dlgPreview(String title, Component owner, PagePrinter printer, Scenario scenario) {
-        this(title, owner, printer.Preview(), 0.0);
+    public dlgPreview(String title, Component owner, PagePrinter printer, Scenario scenario, ImageTracker images) {
+        this(title, owner, printer.Preview(), 0.0, images);
         setScenario(scenario);
         setPrinter(printer);
     }
 
-    public dlgPreview(String title, Component owner, Printable printable, PageFormat format, int pages, double zoom) {
-        this(title, owner, new MyPageable(printable, format, pages), zoom);
+    public dlgPreview(String title, Component owner, Printable printable, PageFormat format, int pages, double zoom, ImageTracker images) {
+        this(title, owner, new MyPageable(printable, format, pages), zoom, images);
     }
 
-    public dlgPreview(String title, Component owner, Printable printable, PageFormat format, int pages) {
-        this(title, owner, printable, format, pages, 0.0);
+    public dlgPreview(String title, Component owner, Printable printable, PageFormat format, int pages, ImageTracker images) {
+        this(title, owner, printable, format, pages, 0.0, images);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -188,6 +191,7 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
         }
 
         if ( chkPrintBattleforce.isSelected() ) {
+            imageTracker.preLoadBattleForceImages();
             if ( cmbBFSheetType.getSelectedIndex() == 0 ){
                 if ( chkBFOnePerPage.isSelected() ) {
                     Vector<BattleForce> forcelist = new Vector<BattleForce>();
@@ -195,16 +199,16 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
                     forcelist.addAll(scenario.getDefenderForce().toBattleForceByGroup());
 
                     for ( BattleForce f : forcelist ) {
-                        BattleforcePrinter bf = new BattleforcePrinter(f);
+                        BattleforcePrinter bf = new BattleforcePrinter(f, imageTracker);
                         bf.setPrintLogo(chkLogo.isSelected());
                         bf.setPrintMechs(chkImage.isSelected());
                         printer.Append( BFBPrinter.Letter.toPage(), bf);
                     }
                 } else {
-                    BattleforcePrinter topBF = new BattleforcePrinter(scenario.getAttackerForce().toBattleForce());
+                    BattleforcePrinter topBF = new BattleforcePrinter(scenario.getAttackerForce().toBattleForce(), imageTracker);
                     topBF.setPrintLogo(chkLogo.isSelected());
                     topBF.setPrintMechs(chkImage.isSelected());
-                    BattleforcePrinter bottomBF = new BattleforcePrinter(scenario.getDefenderForce().toBattleForce());
+                    BattleforcePrinter bottomBF = new BattleforcePrinter(scenario.getDefenderForce().toBattleForce(), imageTracker);
                     bottomBF.setPrintLogo(chkLogo.isSelected());
                     bottomBF.setPrintMechs(chkImage.isSelected());
 
@@ -217,7 +221,7 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
                     forces.addAll(scenario.getDefenderForce().toBattleForceByGroup());
 
                     for ( BattleForce f : forces ) {
-                        BattleforceCardPrinter bf = new BattleforceCardPrinter(f);
+                        BattleforceCardPrinter bf = new BattleforceCardPrinter(f, imageTracker);
                         bf.setPrintLogo(chkLogo.isSelected());
                         bf.setPrintMechs(chkImage.isSelected());
                         printer.Append( BFBPrinter.Letter.toPage(), bf);
@@ -226,14 +230,11 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
         }
 
         if ( chkPrintRecordsheets.isSelected() ) {
-            Force[] forces = new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()};
-
-            for ( int f=0; f < forces.length; f++ ) {
-                Force force = forces[f];
-
+            imageTracker.preLoadMechImages();
+            for ( Force force : scenario.getForces() ) {
                 for ( Unit u : force.Units ) {
                     u.LoadMech();
-                    PrintMech pm = new PrintMech(u.m,u.getMechwarrior(), u.getGunnery(), u.getPiloting());
+                    PrintMech pm = new PrintMech(u.m,u.getMechwarrior(), u.getGunnery(), u.getPiloting(), imageTracker);
                     pm.setCanon(chkCanon.isSelected());
                     pm.setCharts(chkTables.isSelected());
                     if ( chkUseHexConversion.isSelected() ) {
@@ -244,6 +245,9 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
                     }
                     if ( chkLogo.isSelected() ) {
                         pm.setLogoImage(force.getLogo());
+                    }
+                    if ( cmbRSType.getSelectedIndex() == 1 ) {
+                        pm.setTRO(true);
                     }
                     printer.Append( BFBPrinter.Letter.toPage(), pm);
                 }
@@ -452,7 +456,7 @@ public class dlgPreview extends javax.swing.JFrame implements ActionListener {
                 .addGap(1, 1, 1))
         );
 
-        cmbRSType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Total Warfare", "Technical Readout", "Tactical Operations" }));
+        cmbRSType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Total Warfare", "Recordsheet", "Tactical Operations" }));
         cmbRSType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemChanged(evt);

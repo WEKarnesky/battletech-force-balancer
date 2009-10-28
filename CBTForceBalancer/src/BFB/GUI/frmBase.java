@@ -31,14 +31,13 @@ import Force.*;
 import Force.View.*;
 import Print.*;
 import filehandlers.Media;
+import filehandlers.ImageTracker;
 import common.CommonTools;
 import battleforce.BattleForce;
 
 import BFB.IO.*;
 import BFB.Preview.dlgPreview;
-import Force.Objective;
-import Print.BFBPrinter;
-import Print.PrintMech;
+
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.datatransfer.Clipboard;
@@ -46,7 +45,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.util.Vector;
 import java.util.prefs.*;
 import javax.swing.ImageIcon;
 import javax.swing.event.TableModelEvent;
@@ -57,6 +55,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     public Preferences Prefs;
     private dlgOpen dOpen;
     private Media media = new Media();
+    private ImageTracker images = new ImageTracker();
 
     private KeyListener KeyTyped = new KeyListener() {
         public void keyTyped(KeyEvent e) {
@@ -2049,22 +2048,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuPrintUnitsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintUnitsActionPerformed
         WaitCursor();
-        Vector forces = new Vector();
-        forces.add(scenario.getAttackerForce());
-        forces.add(scenario.getDefenderForce());
+        images.preLoadMechImages();
 
         PagePrinter printer = new PagePrinter();
-        for (int f = 0; f <= forces.size()-1; f++){
-            Force printForce = (Force) forces.get(f);
+        for ( Force printForce : scenario.getForces() ) {
 
             //printer.setLogoPath(printForce.LogoPath);
             printer.setJobName(printForce.ForceName);
 
-            for (int i = 0; i < printForce.Units.size(); ++i) {
-                Unit u = (Unit) printForce.Units.get(i);
+            for ( Unit u : printForce.Units ) {
                 u.LoadMech();
-                PrintMech pm = new PrintMech(u.m, u.getMechwarrior(), u.getGunnery(), u.getPiloting());
-                pm.setLogoImage(media.GetImage(printForce.LogoPath));
+                PrintMech pm = new PrintMech(u.m, u.getMechwarrior(), u.getGunnery(), u.getPiloting(),images);
+                pm.setLogoImage(images.getImage(printForce.LogoPath));
                 printer.Append( BFBPrinter.Letter.toPage(), pm);
             }
         }
@@ -2301,7 +2296,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
         WaitCursor();
         PagePrinter printer = SetupPrinter();
-        dlgPreview prv = new dlgPreview("Print Preview", this, printer, scenario);
+        dlgPreview prv = new dlgPreview("Print Preview", this, printer, scenario, images);
         prv.setLocationRelativeTo(this);
         prv.setVisible(true);
         DefaultCursor();
@@ -2331,21 +2326,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuPrintRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintRSActionPerformed
         WaitCursor();
-        Vector forces = new Vector();
-        forces.add(scenario.getAttackerForce());
-        forces.add(scenario.getDefenderForce());
+        images.preLoadMechImages();
 
         PagePrinter printer = new PagePrinter();
-        for (int f = 0; f <= forces.size()-1; f++){
-            Force printForce = (Force) forces.get(f);
-
-            //printer.setLogoPath(printForce.LogoPath);
+        for ( Force printForce : scenario.getForces() ) {
             printer.setJobName(printForce.ForceName);
 
-            for (int i = 0; i < printForce.Units.size(); ++i) {
-                Unit u = (Unit) printForce.Units.get(i);
+            for ( Unit u : printForce.Units ) {
                 u.LoadMech();
-                PrintMech pm = new PrintMech(u.m, u.getMechwarrior(), u.getGunnery(), u.getPiloting());
+                PrintMech pm = new PrintMech(u.m, u.getMechwarrior(), u.getGunnery(), u.getPiloting(),images);
                 pm.setCanon(true);
                 pm.setCharts(false);
                 pm.SetMiniConversion(1);
@@ -2672,6 +2661,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
         //do nothing
+    }
+
+    /**
+     * @return the images
+     */
+    public ImageTracker getImageTracker() {
+        return images;
     }
 
 }

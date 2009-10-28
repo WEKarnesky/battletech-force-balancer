@@ -1169,9 +1169,10 @@ public class dlgUnit extends javax.swing.JDialog {
 }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        Parent.getImageTracker().preLoadMechImages();
         PagePrinter printer = new PagePrinter();
         unit.LoadMech();
-        PrintMech pm = new PrintMech(unit.m, unit.getMechwarrior(), unit.getGunnery(), unit.getPiloting());
+        PrintMech pm = new PrintMech(unit.m, unit.getMechwarrior(), unit.getGunnery(), unit.getPiloting(), Parent.getImageTracker());
         printer.Append( BFBPrinter.Letter.toPage(), pm);
         printer.Print();
 }//GEN-LAST:event_btnPrintActionPerformed

@@ -19,9 +19,6 @@ import BFB.Preview.dlgPreview;
 import java.awt.Cursor;
 import java.util.Vector;
 import java.util.prefs.Preferences;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.swing.DefaultComboBoxModel;
 
 public class dlgPrint extends javax.swing.JDialog {
     private frmBase parent;
@@ -133,6 +130,7 @@ public class dlgPrint extends javax.swing.JDialog {
         }
 
         if (chkPrintBattleforce.isSelected()) {
+            parent.getImageTracker().preLoadBattleForceImages();
             if (cmbBFSheetType.getSelectedIndex() == 0) {
                 if (chkBFOnePerPage.isSelected()) {
                     Vector<BattleForce> forces = new Vector<BattleForce>();
@@ -140,17 +138,17 @@ public class dlgPrint extends javax.swing.JDialog {
                     forces.addAll(parent.scenario.getDefenderForce().toBattleForceByGroup());
 
                     for (BattleForce f : forces) {
-                        BattleforcePrinter bf = new BattleforcePrinter(f);
+                        BattleforcePrinter bf = new BattleforcePrinter(f, parent.getImageTracker());
                         bf.setPrintLogo(chkLogo.isSelected());
                         bf.setPrintMechs(chkImage.isSelected());
                         printer.Append(BFBPrinter.Letter.toPage(), bf);
                     }
                 } else {
-                    BattleforcePrinter topBF = new BattleforcePrinter(parent.scenario.getAttackerForce().toBattleForce());
+                    BattleforcePrinter topBF = new BattleforcePrinter(parent.scenario.getAttackerForce().toBattleForce(), parent.getImageTracker());
                     topBF.setPrintLogo(chkLogo.isSelected());
                     topBF.setPrintMechs(chkImage.isSelected());
 
-                    BattleforcePrinter bottomBF = new BattleforcePrinter(parent.scenario.getDefenderForce().toBattleForce());
+                    BattleforcePrinter bottomBF = new BattleforcePrinter(parent.scenario.getDefenderForce().toBattleForce(), parent.getImageTracker());
                     bottomBF.setPrintLogo(chkLogo.isSelected());
                     bottomBF.setPrintMechs(chkImage.isSelected());
 
@@ -163,7 +161,7 @@ public class dlgPrint extends javax.swing.JDialog {
                 forces.addAll(parent.scenario.getDefenderForce().toBattleForceByGroup());
 
                 for (BattleForce f : forces) {
-                    BattleforceCardPrinter bf = new BattleforceCardPrinter(f);
+                    BattleforceCardPrinter bf = new BattleforceCardPrinter(f, parent.getImageTracker());
                     bf.setPrintLogo(chkLogo.isSelected());
                     bf.setPrintMechs(chkImage.isSelected());
                     printer.Append(BFBPrinter.Letter.toPage(), bf);
@@ -172,15 +170,11 @@ public class dlgPrint extends javax.swing.JDialog {
         }
 
         if (chkPrintRecordsheets.isSelected()) {
-            Force[] forces = new Force[]{parent.scenario.getAttackerForce(), parent.scenario.getDefenderForce()};
-
-            for (int f = 0; f < forces.length; f++) {
-                Force force = forces[f];
-
-                for (int m = 0; m < force.Units.size(); m++) {
-                    Unit u = (Unit) force.Units.get(m);
+            parent.getImageTracker().preLoadMechImages();
+            for ( Force force : parent.scenario.getForces() ) {
+                for ( Unit u : force.Units ) {
                     u.LoadMech();
-                    PrintMech pm = new PrintMech(u.m, u.getMechwarrior(), u.getGunnery(), u.getPiloting());
+                    PrintMech pm = new PrintMech(u.m, u.getMechwarrior(), u.getGunnery(), u.getPiloting(), parent.getImageTracker());
                     pm.setCanon(chkCanon.isSelected());
                     pm.setCharts(chkTables.isSelected());
                     if (chkUseHexConversion.isSelected()) {
@@ -191,6 +185,9 @@ public class dlgPrint extends javax.swing.JDialog {
                     }
                     if (chkLogo.isSelected()) {
                         pm.setLogoImage(force.getLogo());
+                    }
+                    if ( cmbRSType.getSelectedIndex() == 1 ) {
+                        pm.setTRO(true);
                     }
                     printer.Append(BFBPrinter.Letter.toPage(), pm);
                 }
@@ -539,7 +536,7 @@ public class dlgPrint extends javax.swing.JDialog {
             }
         });
 
-        cmbRSType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Total Warfare", "Technical Readout", "Tactical Operations" }));
+        cmbRSType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Total Warfare", "Recordsheet", "Tactical Operations" }));
         cmbRSType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemChanged(evt);
@@ -729,7 +726,7 @@ public class dlgPrint extends javax.swing.JDialog {
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
         setStatus("Loading Requested Sheets");
         PagePrinter printer = SetupPrinter();
-        dlgPreview prv = new dlgPreview("Print Preview", this, printer.Preview());
+        dlgPreview prv = new dlgPreview("Print Preview", this, printer.Preview(), parent.getImageTracker());
         prv.setLocationRelativeTo(this);
         prv.setVisible(true);
     }//GEN-LAST:event_btnPreviewActionPerformed

@@ -588,7 +588,7 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
                     <StringItem index="0" value="Total Warfare"/>
-                    <StringItem index="1" value="Technical Readout"/>
+                    <StringItem index="1" value="Recordsheet"/>
                     <StringItem index="2" value="Tactical Operations"/>
                   </StringArray>
                 </Property>
