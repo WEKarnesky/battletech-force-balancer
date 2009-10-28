@@ -112,6 +112,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         epnAftermath.addKeyListener(KeyTyped);
         
         Refresh();
+
+        if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
     }
 
     public void Refresh() {
@@ -395,8 +397,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         printer.setJobName(this.txtScenarioName.getText());
 
         //Force List
-        ForceList sheet = new ForceList();
-        sheet.AddForces(new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
+        ForceListPrinter sheet = new ForceListPrinter();
+        sheet.AddForces(scenario.getForces());
         printer.Append( BFBPrinter.Letter.toPage(), sheet );
 
         /*
@@ -1910,7 +1912,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                     }
         }
 
-        File forceFile = media.SelectFile(Prefs.get("LastOpenBFBDirectory", ""), "bfb", "Load Force List");
+        File forceFile = media.SelectFile(Prefs.get("LastOpenFile", ""), "bfb", "Load Force List");
 
         if (forceFile != null) {
             WaitCursor();
@@ -1918,8 +1920,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             try {
                loadScenario(forceFile.getCanonicalPath());
 
-               Prefs.put("LastOpenBFBDirectory", forceFile.getCanonicalPath().replace(forceFile.getName(), ""));
-               Prefs.put("LastOpenBFBFile", forceFile.getName());
+               Prefs.put("LastOpenFile", forceFile.getCanonicalPath());
                Prefs.put("CurrentBFBFile", forceFile.getPath());
             } catch (Exception e) {
                Media.Messager("Issue loading file:\n " + e.getMessage() );
@@ -2298,15 +2299,17 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_txtBottomPilotKeyReleased
 
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
+        WaitCursor();
         PagePrinter printer = SetupPrinter();
-        dlgPreview prv = new dlgPreview("Print Preview", this, printer, new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
+        dlgPreview prv = new dlgPreview("Print Preview", this, printer, scenario);
         prv.setLocationRelativeTo(this);
         prv.setVisible(true);
+        DefaultCursor();
     }//GEN-LAST:event_btnPreviewActionPerformed
 
     private void btnManageImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageImagesActionPerformed
         WaitCursor();
-        dlgMechImages img = new dlgMechImages(this, new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
+        dlgMechImages img = new dlgMechImages(this, scenario.getForces());
         if ( img.hasWork ) {
             img.setLocationRelativeTo(this);
             img.setVisible(true);

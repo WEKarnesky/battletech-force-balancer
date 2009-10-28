@@ -27,9 +27,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import BFB.Common.CommonTools;
-import BFB.Force;
-import BFB.Unit;
+import filehandlers.Media;
+
+import Force.*;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -37,11 +37,11 @@ import java.util.Hashtable;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.TitledBorder;
-import ssw.filehandlers.Media;
-import ssw.filehandlers.XMLWriter;
+import filehandlers.MechWriter;
+import java.util.Vector;
 
 public class dlgMechImages extends javax.swing.JDialog {
-    public Force[] forces;
+    public Vector<Force> forces = new Vector<Force>();
     public boolean hasWork = false;
 
     private frmBase Parent;
@@ -55,14 +55,13 @@ public class dlgMechImages extends javax.swing.JDialog {
         initComponents();
     }
 
-    public dlgMechImages(java.awt.Frame parent, Force[] forces) {
+    public dlgMechImages(java.awt.Frame parent, Vector<Force> forces) {
         this(parent, true);
         this.Parent = (frmBase) parent;
         this.forces = forces;
 
         //load units without images
-        for (int j=0; j<forces.length; j++) {
-            Force force = forces[j];
+        for ( Force force : forces ) {
             for (int i=0; i<force.Units.size(); i++) {
                 Unit u = (Unit) force.Units.get(i);
                 u.LoadMech();
@@ -95,7 +94,7 @@ public class dlgMechImages extends javax.swing.JDialog {
         }
 
         if ( unitList.isEmpty() ) {
-            CommonTools.Messager("All of your units have images selected.  To change individual images double click the unit." );
+            Media.Messager("All of your units have images selected.  To change individual images double click the unit." );
             this.setVisible(false);
             this.dispose();
         } else {
@@ -247,7 +246,7 @@ public class dlgMechImages extends javax.swing.JDialog {
                     curUnit.m.SetSSWImage(imageFile.getCanonicalPath());
                     media.setLogo(lblImage, new File(curUnit.m.GetSSWImage()));
 
-                    XMLWriter writer = new XMLWriter();
+                    MechWriter writer = new MechWriter();
                     writer.setMech(curUnit.m);
                     writer.WriteXML(curUnit.Filename);
                     lblStatus.setText(curUnit.TypeModel + " Image Selection Saved!");

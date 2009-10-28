@@ -42,16 +42,16 @@ public class Main {
     public static void main(String[] args) {
         String logFile = "./logs/bfb.log";
 
-        try {
-            if (!new File("./logs/").exists()) {
-                new File("./logs/").mkdir();
-            }
-            PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(logFile), 64));
-            System.setOut(ps);
-            System.setErr(ps);
-        } catch (Exception ex) {
-            System.err.println("Unable to redirect output");
-        }
+//        try {
+//            if (!new File("./logs/").exists()) {
+//                new File("./logs/").mkdir();
+//            }
+//            PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(logFile), 64));
+//            System.setOut(ps);
+//            System.setErr(ps);
+//        } catch (Exception ex) {
+//            System.err.println("Unable to redirect output");
+//        }
 
        Runtime runtime = Runtime.getRuntime();
        System.out.println("Battletech Force Balancer is starting...");
