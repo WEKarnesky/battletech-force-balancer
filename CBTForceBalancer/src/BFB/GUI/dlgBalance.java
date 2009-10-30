@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.GUI;
 
 import Force.*;
-
 import Force.Skills;
 import Force.Skills.Skill;
 

@@ -30,13 +30,14 @@ package BFB.GUI;
 import Force.*;
 import Force.View.*;
 import Print.*;
+import Print.preview.*;
+import dialog.*;
 import filehandlers.Media;
 import filehandlers.ImageTracker;
 import common.CommonTools;
 import battleforce.BattleForce;
 
 import BFB.IO.*;
-import BFB.Preview.dlgPreview;
 
 import java.awt.Cursor;
 import java.awt.Image;
@@ -254,7 +255,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void editUnit( javax.swing.JTable Table, Force force ) {
         Unit u = (Unit) force.Units.get(Table.convertRowIndexToModel(Table.getSelectedRow()));
-        dlgUnit dUnit = new dlgUnit(this, true, force, u);
+        dlgUnit dUnit = new dlgUnit(this, true, force, u, images);
         dUnit.setLocationRelativeTo(this);
         dUnit.setVisible(true);
         force.RefreshBV();
@@ -396,7 +397,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         printer.setJobName(this.txtScenarioName.getText());
 
         //Force List
-        ForceListPrinter sheet = new ForceListPrinter();
+        ForceListPrinter sheet = new ForceListPrinter(images);
         sheet.AddForces(scenario.getForces());
         printer.Append( BFBPrinter.Letter.toPage(), sheet );
 
@@ -2039,7 +2040,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuPrintForceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintForceActionPerformed
        WaitCursor();
-       BFBPrinter printer = new BFBPrinter();
+       BFBPrinter printer = new BFBPrinter(images);
        printer.setJobName(this.txtScenarioName.getText());
        printer.setTitle(this.txtScenarioName.getText());
        printer.Print();
@@ -2304,7 +2305,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void btnManageImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageImagesActionPerformed
         WaitCursor();
-        dlgMechImages img = new dlgMechImages(this, scenario.getForces());
+        dlgImageMgr img = new dlgImageMgr(this, scenario.getForces(), images);
         if ( img.hasWork ) {
             img.setLocationRelativeTo(this);
             img.setVisible(true);
@@ -2313,7 +2314,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_btnManageImagesActionPerformed
 
     private void mnuPrintDlgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintDlgActionPerformed
-        dlgPrint print = new dlgPrint(this, false);
+        dlgPrint print = new dlgPrint(this, true, scenario, images);
         print.setLocationRelativeTo(this);
         print.setVisible(true);
 }//GEN-LAST:event_mnuPrintDlgActionPerformed
@@ -2409,7 +2410,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_btnCSBottomActionPerformed
 
     private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintActionPerformed
-        dlgPrint print = new dlgPrint(this, false);
+        dlgPrint print = new dlgPrint(this, true, scenario, images);
         print.setLocationRelativeTo(this);
         print.setVisible(true);
     }//GEN-LAST:event_mnuPrintActionPerformed
