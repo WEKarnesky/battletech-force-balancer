@@ -113,7 +113,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         
         Refresh();
 
-        if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
+        //if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
     }
 
     public void Refresh() {
@@ -1982,12 +1982,25 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
 
         Prefs.put("CurrentBFBFile", "");
-        this.scenario.getAttackerForce().Clear();
-        this.scenario.getDefenderForce().Clear();
-        this.txtScenarioName.setText("");
-        this.lblUnitLogoTop.setIcon(null);
-        this.lblUnitLogoBottom.setIcon(null);
-        this.Refresh();
+        this.scenario = new Scenario();
+        epnAftermath.setText("");
+        epnAttacker.setText("");
+        epnDefender.setText("");
+        epnSetup.setText("");
+        epnSituation.setText("");
+        epnVictoryConditions.setText("");
+
+        txtTrackCost.setText("");
+        tblObjectives.setModel(scenario.getWarchest().getObjectiveTable());
+        tblBonuses.setModel(scenario.getWarchest().getBonusTable());
+
+        txtScenarioName.setText("");
+        txtUnitNameTop.setText("");
+        txtUnitNameBottom.setText("");
+        lblUnitLogoTop.setIcon(null);
+        lblUnitLogoBottom.setIcon(null);
+
+        Refresh();
     }//GEN-LAST:event_mnuNewActionPerformed
 
     private void mnuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveActionPerformed

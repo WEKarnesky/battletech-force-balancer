@@ -443,11 +443,11 @@
               <Component id="chkUseForceModifier" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="lblForceMod" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="425" max="32767" attributes="0"/>
+              <EmptySpace pref="514" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" pref="1089" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="1093" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -707,7 +707,7 @@
                                           <Component id="btnCLBottom" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnCSBottom" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
+                                          <EmptySpace pref="130" max="32767" attributes="0"/>
                                           <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="txtBottomGun" min="-2" max="-2" attributes="0"/>
@@ -718,7 +718,7 @@
                                           <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                                           <Component id="tlbBottom" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="spnBottom" pref="956" max="32767" attributes="0"/>
+                                      <Component id="spnBottom" pref="942" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -734,7 +734,7 @@
                                   <Component id="lblBaseBVBottom" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="353" max="32767" attributes="0"/>
+                                  <EmptySpace pref="365" max="32767" attributes="0"/>
                                   <Component id="lblTotalBVBottom" min="-2" pref="73" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -763,7 +763,7 @@
                                       <Component id="tlbBottom" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnBottom" pref="224" max="32767" attributes="0"/>
+                                  <Component id="spnBottom" pref="225" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1106,10 +1106,10 @@
                                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="txtTopPilot" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="15" max="32767" attributes="0"/>
+                                          <EmptySpace pref="134" max="32767" attributes="0"/>
                                           <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="spnTop" pref="957" max="32767" attributes="0"/>
+                                      <Component id="spnTop" pref="943" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -1125,7 +1125,7 @@
                                   <Component id="lblBaseBVTop" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="358" max="32767" attributes="0"/>
+                                  <EmptySpace pref="370" max="32767" attributes="0"/>
                                   <Component id="lblTotalBVTop" min="-2" pref="74" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1512,11 +1512,11 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="txtReward" min="-2" pref="56" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtObjective" pref="389" max="32767" attributes="0"/>
+                                      <Component id="txtObjective" pref="523" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnAddObjective" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="spnObjectives" alignment="0" pref="578" max="32767" attributes="1"/>
+                                  <Component id="spnObjectives" alignment="0" pref="692" max="32767" attributes="1"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -1526,11 +1526,11 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="txtAmount" min="-2" pref="56" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtBonus" pref="409" max="32767" attributes="0"/>
+                                      <Component id="txtBonus" pref="523" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnAddBonus" min="-2" pref="101" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="spnBonus" alignment="0" pref="578" max="32767" attributes="1"/>
+                                  <Component id="spnBonus" alignment="0" pref="692" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1577,7 +1577,7 @@
                               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" pref="109" max="32767" attributes="0"/>
+                              <Component id="jScrollPane3" pref="112" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="1">
                               <Component id="jScrollPane2" pref="95" max="32767" attributes="1"/>
