@@ -33,6 +33,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import javax.swing.ImageIcon;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -42,31 +43,31 @@ public class Main {
     public static void main(String[] args) {
         String logFile = "./logs/bfb.log";
 
-//        try {
-//            if (!new File("./logs/").exists()) {
-//                new File("./logs/").mkdir();
-//            }
-//            PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(logFile), 64));
-//            System.setOut(ps);
-//            System.setErr(ps);
-//        } catch (Exception ex) {
-//            System.err.println("Unable to redirect output");
-//        }
+        try {
+            if (!new File("./logs/").exists()) {
+                new File("./logs/").mkdir();
+            }
+            PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(logFile), 64));
+            System.setOut(ps);
+            System.setErr(ps);
+        } catch (Exception ex) {
+            System.err.println("Unable to redirect output");
+        }
 
        Runtime runtime = Runtime.getRuntime();
        System.out.println("Battletech Force Balancer is starting...");
        System.out.println("Memory Allocated [" + runtime.maxMemory() / 1000 + "]");
        System.out.flush();
         //Require 256mb of Memory for canon dot patterns
-//        if (runtime.maxMemory() < 256000000) {
-//            try {
-//                String[] call = { "java", "-Xmx256m", "-jar", "CBTForceBalancer.jar" };
-//                runtime.exec(call);
-//                System.exit(0);
-//            } catch (Exception ex) {
-//                System.out.println(ex.getMessage());
-//            }
-//        }
+        if (runtime.maxMemory() < 256000000) {
+            try {
+                String[] call = { "java", "-Xmx256m", "-jar", "BFB.jar" };
+                runtime.exec(call);
+                System.exit(0);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
 
         try {
             // added code to turn off the boldface of Metal L&F.
@@ -105,7 +106,14 @@ public class Main {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                ImageIcon icon;
                 frmBase MainFrame = new frmBase();
+                try {
+                    icon = new ImageIcon(MainFrame.getClass().getResource("/BFB/Images/equalizer.png"));
+                    MainFrame.setIconImage(icon.getImage());
+                } catch (Exception e) {
+                    System.out.println("Error loading Icon image...\n" + e.getMessage());
+                }
                 MainFrame.setLocationRelativeTo( null );
                 //MainFrame.setResizable( false );
                 MainFrame.setDefaultCloseOperation( javax.swing.JFrame.DO_NOTHING_ON_CLOSE );
