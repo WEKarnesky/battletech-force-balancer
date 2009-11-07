@@ -1512,11 +1512,11 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="txtReward" min="-2" pref="56" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtObjective" pref="523" max="32767" attributes="0"/>
+                                      <Component id="txtObjective" pref="542" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnAddObjective" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="spnObjectives" alignment="0" pref="692" max="32767" attributes="1"/>
+                                  <Component id="spnObjectives" alignment="0" pref="711" max="32767" attributes="1"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -1526,11 +1526,11 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="txtAmount" min="-2" pref="56" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtBonus" pref="523" max="32767" attributes="0"/>
+                                      <Component id="txtBonus" pref="542" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnAddBonus" min="-2" pref="101" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="spnBonus" alignment="0" pref="692" max="32767" attributes="1"/>
+                                  <Component id="spnBonus" alignment="0" pref="711" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1726,6 +1726,9 @@
                     </Property>
                     <Property name="showVerticalLines" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tblBonusesKeyReleased"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1784,6 +1787,9 @@
                     </Property>
                     <Property name="showVerticalLines" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tblObjectivesKeyReleased"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1791,6 +1797,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Bonus"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddBonusActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAddObjective">
               <Properties>

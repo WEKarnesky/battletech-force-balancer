@@ -50,6 +50,7 @@ import java.util.prefs.*;
 import javax.swing.ImageIcon;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 
 public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
     public Scenario scenario = new Scenario();
@@ -988,7 +989,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(btnCLBottom)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCSBottom)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtBottomGun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -998,7 +999,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(txtBottomPilot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
                                 .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)))
+                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lblUnitsBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1012,7 +1013,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(lblBaseBVBottom)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
                         .addComponent(lblTotalBVBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1035,7 +1036,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel11))
                             .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)))
+                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsBottom)
@@ -1301,9 +1302,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtTopPilot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)))
+                            .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 943, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lblUnitsTop, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1317,7 +1318,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(lblBaseBVTop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 370, Short.MAX_VALUE)
                         .addComponent(lblTotalBVTop, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1345,7 +1346,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                     .addComponent(jLabel9))
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsTop)
@@ -1432,6 +1433,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         tblBonuses.setShowVerticalLines(false);
+        tblBonuses.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblBonusesKeyReleased(evt);
+            }
+        });
         spnBonus.setViewportView(tblBonuses);
 
         txtAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
@@ -1466,9 +1472,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         tblObjectives.setShowVerticalLines(false);
+        tblObjectives.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblObjectivesKeyReleased(evt);
+            }
+        });
         spnObjectives.setViewportView(tblObjectives);
 
         btnAddBonus.setText("Add Bonus");
+        btnAddBonus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddBonusActionPerformed(evt);
+            }
+        });
 
         btnAddObjective.setText("Add Objective");
         btnAddObjective.addActionListener(new java.awt.event.ActionListener() {
@@ -1488,13 +1504,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5)
                     .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane8)
                             .addComponent(jLabel12)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
@@ -1502,19 +1518,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel15))
                             .addComponent(jLabel20)
                             .addComponent(jLabel19)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
+                            .addComponent(jScrollPane7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3)
                             .addComponent(jLabel14)
                             .addComponent(jLabel23)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtReward, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtObjective, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                                .addComponent(txtObjective, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAddObjective))
-                            .addComponent(spnObjectives, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                            .addComponent(spnObjectives, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel22)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1523,10 +1539,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBonus, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                                .addComponent(txtBonus, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAddBonus, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnBonus, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))))
+                            .addComponent(spnBonus, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1862,7 +1878,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1113, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblScenarioName)
@@ -1872,10 +1888,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addComponent(chkUseForceModifier)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblForceMod)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addContainerGap(514, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1093, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -2500,6 +2516,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             txtReward.setText("");
             txtObjective.setText("");
             tblObjectives.setModel(scenario.getWarchest().getObjectiveTable());
+            scenario.MakeDirty(true);
         }
     }//GEN-LAST:event_btnAddObjectiveActionPerformed
 
@@ -2510,6 +2527,52 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         Refresh();
         DefaultCursor();
 }//GEN-LAST:event_rmnuInformationActionPerformed
+
+    private void btnAddBonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBonusActionPerformed
+        if ( !txtAmount.getText().isEmpty() && !txtBonus.getText().isEmpty() ) {
+            scenario.getWarchest().getBonuses().add(new Bonus(txtBonus.getText(), Integer.parseInt(txtAmount.getText())));
+            txtAmount.setText("");
+            txtBonus.setText("");
+            tblBonuses.setModel(scenario.getWarchest().getBonusTable());
+            scenario.MakeDirty(true);
+        }
+    }//GEN-LAST:event_btnAddBonusActionPerformed
+
+    private void tblBonusesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblBonusesKeyReleased
+        if ( tblBonuses.getSelectedRowCount() > 0 ) {
+            if ( evt.getKeyCode() == KeyEvent.VK_DELETE ) {
+                 int[] rows = tblBonuses.getSelectedRows();
+                 Bonus[] bonuses = new Bonus[rows.length];
+                 for (int i=0; i < rows.length; i++ ) {
+                     Bonus b = (Bonus) scenario.getWarchest().getBonuses().get(tblBonuses.convertRowIndexToModel(rows[i]));
+                     bonuses[i] = b;
+                 }
+                 for (int j=0; j < bonuses.length; j++) {
+                     scenario.getWarchest().getBonuses().remove(bonuses[j]);
+                 }
+                 tblBonuses.setModel(scenario.getWarchest().getBonusTable());
+                 scenario.MakeDirty(true);
+            }
+        }
+    }//GEN-LAST:event_tblBonusesKeyReleased
+
+    private void tblObjectivesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblObjectivesKeyReleased
+        if ( tblObjectives.getSelectedRowCount() > 0 ) {
+            if ( evt.getKeyCode() == KeyEvent.VK_DELETE ) {
+                 int[] rows = tblObjectives.getSelectedRows();
+                 Objective[] objectives = new Objective[rows.length];
+                 for (int i=0; i < rows.length; i++ ) {
+                     Objective o = (Objective) scenario.getWarchest().getObjectives().get(tblObjectives.convertRowIndexToModel(rows[i]));
+                     objectives[i] = o;
+                 }
+                 for (int j=0; j < objectives.length; j++) {
+                     scenario.getWarchest().getObjectives().remove(objectives[j]);
+                 }
+                 tblObjectives.setModel(scenario.getWarchest().getObjectiveTable());
+                 scenario.MakeDirty(true);
+            }
+        }
+    }//GEN-LAST:event_tblObjectivesKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBonus;
