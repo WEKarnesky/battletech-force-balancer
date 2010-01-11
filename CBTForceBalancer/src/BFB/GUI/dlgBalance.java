@@ -210,7 +210,7 @@ public class dlgBalance extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        for ( Unit u : force.Units ) {
+        for ( Unit u : force.getUnits() ) {
             Skills skills = new Skills(u.BaseBV);
             skills.setMaxBV(Float.parseFloat(txtBVLimit.getText()));
             skills.setMaxSeperation(Integer.parseInt(spnSkillSeperationLimit.getValue().toString()));
@@ -229,7 +229,7 @@ public class dlgBalance extends javax.swing.JDialog {
 
     private void btnRandomGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandomGenActionPerformed
         Skills skills = new Skills();
-        for ( Unit u : force.Units ) {
+        for ( Unit u : force.getUnits() ) {
             Skill skill = skills.generateRandomSkills(cmbSkillLevel.getSelectedItem().toString());
             u.setGunnery(skill.getGunnery());
             u.setPiloting(skill.getPiloting());
