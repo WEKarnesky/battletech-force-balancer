@@ -487,6 +487,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         btnMULExport = new javax.swing.JButton();
         btnClipboard = new javax.swing.JButton();
         jSeparator9 = new javax.swing.JToolBar.Separator();
+        btnGroupTop = new javax.swing.JButton();
         btnManageImages = new javax.swing.JButton();
         btnPersonnel = new javax.swing.JButton();
         lblScenarioName = new javax.swing.JLabel();
@@ -549,7 +550,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         btnSwitchTop = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
         btnBalanceTop = new javax.swing.JButton();
-        btnGroupTop = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         btnOpenTop = new javax.swing.JButton();
         btnSaveTop = new javax.swing.JButton();
@@ -731,6 +731,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jToolBar1.add(btnClipboard);
         jToolBar1.add(jSeparator9);
+
+        btnGroupTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/photo-album.png"))); // NOI18N
+        btnGroupTop.setToolTipText("Group Information");
+        btnGroupTop.setFocusable(false);
+        btnGroupTop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnGroupTop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGroupTop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGroupTopActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnGroupTop);
 
         btnManageImages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/images-stack.png"))); // NOI18N
         btnManageImages.setToolTipText("Manage Images");
@@ -1226,17 +1238,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         tlbTop.add(btnBalanceTop);
-
-        btnGroupTop.setText("Group");
-        btnGroupTop.setFocusable(false);
-        btnGroupTop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnGroupTop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnGroupTop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGroupTopActionPerformed(evt);
-            }
-        });
-        tlbTop.add(btnGroupTop);
         tlbTop.add(jSeparator10);
 
         btnOpenTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder-open-document.png"))); // NOI18N
@@ -1370,7 +1371,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbC3Top, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
