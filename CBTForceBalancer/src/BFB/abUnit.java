@@ -10,6 +10,7 @@ import common.CommonTools;
 import Print.ForceListPrinter;
 
 import BFB.Common.Constants;
+import Print.PrintConsts;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -53,7 +54,7 @@ public abstract class abUnit implements ifUnit {
     }
 
     public void RenderPrint(ForceListPrinter p) {
-        p.setFont(CommonTools.PlainFont);
+        p.setFont(PrintConsts.PlainFont);
         p.WriteStr(TypeModel, 120);
         p.WriteStr(Mechwarrior, 140);
         p.WriteStr(Constants.UnitTypes[UnitType], 60);
