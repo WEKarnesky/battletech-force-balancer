@@ -71,11 +71,17 @@ public class XMLReader {
         if ( load.getFirstChild().getNodeName().equals("scenario") ) {
             scenario = new Scenario( load.getFirstChild() );
         } else if ( load.getFirstChild().getNodeName().equals("forces") ) {
-            NodeList nl = load.getElementsByTagName("force");
-            Node n = load.getFirstChild();
-            scenario.setName(n.getAttributes().getNamedItem("scenario").getTextContent().trim());
-            scenario.AddForce( new Force(nl.item(0)) );
-            scenario.AddForce( new Force(nl.item(1)) );
+            try {
+                NodeList nl = load.getElementsByTagName("force");
+                Node n = load.getFirstChild();
+                scenario.setName(n.getAttributes().getNamedItem("scenario").getTextContent().trim());
+                scenario.getForces().removeAllElements();
+                scenario.AddForce( new Force(nl.item(0)) );
+                scenario.AddForce( new Force(nl.item(1)) );
+            } catch ( Exception e ) {
+                System.out.println(e.getMessage());
+                throw e;
+            }
         }
 
         return scenario;

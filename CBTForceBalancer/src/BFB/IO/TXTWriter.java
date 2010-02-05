@@ -43,18 +43,19 @@ public class TXTWriter {
         if ( !filename.endsWith(".csv") ) { filename += ".csv"; }
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
-        FR.write( CSVFormat("UNIT_TYPE") );
-        FR.write( CSVFormat("Sub_Unit_Type") );
-        FR.write( CSVFormat("Unit_Name") );
-        FR.write( CSVFormat("Model_Number") );
-        FR.write( CSVFormat("TONNAGE") );
-        FR.write( CSVFormat("Canon Verified") );
-        FR.write( CSVFormat("TW RULES_LEVEL") );
-        FR.write( CSVFormat("Technology Base") );
-        FR.write( CSVFormat("SOURCE") );
-        FR.write( CSVFormat("DATE") );
-        FR.write( CSVFormat("Era") );
-        FR.write( CSVFormat("Introduced") );
+        FR.write( CSVFormat("unit_type") );
+        FR.write( CSVFormat("Sub_unit_type") );
+        FR.write( CSVFormat("unit_name") );
+        FR.write( CSVFormat("model_number") );
+        FR.write( CSVFormat("tonnage") );
+        FR.write( CSVFormat("canon verified") );
+        FR.write( CSVFormat("tw rules_level") );
+        FR.write( CSVFormat("technology base") );
+        FR.write( CSVFormat("source") );
+        FR.write( CSVFormat("date") );
+        FR.write( CSVFormat("era") );
+        FR.write( CSVFormat("introduced") );
+        FR.newLine();
 
         String datum = "";
         for (int i=0; i < list.Size(); i++) {
@@ -82,7 +83,7 @@ public class TXTWriter {
             Unit u = ((MechListData) list.Get(i)).getUnit();
             u.LoadMech();
             if ( u.m != null ) {
-                WriteCost( u.m, filename.replace("MechListing.txt", "") );
+                WriteCost( u.m, filename.replace("MechListing.csv", "") );
             } else {
                 message += u.TypeModel + "\n";
             }
