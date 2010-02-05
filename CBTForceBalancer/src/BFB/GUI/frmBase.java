@@ -183,15 +183,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         try {
             scenario = reader.ReadScenario(filename);
 
-            //Load scenario info into fields
-            txtScenarioName.setText(scenario.getName());
-            edtSituation.SetText(scenario.getSituation());
-            edtSetup.SetText(scenario.getSetup());
-            edtAttacker.SetText(scenario.getAttacker());
-            edtDefender.SetText(scenario.getDefender());
-            edtVictoryConditions.SetText(scenario.getVictoryConditions());
-            edtAftermath.SetText(scenario.getAftermath());
-
             scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
             scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
 
@@ -203,6 +194,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
             lstObjectives.setModel(scenario.getWarchest().getObjectiveList());
             lstBonuses.setModel(scenario.getWarchest().getBonusList());
+
+            //Load scenario info into fields
+            txtScenarioName.setText(scenario.getName());
+            edtSituation.SetText(scenario.getSituation());
+            edtSetup.SetText(scenario.getSetup());
+            edtAttacker.SetText(scenario.getAttacker());
+            edtDefender.SetText(scenario.getDefender());
+            edtVictoryConditions.SetText(scenario.getVictoryConditions());
+            edtAftermath.SetText(scenario.getAftermath());
             
             Refresh();
 
@@ -422,10 +422,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private PagePrinter SetupPrinter() {
         PagePrinter printer = new PagePrinter();
 
-        printer.setJobName(this.txtScenarioName.getText());
+        printer.setJobName(scenario.getName());
 
         //Force List
         ForceListPrinter sheet = new ForceListPrinter(images);
+        sheet.setTitle(scenario.getName());
         sheet.AddForces(scenario.getForces());
         printer.Append( BFBPrinter.Letter.toPage(), sheet );
 
@@ -2225,7 +2226,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         MULWriter mw = new MULWriter();
         String dir = "";
         dir = media.GetDirectorySelection(this, Prefs.get("MULDirectory", ""));
-        if ( dir.isEmpty() ) { return; }
+        if ( dir.isEmpty() ) { 
+            DefaultCursor();
+            return;
+        }
 
         Prefs.put("MULDirectory", dir);
         mw.setForce(scenario.getAttackerForce());
