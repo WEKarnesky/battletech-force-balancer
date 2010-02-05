@@ -713,7 +713,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             .addComponent(spnMechTable, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
         );
 
-        btnOpenMech.setText("Select Units 2");
+        btnOpenMech.setText("Select Units");
         btnOpenMech.setEnabled(false);
         btnOpenMech.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -736,7 +736,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(589, Short.MAX_VALUE)
+                .addContainerGap(597, Short.MAX_VALUE)
                 .addComponent(btnOpenDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOpenMech)
