@@ -27,11 +27,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="tbpSelections" min="-2" pref="890" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="tbpSelections" pref="751" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel16" max="32767" attributes="1"/>
-                  <Component id="jPanel4" alignment="0" max="32767" attributes="1"/>
+                  <Component id="pnlRandomSelection" max="32767" attributes="1"/>
+                  <Component id="pnlSelected" alignment="0" min="-2" pref="257" max="-2" attributes="1"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -39,14 +39,14 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Component id="tbpSelections" alignment="0" pref="768" max="32767" attributes="2"/>
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              <Component id="jPanel4" max="32767" attributes="2"/>
+              <Component id="pnlRandomSelection" max="32767" attributes="2"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel16" max="32767" attributes="1"/>
+              <Component id="pnlSelected" max="32767" attributes="1"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="tbpSelections" alignment="0" max="32767" attributes="2"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -72,11 +72,13 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel7" alignment="1" max="32767" attributes="2"/>
-                          <Component id="jPanel15" alignment="1" max="32767" attributes="2"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jPanel18" alignment="0" max="32767" attributes="1"/>
+                          <Component id="jPanel15" alignment="0" max="32767" attributes="1"/>
+                          <Component id="jPanel7" alignment="0" max="32767" attributes="2"/>
+                          <Component id="lblLoading" alignment="1" min="-2" pref="697" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -88,7 +90,10 @@
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                       <Component id="jPanel15" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Component id="lblLoading" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -133,7 +138,7 @@
                                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="222" max="32767" attributes="0"/>
+                          <EmptySpace pref="83" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -532,17 +537,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="spnMechTable" alignment="1" pref="865" max="32767" attributes="2"/>
-                      <Component id="jPanel18" alignment="0" max="32767" attributes="2"/>
+                      <Component id="spnMechTable" alignment="1" pref="726" max="32767" attributes="1"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="spnMechTable" pref="505" max="32767" attributes="2"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="spnMechTable" alignment="0" pref="538" max="32767" attributes="2"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -572,107 +572,73 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel18">
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="txtSelected" min="-2" pref="287" max="-2" attributes="0"/>
-                                      <EmptySpace pref="186" max="32767" attributes="0"/>
-                                      <Component id="lblLoading" min="-2" pref="225" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="txtInfo" pref="698" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="btnOpenDir" min="-2" pref="24" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="btnText" min="-2" pref="28" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="btnOpenMech" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblLoading" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtSelected" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                      <Component id="txtInfo" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="btnOpenMech" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                      <Component id="btnText" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="btnOpenDir" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JButton" name="btnOpenMech">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Add Units"/>
-                        <Property name="enabled" type="boolean" value="false"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenMechActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="btnText">
-                      <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/BFB/Images/document--plus.png"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTextActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblLoading">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="Loading Mechs...."/>
-                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[400, 14]"/>
-                        </Property>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="txtSelected">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="0 Units Selected"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="btnOpenDir">
-                      <Properties>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/BFB/Images/folder-open-document.png"/>
-                        </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Change Directory"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenDirActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="txtInfo">
-                    </Component>
-                  </SubComponents>
-                </Container>
               </SubComponents>
             </Container>
+            <Container class="javax.swing.JPanel" name="jPanel18">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="597" max="32767" attributes="0"/>
+                          <Component id="btnOpenDir" min="-2" pref="24" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnOpenMech" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="txtInfo" alignment="0" pref="726" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="txtInfo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btnOpenMech" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="btnOpenDir" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JButton" name="btnOpenMech">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Select Units"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenMechActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnOpenDir">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/BFB/Images/folder-open-document.png"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Change Directory"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenDirActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="txtInfo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Mech Information"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="lblLoading">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" value="Loading Mechs...."/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[400, 14]"/>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlRandom">
@@ -837,7 +803,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane5" pref="264" max="32767" attributes="0"/>
+                          <Component id="jScrollPane5" pref="294" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane2" min="-2" pref="380" max="-2" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -907,7 +873,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jScrollPane3" pref="561" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" pref="591" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -951,7 +917,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="spnFSL" alignment="0" pref="865" max="32767" attributes="0"/>
+                          <Component id="spnFSL" alignment="0" pref="726" max="32767" attributes="0"/>
                           <Component id="jPanel17" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -963,7 +929,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel17" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="spnFSL" pref="605" max="32767" attributes="0"/>
+                      <Component id="spnFSL" pref="635" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -1017,7 +983,7 @@
                               <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="cmbFSLEra" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="197" max="32767" attributes="0"/>
+                          <EmptySpace pref="58" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1118,7 +1084,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel4">
+    <Container class="javax.swing.JPanel" name="pnlRandomSelection">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1132,10 +1098,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jScrollPane1" alignment="0" pref="248" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" alignment="0" pref="235" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="btnClearSelection" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="114" max="32767" attributes="0"/>
+                          <EmptySpace pref="61" max="32767" attributes="0"/>
                           <Component id="btnClipboard" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1146,7 +1112,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="jScrollPane1" pref="292" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="311" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnClipboard" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1179,6 +1145,9 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnClearSelection">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/eraser.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
           <Events>
@@ -1187,6 +1156,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnClipboard">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/clipboard.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Clipboard"/>
           </Properties>
           <Events>
@@ -1195,7 +1167,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel16">
+    <Container class="javax.swing.JPanel" name="pnlSelected">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1209,11 +1181,13 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jScrollPane4" alignment="0" pref="248" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="btnClearChosen" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="112" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" alignment="0" pref="243" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="btnAddUnits" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnDeleteUnit" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnClearChosen" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -1223,9 +1197,10 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="jScrollPane4" pref="311" max="32767" attributes="0"/>
+                  <Component id="jScrollPane4" pref="318" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnDeleteUnit" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnAddUnits" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnClearChosen" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -1256,6 +1231,9 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnClearChosen">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/eraser.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Clear"/>
           </Properties>
           <Events>
@@ -1264,10 +1242,31 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAddUnits">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Add Units"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/shield--plus.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Add"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddUnitsActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDeleteUnit">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/BFB/Images/cross.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Delete"/>
+            <Property name="toolTipText" type="java.lang.String" value="Remove Unit"/>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[49, 23]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[49, 23]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteUnitActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

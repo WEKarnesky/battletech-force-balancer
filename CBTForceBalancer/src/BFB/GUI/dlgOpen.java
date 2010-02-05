@@ -47,6 +47,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
@@ -108,11 +109,20 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }
 
     private void loadChosen() {
+        int BV = 0;
+        float Cost = 0;
         lstChosen.setModel(new DefaultListModel());
         
         for ( int i=0; i < chosen.Size(); i++ ) {
-            ((DefaultListModel) lstChosen.getModel()).addElement(chosen.Get(i).getFullName() + " (" + chosen.Get(i).getBV() + ") " + chosen.Get(i).getInfo());
+            MechListData data = chosen.Get(i);
+            ((DefaultListModel) lstChosen.getModel()).addElement(data.getFullName() + " (" + data.getBV() + ") " + data.getInfo());
+            BV += data.getBV();
+            Cost += data.getCost();
         }
+
+        String newTitle = lstChosen.getModel().getSize() + " Selected Units     BV: " + BV + "    Cost: " + Cost;
+        
+        pnlSelected.setBorder( new TitledBorder(newTitle) );
     }
 
     private void LoadRUSOptions() {
@@ -202,8 +212,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }
 
     private void Calculate() {
-        txtSelected.setText("0 Units Selected for 0 BV and 0 C-Bills");
-
         int BV = 0;
         float Cost = 0;
 
@@ -214,8 +222,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             Cost += data.getCost();
             setTooltip( data );
         }
-
-        txtSelected.setText(rows.length + " Units Selected for " + String.format("%,d", BV) + " BV and " + String.format("%,.2f", Cost) + " C-Bills");
     }
 
     private void setTooltip( MechListData data ) {
@@ -267,7 +273,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         tblMechData.setRowSorter(sorter);
 
         tblMechData.getColumnModel().getColumn(0).setPreferredWidth(20);
-        tblMechData.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tblMechData.getColumnModel().getColumn(1).setPreferredWidth(100);
         tblMechData.getColumnModel().getColumn(2).setPreferredWidth(30);
         tblMechData.getColumnModel().getColumn(3).setPreferredWidth(70);
         tblMechData.getColumnModel().getColumn(4).setPreferredWidth(90);
@@ -282,7 +288,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             btnOpenMech.setEnabled(true);
         } else {
             btnOpenMech.setEnabled(false);
-            txtSelected.setText("0 Units Selected for 0 BV and 0 C-Bills");
         }
     }
 
@@ -325,11 +330,9 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         tblMechData = new javax.swing.JTable();
         jPanel18 = new javax.swing.JPanel();
         btnOpenMech = new javax.swing.JButton();
-        btnText = new javax.swing.JButton();
-        lblLoading = new javax.swing.JLabel();
-        txtSelected = new javax.swing.JLabel();
         btnOpenDir = new javax.swing.JButton();
         txtInfo = new javax.swing.JLabel();
+        lblLoading = new javax.swing.JLabel();
         pnlRandom = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -358,16 +361,17 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        pnlRandomSelection = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstSelected = new javax.swing.JList();
         btnClearSelection = new javax.swing.JButton();
         btnClipboard = new javax.swing.JButton();
-        jPanel16 = new javax.swing.JPanel();
+        pnlSelected = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         lstChosen = new javax.swing.JList();
         btnClearChosen = new javax.swing.JButton();
         btnAddUnits = new javax.swing.JButton();
+        btnDeleteUnit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unit Selection");
@@ -635,7 +639,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(222, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -699,26 +703,24 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         });
         spnMechTable.setViewportView(tblMechData);
 
-        btnOpenMech.setText("Add Units");
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(spnMechTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(spnMechTable, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+        );
+
+        btnOpenMech.setText("Select Units");
         btnOpenMech.setEnabled(false);
         btnOpenMech.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenMechActionPerformed(evt);
             }
         });
-
-        btnText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/document--plus.png"))); // NOI18N
-        btnText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTextActionPerformed(evt);
-            }
-        });
-
-        lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblLoading.setText("Loading Mechs....");
-        lblLoading.setMaximumSize(new java.awt.Dimension(400, 14));
-
-        txtSelected.setText("0 Units Selected");
 
         btnOpenDir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder-open-document.png"))); // NOI18N
         btnOpenDir.setToolTipText("Change Directory");
@@ -728,69 +730,45 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
 
+        txtInfo.setText("Mech Information");
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(txtSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
-                        .addComponent(lblLoading, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(597, Short.MAX_VALUE)
                 .addComponent(btnOpenDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnText, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOpenMech)
                 .addContainerGap())
+            .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addComponent(txtInfo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblLoading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSelected))
-                        .addGap(1, 1, 1)
-                        .addComponent(txtInfo))
-                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnOpenMech, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnText))
-                    .addComponent(btnOpenDir))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnOpenMech, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOpenDir, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spnMechTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addComponent(spnMechTable, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblLoading.setText("Loading Mechs....");
+        lblLoading.setMaximumSize(new java.awt.Dimension(400, 14));
 
         javax.swing.GroupLayout pnlUnitsLayout = new javax.swing.GroupLayout(pnlUnits);
         pnlUnits.setLayout(pnlUnitsLayout);
         pnlUnitsLayout.setHorizontalGroup(
             pnlUnitsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUnitsLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlUnitsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlUnitsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlUnitsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblLoading, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         pnlUnitsLayout.setVerticalGroup(
@@ -799,7 +777,10 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(26, 26, 26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(lblLoading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tbpSelections.addTab("Unit Selection", pnlUnits);
@@ -891,7 +872,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -924,7 +905,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1006,7 +987,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(cmbFSLEra, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1033,7 +1014,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFSLLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlFSLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(spnFSL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
+                    .addComponent(spnFSL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1042,13 +1023,13 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(pnlFSLLayout.createSequentialGroup()
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spnFSL, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                .addComponent(spnFSL, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tbpSelections.addTab("Faction Specific List", pnlFSL);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Random Selections"));
+        pnlRandomSelection.setBorder(javax.swing.BorderFactory.createTitledBorder("Random Selections"));
 
         lstSelected.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -1062,6 +1043,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jScrollPane1.setViewportView(lstSelected);
 
+        btnClearSelection.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/eraser.png"))); // NOI18N
         btnClearSelection.setText("Clear");
         btnClearSelection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1069,6 +1051,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
 
+        btnClipboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/clipboard.png"))); // NOI18N
         btnClipboard.setText("Clipboard");
         btnClipboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1076,30 +1059,30 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlRandomSelectionLayout = new javax.swing.GroupLayout(pnlRandomSelection);
+        pnlRandomSelection.setLayout(pnlRandomSelectionLayout);
+        pnlRandomSelectionLayout.setHorizontalGroup(
+            pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRandomSelectionLayout.createSequentialGroup()
+                .addGroup(pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                    .addGroup(pnlRandomSelectionLayout.createSequentialGroup()
                         .addComponent(btnClearSelection)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                         .addComponent(btnClipboard)))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+        pnlRandomSelectionLayout.setVerticalGroup(
+            pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRandomSelectionLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClipboard)
                     .addComponent(btnClearSelection)))
         );
 
-        jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Units"));
+        pnlSelected.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Units"));
 
         lstChosen.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -1113,6 +1096,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jScrollPane4.setViewportView(lstChosen);
 
+        btnClearChosen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/eraser.png"))); // NOI18N
         btnClearChosen.setText("Clear");
         btnClearChosen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1120,32 +1104,47 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
 
-        btnAddUnits.setText("Add Units");
+        btnAddUnits.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/shield--plus.png"))); // NOI18N
+        btnAddUnits.setText("Add");
         btnAddUnits.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUnitsActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addComponent(btnClearChosen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
-                        .addComponent(btnAddUnits)))
+        btnDeleteUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/cross.png"))); // NOI18N
+        btnDeleteUnit.setText("Delete");
+        btnDeleteUnit.setToolTipText("Remove Unit");
+        btnDeleteUnit.setMaximumSize(new java.awt.Dimension(49, 23));
+        btnDeleteUnit.setMinimumSize(new java.awt.Dimension(49, 23));
+        btnDeleteUnit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUnitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlSelectedLayout = new javax.swing.GroupLayout(pnlSelected);
+        pnlSelected.setLayout(pnlSelectedLayout);
+        pnlSelectedLayout.setHorizontalGroup(
+            pnlSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSelectedLayout.createSequentialGroup()
+                .addGroup(pnlSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlSelectedLayout.createSequentialGroup()
+                        .addComponent(btnAddUnits)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeleteUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClearChosen)))
                 .addContainerGap())
         );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+        pnlSelectedLayout.setVerticalGroup(
+            pnlSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSelectedLayout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeleteUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddUnits)
                     .addComponent(btnClearChosen)))
         );
@@ -1155,22 +1154,22 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tbpSelections, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tbpSelections, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlRandomSelection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addComponent(tbpSelections, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlRandomSelection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(tbpSelections)
         );
 
         pack();
@@ -1178,11 +1177,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void tblMechDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMechDataMouseClicked
         if ( evt.getClickCount() == 2 ) {
-            if ( tblMechData.getModel().getRowCount() < getList().Size() ) {
                 addChosen();
-            } else {
-                LoadMech();
-            }
         } else {
             checkSelection();
         }
@@ -1193,7 +1188,8 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_formWindowOpened
 
     private void btnOpenMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenMechActionPerformed
-        LoadMech();
+        addChosen();
+        //LoadMech();
     }//GEN-LAST:event_btnOpenMechActionPerformed
 
     private void Filter(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Filter
@@ -1355,12 +1351,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private void lstChosenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstChosenKeyPressed
         if ( lstChosen.getSelectedValues().length > 0 ) {
             if ( evt.getKeyCode() == KeyEvent.VK_DELETE ) {
-                for (int i=0; i < lstChosen.getSelectedIndices().length; i++ ) {
-                    //DefaultListModel model = (DefaultListModel) lstChosen.getModel();
-                    //model.removeElementAt(lstChosen.getSelectedIndices()[i]);
-                    chosen.Remove(chosen.Get(lstChosen.getSelectedIndices()[i]));
-                }
-                loadChosen();
+                btnDeleteUnitActionPerformed(null);
             }
         }
 }//GEN-LAST:event_lstChosenKeyPressed
@@ -1380,25 +1371,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             this.setVisible(false);
         }
 }//GEN-LAST:event_btnAddUnitsActionPerformed
-
-    private void btnTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTextActionPerformed
-        TXTWriter out = new TXTWriter();
-        Media media = new Media();
-        String dir = "";
-        dir = media.GetDirectorySelection(this, parent.Prefs.get("ListDirectory", ""));
-        if ( dir.isEmpty() ) { return; }
-
-        parent.Prefs.put("ListDirectory", dir);
-        try {
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            out.WriteList(dir + File.separator + "MechListing.txt", getList());
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            Media.Messager(this, "Mech List output to " + dir);
-        } catch (IOException ex) {
-            //do nothing
-            Media.Messager(this, "Unable to output list\n" + ex.getMessage() );
-        }
-}//GEN-LAST:event_btnTextActionPerformed
 
     private void lstDirectoriesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstDirectoriesValueChanged
         if (( lstDirectories.getSelectedValues().length > 0 )) {
@@ -1461,7 +1433,11 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                entered = entered.substring(0, entered.length()-1);
+                if ( entered.trim().length() > 0 ) { 
+                    entered = entered.substring(0, entered.length()-1);
+                } else {
+                    entered = "";
+                }
                 break;
             case KeyEvent.VK_DELETE:
                 entered = "";
@@ -1484,17 +1460,24 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         txtNameKeyReleased(evt);
     }//GEN-LAST:event_tbpSelectionsKeyReleased
 
+    private void btnDeleteUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUnitActionPerformed
+        for (int i=0; i < lstChosen.getSelectedIndices().length; i++ ) {
+            chosen.Remove(chosen.Get(lstChosen.getSelectedIndices()[i]));
+        }
+        loadChosen();
+    }//GEN-LAST:event_btnDeleteUnitActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUnits;
     private javax.swing.JButton btnClearChosen;
     private javax.swing.JButton btnClearFilter;
     private javax.swing.JButton btnClearSelection;
     private javax.swing.JButton btnClipboard;
+    private javax.swing.JButton btnDeleteUnit;
     private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnOpenDir;
     private javax.swing.JButton btnOpenMech;
     private javax.swing.JButton btnRoll;
-    private javax.swing.JButton btnText;
     private javax.swing.JCheckBox chkOmniOnly;
     private javax.swing.JComboBox cmbClass;
     private javax.swing.JComboBox cmbEra;
@@ -1519,12 +1502,10 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -1543,6 +1524,8 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JList lstSelected;
     private javax.swing.JPanel pnlFSL;
     private javax.swing.JPanel pnlRandom;
+    private javax.swing.JPanel pnlRandomSelection;
+    private javax.swing.JPanel pnlSelected;
     private javax.swing.JPanel pnlUnits;
     private javax.swing.JSpinner spnAddOn;
     private javax.swing.JScrollPane spnFSL;
@@ -1557,7 +1540,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JTextField txtMinBV;
     private javax.swing.JTextField txtMinCost;
     private javax.swing.JTextField txtName;
-    private javax.swing.JLabel txtSelected;
     // End of variables declaration//GEN-END:variables
 
     /**
