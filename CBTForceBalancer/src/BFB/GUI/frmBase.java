@@ -121,7 +121,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         
         Refresh();
 
-        //if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
+        if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
     }
 
     public void Refresh() {
@@ -262,11 +262,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }
 
     private void editUnit( javax.swing.JTable Table, Force force ) {
-        Unit u = (Unit) force.getUnits().get(Table.convertRowIndexToModel(Table.getSelectedRow()));
-        dlgUnit dUnit = new dlgUnit(this, true, force, u, images);
-        dUnit.setLocationRelativeTo(this);
-        dUnit.setVisible(true);
-        force.RefreshBV();
+        if ( Table.getSelectedRowCount() > 0 ) {
+            Unit u = (Unit) force.getUnits().get(Table.convertRowIndexToModel(Table.getSelectedRow()));
+            dlgUnit dUnit = new dlgUnit(this, true, force, u, images);
+            dUnit.setLocationRelativeTo(this);
+            dUnit.setVisible(true);
+            force.RefreshBV();
+        }
     }
 
     private void removeUnits( javax.swing.JTable Table, Force force ) {
@@ -960,6 +962,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel10.setText("Override  G");
 
         txtBottomGun.setText("4");
+        txtBottomGun.setPreferredSize(new java.awt.Dimension(15, 20));
         txtBottomGun.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtBottomGunFocusGained(evt);
@@ -974,6 +977,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel11.setText("P");
 
         txtBottomPilot.setText("5");
+        txtBottomPilot.setPreferredSize(new java.awt.Dimension(15, 20));
         txtBottomPilot.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtBottomPilotFocusGained(evt);
@@ -1052,9 +1056,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbC3Bottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                                 .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)))
+                            .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lblUnitsBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1068,7 +1072,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(lblBaseBVBottom)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 409, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 413, Short.MAX_VALUE)
                         .addComponent(lblTotalBVBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1093,7 +1097,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel17))
                             .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)))
+                        .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsBottom)
@@ -1304,6 +1308,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
 
         txtTopGun.setText("4");
+        txtTopGun.setPreferredSize(new java.awt.Dimension(15, 20));
         txtTopGun.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTopGunFocusGained(evt);
@@ -1318,6 +1323,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel9.setText("  P");
 
         txtTopPilot.setText("5");
+        txtTopPilot.setPreferredSize(new java.awt.Dimension(15, 20));
         txtTopPilot.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTopPilotFocusGained(evt);
@@ -1372,9 +1378,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbC3Top, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)))
+                            .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(lblUnitsTop, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1388,7 +1394,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                         .addComponent(lblBaseBVTop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 414, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
                         .addComponent(lblTotalBVTop, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1419,7 +1425,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                     .addComponent(jLabel9))
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)))
+                        .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUnitsTop)
@@ -2543,7 +2549,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void mnuBVListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBVListActionPerformed
         Media.Messager("This will output a csv list of mechs and also a list of EVERY SINGLE Mech's cost and BV2 calculation!");
         WaitCursor();
-        if ( dOpen.getList() == null ) { dOpen.LoadList(); }
+        if ( dOpen.getList() == null ) { dOpen.LoadList(true); }
         
         TXTWriter out = new TXTWriter();
         String dir = "";
@@ -2567,7 +2573,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuBFListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBFListActionPerformed
         WaitCursor();
-        if ( dOpen.getList() == null ) { dOpen.LoadList(); }
+        if ( dOpen.getList() == null ) { dOpen.LoadList(true); }
 
         TXTWriter out = new TXTWriter();
         String dir = "";

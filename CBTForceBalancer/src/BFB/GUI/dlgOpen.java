@@ -61,7 +61,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private Force force;
     private RUS rus = new RUS();
     private FSL fsl  = new FSL();
-    private boolean useIndex = true;
 
     /** Creates new form dlgOpen */
     public dlgOpen(java.awt.Frame parent, boolean modal) {
@@ -73,7 +72,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         cmbMechType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Any Type", "BattleMech", "IndustrialMech", "Primitive BattleMech", "Primitive IndustrialMech" }));
         cmbMotive.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Any Motive", "Biped", "Quad" }));
 
-        LoadList();
+        LoadList(true);
         loadChosen();
         loadFSL();
         LoadRUSOptions();
@@ -110,16 +109,17 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private void loadChosen() {
         int BV = 0;
         float Cost = 0;
-        lstChosen.setModel(new DefaultListModel());
-        
-        for ( int i=0; i < chosen.Size(); i++ ) {
-            MechListData data = chosen.Get(i);
-            ((DefaultListModel) lstChosen.getModel()).addElement(data.getFullName() + " (" + data.getBV() + ") " + data.getInfo());
+        DefaultListModel newList = new DefaultListModel();
+       
+        for ( MechListData data : chosen.getList() ) {
+            newList.addElement(data);
             BV += data.getBV();
             Cost += data.getCost();
         }
 
-        String newTitle = lstChosen.getModel().getSize() + " Selected Units     BV: " + BV + "    Cost: " + Cost;
+        lstChosen.setModel(newList);
+
+        String newTitle = newList.getSize() + " Selected Units     BV: " + BV + "    Cost: " + Cost;
         
         pnlSelected.setBorder( new TitledBorder(newTitle) );
     }
@@ -228,7 +228,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         txtInfo.setText(data.getInfo());
     }
 
-    public void LoadList() {
+    public void LoadList( boolean UseIndex ) {
         if (MechListPath.isEmpty()) {
             if ( MechListPath.isEmpty() && this.isVisible() ) {
                 Media media = new Media();
@@ -241,7 +241,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-            list = new MechList(MechListPath, useIndex);
+            list = new MechList(MechListPath, UseIndex);
 
             if (getList().Size() > 0) {
                 setupList(getList());
@@ -253,7 +253,6 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                     displayPath = MechListPath.substring(0, 3) + "..." + MechListPath.substring(MechListPath.lastIndexOf(File.separator)) + "";
                 }
             }
-            useIndex = true;
             this.lblLoading.setText(getList().Size() + " Mechs loaded from " + displayPath);
             this.lblLoading.setToolTipText(MechListPath);
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -331,6 +330,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         btnOpenMech = new javax.swing.JButton();
         btnOpenDir = new javax.swing.JButton();
         txtInfo = new javax.swing.JLabel();
+        btnRefresh = new javax.swing.JButton();
         lblLoading = new javax.swing.JLabel();
         pnlRandom = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -710,10 +710,11 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spnMechTable, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+            .addComponent(spnMechTable, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
         );
 
-        btnOpenMech.setText("Select Units");
+        btnOpenMech.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/plus.png"))); // NOI18N
+        btnOpenMech.setText("Add To Selected");
         btnOpenMech.setEnabled(false);
         btnOpenMech.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -721,7 +722,8 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
 
-        btnOpenDir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folder-open-document.png"))); // NOI18N
+        btnOpenDir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/folders.png"))); // NOI18N
+        btnOpenDir.setText("Select Directory");
         btnOpenDir.setToolTipText("Change Directory");
         btnOpenDir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -731,13 +733,23 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
         txtInfo.setText("Mech Information");
 
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/arrow-circle-double.png"))); // NOI18N
+        btnRefresh.setText("Refresh List");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(597, Short.MAX_VALUE)
-                .addComponent(btnOpenDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(335, Short.MAX_VALUE)
+                .addComponent(btnRefresh)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOpenDir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOpenMech)
                 .addContainerGap())
@@ -747,10 +759,12 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                 .addComponent(txtInfo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnOpenMech, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOpenDir, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnOpenMech, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnOpenDir)
+                        .addComponent(btnRefresh))))
         );
 
         lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1183,7 +1197,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tblMechDataMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (getList() == null) LoadList();
+        if (getList() == null) LoadList(true);
     }//GEN-LAST:event_formWindowOpened
 
     private void btnOpenMechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenMechActionPerformed
@@ -1243,8 +1257,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         
         this.setVisible(true);
         parent.Prefs.put("ListPath", MechListPath);
-        useIndex = false;
-        LoadList();
+        LoadList(false);
     }//GEN-LAST:event_btnOpenDirActionPerformed
 
     private void txtMinCostFilter(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinCostFilter
@@ -1367,6 +1380,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             }
             chosen.RemoveAll();
             loadChosen();
+            parent.Refresh();
             this.setVisible(false);
         }
 }//GEN-LAST:event_btnAddUnitsActionPerformed
@@ -1460,11 +1474,18 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tbpSelectionsKeyReleased
 
     private void btnDeleteUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUnitActionPerformed
-        for (int i=0; i < lstChosen.getSelectedIndices().length; i++ ) {
-            chosen.Remove(chosen.Get(lstChosen.getSelectedIndices()[i]));
+        Object[] remove = lstChosen.getSelectedValues();
+        for ( Object data : remove ) {
+            chosen.Remove((MechListData) data);
         }
         loadChosen();
     }//GEN-LAST:event_btnDeleteUnitActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        LoadList(false);
+        Filter(evt);
+        this.setVisible(true);
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUnits;
@@ -1476,6 +1497,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnOpenDir;
     private javax.swing.JButton btnOpenMech;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRoll;
     private javax.swing.JCheckBox chkOmniOnly;
     private javax.swing.JComboBox cmbClass;

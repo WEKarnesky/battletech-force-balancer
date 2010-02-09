@@ -580,8 +580,10 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="573" max="32767" attributes="0"/>
-                          <Component id="btnOpenDir" min="-2" pref="24" max="-2" attributes="0"/>
+                          <EmptySpace pref="335" max="32767" attributes="0"/>
+                          <Component id="btnRefresh" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnOpenDir" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnOpenMech" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -593,10 +595,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="txtInfo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="8" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace pref="9" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="btnOpenMech" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="btnOpenDir" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="btnOpenDir" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -605,7 +610,10 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnOpenMech">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Select Units"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/BFB/Images/plus.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Add To Selected"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
@@ -615,8 +623,9 @@
                 <Component class="javax.swing.JButton" name="btnOpenDir">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/BFB/Images/folder-open-document.png"/>
+                      <Image iconType="3" name="/BFB/Images/folders.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Select Directory"/>
                     <Property name="toolTipText" type="java.lang.String" value="Change Directory"/>
                   </Properties>
                   <Events>
@@ -627,6 +636,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Mech Information"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnRefresh">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/BFB/Images/arrow-circle-double.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Refresh List"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRefreshActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
