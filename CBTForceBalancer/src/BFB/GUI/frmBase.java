@@ -83,26 +83,23 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         public void tableChanged(TableModelEvent e) {
             Refresh();
         }
+
+
     };
 
     public frmBase() {
         initComponents();
         Prefs = Preferences.userNodeForPackage(this.getClass());
         
-        //loadScenario( Prefs.get("CurrentBFBFile", "") );
-        
         //Clear tracking data
         Prefs.put("CurrentBFBFile", "");
 
         dOpen = new dlgOpen(this, true);
         dOpen.setMechListPath(Prefs.get("ListPath", ""));
-        //dOpen.LoadList();
 
-        scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
-        scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
-
-        scenario.getAttackerForce().addTableModelListener(ForceChanged);
-        scenario.getDefenderForce().addTableModelListener(ForceChanged);
+        scenario.setModel(new tbTotalWarfare());
+        scenario.AddListener(ForceChanged);
+        scenario.updateOpFor(chkUseForceModifier.isSelected());
 
         txtScenarioName.addKeyListener(KeyTyped);
         edtSituation.addKeyListener(KeyTyped);
@@ -125,16 +122,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }
 
     public void Refresh() {
-        //Media.Messager(this, "Refresh Fired");
+        scenario.setupTables(tblTop, tblBottom);
 
-        //scenario.setupTable(new JTable[]{tblTop, tblBottom});
-
-        scenario.getAttackerForce().setupTable(tblTop);
-        scenario.getDefenderForce().setupTable(tblBottom);
-
-        scenario.getAttackerForce().OpForSize = scenario.getDefenderForce().getUnits().size();
-        scenario.getDefenderForce().OpForSize = scenario.getAttackerForce().getUnits().size();
-        
         setLogo( lblUnitLogoTop, new File(scenario.getAttackerForce().LogoPath) );
         setLogo( lblUnitLogoBottom, new File(scenario.getDefenderForce().LogoPath) );
 
@@ -158,12 +147,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
 
         lblForceMod.setText( String.format( "%1$,.2f", CommonTools.GetForceSizeMultiplier( scenario.getAttackerForce().getUnits().size(), scenario.getDefenderForce().getUnits().size() )) );
-
-        if ( chkUseForceModifier.isSelected() ) {
-            scenario.getAttackerForce().OpForSize = scenario.getDefenderForce().getUnits().size();
-            scenario.getDefenderForce().OpForSize = scenario.getAttackerForce().getUnits().size();
-        }
         
+        updateFields();
+    }
+
+    private void updateFields() {
         lblUnitsTop.setText(scenario.getAttackerForce().getUnits().size()+"");
         lblTonnageTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalTonnage) );
         lblBaseBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalBaseBV) );
@@ -183,14 +171,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         try {
             scenario = reader.ReadScenario(filename);
 
-            scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
-            scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
-
-            scenario.getAttackerForce().addTableModelListener(ForceChanged);
-            scenario.getDefenderForce().addTableModelListener(ForceChanged);
-
-            scenario.getAttackerForce().RefreshBV();
-            scenario.getDefenderForce().RefreshBV();
+            scenario.setModel(new tbTotalWarfare());
+            scenario.AddListener(ForceChanged);
+            scenario.updateOpFor(chkUseForceModifier.isSelected());
+            scenario.Refresh();
 
             lstObjectives.setModel(scenario.getWarchest().getObjectiveList());
             lstBonuses.setModel(scenario.getWarchest().getBonusList());
@@ -294,6 +278,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             forceFrom.RemoveUnit(units[j]);
             forceTo.AddUnit(units[j]);
         }
+        forceFrom.clearEmptyGroups();
+        forceTo.clearEmptyGroups();
     }
 
     private void SetType( Force force, String type ) {
@@ -2260,10 +2246,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void chkUseForceModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkUseForceModifierActionPerformed
         lblForceMod.setVisible( chkUseForceModifier.isSelected() );
-        scenario.getAttackerForce().useUnevenForceMod = chkUseForceModifier.isSelected();
-        scenario.getDefenderForce().useUnevenForceMod = chkUseForceModifier.isSelected();
-        scenario.getAttackerForce().RefreshBV();
-        scenario.getDefenderForce().RefreshBV();
+        scenario.updateOpFor(chkUseForceModifier.isSelected());
+        updateFields();
     }//GEN-LAST:event_chkUseForceModifierActionPerformed
 
     private void btnOpenBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenBottomActionPerformed
@@ -2595,15 +2579,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_mnuBFListActionPerformed
 
     private void rmnuTWModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuTWModelActionPerformed
-        scenario.getAttackerForce().setCurrentModel(new tbTotalWarfare(scenario.getAttackerForce()));
-        scenario.getDefenderForce().setCurrentModel(new tbTotalWarfare(scenario.getDefenderForce()));
+        WaitCursor();
+        scenario.setModel(new tbTotalWarfare());
         Refresh();
+        DefaultCursor();
     }//GEN-LAST:event_rmnuTWModelActionPerformed
 
     private void rmnuBFModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuBFModelActionPerformed
         WaitCursor();
-        scenario.getAttackerForce().setCurrentModel(new tbBattleForce(scenario.getAttackerForce()));
-        scenario.getDefenderForce().setCurrentModel(new tbBattleForce(scenario.getDefenderForce()));
+        scenario.setModel(new tbBattleForce());
         Refresh();
         DefaultCursor();
     }//GEN-LAST:event_rmnuBFModelActionPerformed
@@ -2620,8 +2604,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void rmnuInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuInformationActionPerformed
         WaitCursor();
-        scenario.getAttackerForce().setCurrentModel(new tbChatInfo(scenario.getAttackerForce()));
-        scenario.getDefenderForce().setCurrentModel(new tbChatInfo(scenario.getDefenderForce()));
+        scenario.setModel(new tbChatInfo());
         Refresh();
         DefaultCursor();
 }//GEN-LAST:event_rmnuInformationActionPerformed
