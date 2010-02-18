@@ -32,9 +32,14 @@ import Force.Skills;
 import Force.Skills.Skill;
 
 public class dlgBalance extends javax.swing.JDialog {
-    public boolean Result = false;
+    public int Result = -1;
+    public Skills skills = new Skills();
 
     private Force force;
+
+    public static final int SK_CANCEL = -1,
+                            SK_BESTSKILLS = 0,
+                            SK_RANDOMSKILLS = 1;
 
     public dlgBalance(java.awt.Frame parent, boolean modal, Force force) {
         super(parent, modal);
@@ -210,35 +215,18 @@ public class dlgBalance extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        for ( Unit u : force.getUnits() ) {
-            Skills skills = new Skills(u.BaseBV);
-            skills.setMaxBV(Float.parseFloat(txtBVLimit.getText()));
-            skills.setMaxSeperation(Integer.parseInt(spnSkillSeperationLimit.getValue().toString()));
-            if ( rdoGunnery.isSelected() ) { skills.setMaxSkill(Skills.Gunnery); }
-            if ( rdoPiloting.isSelected() ) { skills.setMaxSkill(Skills.Piloting); }
-            Skill skill = skills.getBestSkills();
-            u.setGunnery(skill.getGunnery());
-            u.setPiloting(skill.getPiloting());
-            u.Refresh();
-        }
-        force.isDirty = true;
-        Result = true;
+        skills.setMaxBV(Float.parseFloat(txtBVLimit.getText()));
+        skills.setMaxSeperation(Integer.parseInt(spnSkillSeperationLimit.getValue().toString()));
+        if ( rdoGunnery.isSelected() ) { skills.setMaxSkill(Skills.Gunnery); }
+        if ( rdoPiloting.isSelected() ) { skills.setMaxSkill(Skills.Piloting); }
+        Result = SK_BESTSKILLS;
         this.setVisible(false);
-        force.RefreshBV();
 }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnRandomGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRandomGenActionPerformed
-        Skills skills = new Skills();
-        for ( Unit u : force.getUnits() ) {
-            Skill skill = skills.generateRandomSkills(cmbSkillLevel.getSelectedItem().toString());
-            u.setGunnery(skill.getGunnery());
-            u.setPiloting(skill.getPiloting());
-            u.Refresh();
-        }
-        force.isDirty = true;
-        Result = true;
+        skills.setSkillLevel(cmbSkillLevel.getSelectedItem().toString());
+        Result = SK_RANDOMSKILLS;
         this.setVisible(false);
-        force.RefreshBV();
 }//GEN-LAST:event_btnRandomGenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

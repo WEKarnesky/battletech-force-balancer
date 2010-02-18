@@ -39,6 +39,7 @@ import battleforce.BattleForce;
 
 import BFB.IO.*;
 
+import Force.Skills.Skill;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.datatransfer.Clipboard;
@@ -49,6 +50,7 @@ import java.io.*;
 import java.util.prefs.*;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -381,10 +383,44 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         setCursor(Cursor.getDefaultCursor());
     }
 
-    private void balanceSkills( Force force ) {
-        dlgBalance balance = new dlgBalance(this, false, force);
+    private void balanceSkills( JTable table, Force force ) {
+        dlgBalance balance = new dlgBalance(this, true, force);
         balance.setLocationRelativeTo(this);
         balance.setVisible(true);
+
+        Skills skills;
+        if ( balance.Result != dlgBalance.SK_CANCEL ) {
+            if ( table.getSelectedRowCount() == 0 ) {
+                table.selectAll();
+            }
+        }
+        switch ( balance.Result ) {
+            case dlgBalance.SK_BESTSKILLS:
+                skills = balance.skills;
+                for ( int i : table.getSelectedRows() ) {
+                    Unit u = (Unit) force.getUnits().get(table.convertRowIndexToModel(i));
+                    skills.setBV(u.BaseBV);
+                    Skill skill = skills.getBestSkills();
+                    u.setGunnery(skill.getGunnery());
+                    u.setPiloting(skill.getPiloting());
+                    u.Refresh();
+                }
+                force.isDirty = true;
+                break;
+
+            case dlgBalance.SK_RANDOMSKILLS:
+                skills = balance.skills;
+                for ( int i : table.getSelectedRows() ) {
+                    Unit u = (Unit) force.getUnits().get(table.convertRowIndexToModel(i));
+                    Skill skill = skills.generateRandomSkill();
+                    u.setGunnery(skill.getGunnery());
+                    u.setPiloting(skill.getPiloting());
+                    u.Refresh();
+                }
+                force.isDirty = true;
+                break;
+        }
+        force.RefreshBV();
     }
 
     private void ManageGroup() {
@@ -2481,11 +2517,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_tblBottomKeyReleased
 
     private void btnBalanceTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceTopActionPerformed
-        balanceSkills( scenario.getAttackerForce() );
+        balanceSkills( tblTop, scenario.getAttackerForce() );
     }//GEN-LAST:event_btnBalanceTopActionPerformed
 
     private void btnBalanceBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceBottomActionPerformed
-        balanceSkills( scenario.getDefenderForce() );
+        balanceSkills( tblBottom, scenario.getDefenderForce() );
     }//GEN-LAST:event_btnBalanceBottomActionPerformed
 
     private void btnSwitchTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSwitchTopActionPerformed
