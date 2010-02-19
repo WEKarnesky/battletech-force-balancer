@@ -302,6 +302,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void OpenDialog( Force force ) {
         dOpen.setForce(force);
         dOpen.setLocationRelativeTo(this);
+        dOpen.setSize(1024, 768);
         dOpen.setVisible(true);
     }
 
