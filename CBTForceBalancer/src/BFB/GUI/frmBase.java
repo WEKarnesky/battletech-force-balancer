@@ -64,12 +64,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private KeyListener KeyTyped = new KeyListener() {
         public void keyTyped(KeyEvent e) {
             scenario.setName(txtScenarioName.getText());
-            scenario.setSetup(edtSetup.GetHTMLSource());
-            scenario.setSituation(edtSituation.GetHTMLSource());
-            scenario.setAttacker(edtAttacker.GetHTMLSource());
-            scenario.setDefender(edtDefender.GetHTMLSource());
-            scenario.setVictoryConditions(edtVictoryConditions.GetHTMLSource());
-            scenario.setAftermath(edtAftermath.GetHTMLSource());
+            scenario.setSetup(edtSetup.getText());
+            scenario.setSituation(edtSituation.getText());
+            scenario.setAttacker(edtAttacker.getText());
+            scenario.setDefender(edtDefender.getText());
+            scenario.setSpecialRules(edtSpecialRules.getText());
+            scenario.setVictoryConditions(edtVictoryConditions.getText());
+            scenario.setAftermath(edtAftermath.getText());
         }
 
         public void keyPressed(KeyEvent e) {
@@ -77,7 +78,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
 
         public void keyReleased(KeyEvent e) {
-            //do nothing
+            keyTyped(e);
         }
     };
 
@@ -108,19 +109,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         edtSetup.addKeyListener(KeyTyped);
         edtAttacker.addKeyListener(KeyTyped);
         edtDefender.addKeyListener(KeyTyped);
+        edtSpecialRules.addKeyListener(KeyTyped);
         edtVictoryConditions.addKeyListener(KeyTyped);
         edtAftermath.addKeyListener(KeyTyped);
-
-        edtSituation.SetEditorSize(edtSituation.getSize());
-        edtSetup.SetEditorSize(edtSetup.getSize());
-        edtVictoryConditions.SetEditorSize(edtVictoryConditions.getSize());
-        edtAftermath.SetEditorSize(edtAftermath.getSize());
-        edtDefender.SetEditorSize(edtDefender.getSize());
-        edtAttacker.SetEditorSize(edtAttacker.getSize());
         
         Refresh();
 
-        //if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
+        if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
     }
 
     public void Refresh() {
@@ -183,14 +178,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
             //Load scenario info into fields
             txtScenarioName.setText(scenario.getName());
-            edtSituation.SetText(scenario.getSituation());
-            edtSetup.SetText(scenario.getSetup());
-            edtAttacker.SetText(scenario.getAttacker());
-            edtDefender.SetText(scenario.getDefender());
-            edtVictoryConditions.SetText(scenario.getVictoryConditions());
-            edtAftermath.SetText(scenario.getAftermath());
-            
+            edtSituation.setText(scenario.getSituation());
+            edtSetup.setText(scenario.getSetup());
+            edtAttacker.setText(scenario.getAttacker());
+            edtDefender.setText(scenario.getDefender());
+            edtSpecialRules.setText(scenario.getSpecialRules());
+            edtVictoryConditions.setText(scenario.getVictoryConditions());
+            edtAftermath.setText(scenario.getAftermath());
+
             Refresh();
+
+            Prefs.put("LastOpenFile", filename);
+            Prefs.put("CurrentBFBFile", filename);
 
         } catch ( IOException ie ) {
             Media.Messager(ie.getMessage());
@@ -597,10 +596,14 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel15 = new javax.swing.JLabel();
         pnlSituation = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        edtSituation = new gui.HTMLPane(true);
-        edtSetup = new gui.HTMLPane(true);
-        edtVictoryConditions = new gui.HTMLPane(true);
-        edtAftermath = new gui.HTMLPane(true);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        edtSituation = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        edtSetup = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        edtVictoryConditions = new javax.swing.JTextPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        edtAftermath = new javax.swing.JTextPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -619,8 +622,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         lstObjectives = new javax.swing.JList();
         jScrollPane6 = new javax.swing.JScrollPane();
         lstBonuses = new javax.swing.JList();
-        edtAttacker = new gui.HTMLPane(true);
-        edtDefender = new gui.HTMLPane(true);
+        jScrollPane7 = new javax.swing.JScrollPane();
+        edtAttacker = new javax.swing.JTextPane();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        edtDefender = new javax.swing.JTextPane();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        edtSpecialRules = new javax.swing.JTextPane();
+        jLabel24 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnuNew = new javax.swing.JMenuItem();
@@ -1497,6 +1505,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12));
         jLabel1.setText("Situation");
 
+        jScrollPane1.setViewportView(edtSituation);
+
         javax.swing.GroupLayout pnlSituationLayout = new javax.swing.GroupLayout(pnlSituation);
         pnlSituation.setLayout(pnlSituationLayout);
         pnlSituationLayout.setHorizontalGroup(
@@ -1504,7 +1514,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(pnlSituationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlSituationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edtSituation, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                     .addComponent(jLabel1))
                 .addContainerGap())
         );
@@ -1514,8 +1524,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtSituation, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        jScrollPane2.setViewportView(edtSetup);
+
+        jScrollPane3.setViewportView(edtVictoryConditions);
+
+        jScrollPane5.setViewportView(edtAftermath);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1535,17 +1552,17 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addContainerGap()
                 .addComponent(jLabel12)
                 .addContainerGap(1089, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(edtSetup, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(edtVictoryConditions, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(edtAftermath, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1555,18 +1572,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtSetup, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtVictoryConditions, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtAftermath, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addGap(19, 19, 19))
         );
 
         jTabbedPane1.addTab("Scenario Information", jPanel2);
@@ -1674,11 +1691,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1692,6 +1709,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addContainerGap())
         );
 
+        jScrollPane7.setViewportView(edtAttacker);
+
+        jScrollPane8.setViewportView(edtDefender);
+
+        jScrollPane9.setViewportView(edtSpecialRules);
+
+        jLabel24.setFont(new java.awt.Font("Arial", 1, 12));
+        jLabel24.setText("Special Rules");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -1699,28 +1725,38 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edtAttacker, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edtDefender, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel20)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                    .addComponent(jLabel24))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel20))
+                .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(edtDefender, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                    .addComponent(edtAttacker, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane8)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -2058,9 +2094,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
             try {
                loadScenario(forceFile.getCanonicalPath());
-
-               Prefs.put("LastOpenFile", forceFile.getCanonicalPath());
-               Prefs.put("CurrentBFBFile", forceFile.getPath());
             } catch (Exception e) {
                Media.Messager("Issue loading file:\n " + e.getMessage() );
                System.out.println(e.getMessage());
@@ -2122,12 +2155,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         Prefs.put("CurrentBFBFile", "");
         this.scenario = new Scenario();
-        edtAftermath.SetText("");
-        edtAttacker.SetText("");
-        edtDefender.SetText("");
-        edtSetup.SetText("");
-        edtSituation.SetText("");
-        edtVictoryConditions.SetText("");
+        edtAftermath.setText("");
+        edtAttacker.setText("");
+        edtDefender.setText("");
+        edtSetup.setText("");
+        edtSituation.setText("");
+        edtVictoryConditions.setText("");
 
         txtTrackCost.setText("");
         lstBonuses.setModel(scenario.getWarchest().getBonusList());
@@ -2733,12 +2766,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JCheckBox chkUseForceModifier;
     private javax.swing.JComboBox cmbC3Bottom;
     private javax.swing.JComboBox cmbC3Top;
-    private gui.HTMLPane edtAftermath;
-    private gui.HTMLPane edtAttacker;
-    private gui.HTMLPane edtDefender;
-    private gui.HTMLPane edtSetup;
-    private gui.HTMLPane edtSituation;
-    private gui.HTMLPane edtVictoryConditions;
+    private javax.swing.JTextPane edtAftermath;
+    private javax.swing.JTextPane edtAttacker;
+    private javax.swing.JTextPane edtDefender;
+    private javax.swing.JTextPane edtSetup;
+    private javax.swing.JTextPane edtSituation;
+    private javax.swing.JTextPane edtSpecialRules;
+    private javax.swing.JTextPane edtVictoryConditions;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2754,6 +2788,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2779,8 +2814,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator10;
     private javax.swing.JToolBar.Separator jSeparator11;
