@@ -205,8 +205,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void updateLogo( javax.swing.JLabel lblLogo, Force force ) {
         File Logo = media.SelectImage(Prefs.get("LastOpenLogo", ""), "Select Logo");
         try {
-            force.LogoPath = Logo.getCanonicalPath();
-            setLogo(lblLogo, Logo);
+            if ( Logo == null ) {
+                if ( !force.LogoPath.isEmpty() ) {
+                    if ( javax.swing.JOptionPane.showConfirmDialog(this, "Would you like to remove your current logo?", "Remove Logo", javax.swing.JOptionPane.YES_NO_OPTION) == javax.swing.JOptionPane.YES_OPTION ) {
+                        setLogo(lblLogo, null);
+                        force.LogoPath = "";
+                        force.isDirty = true;
+                    }
+                }
+            } else {
+                force.LogoPath = Logo.getCanonicalPath();
+                force.isDirty = true;
+                setLogo(lblLogo, Logo);
+            }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -2158,6 +2169,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         edtAftermath.setText("");
         edtAttacker.setText("");
         edtDefender.setText("");
+        edtSpecialRules.setText("");
         edtSetup.setText("");
         edtSituation.setText("");
         edtVictoryConditions.setText("");
