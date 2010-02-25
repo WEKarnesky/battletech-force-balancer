@@ -2489,6 +2489,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
         WaitCursor();
+        scenario.getAttackerForce().clearEmptyGroups();
+        scenario.getDefenderForce().clearEmptyGroups();
         PagePrinter printer = SetupPrinter();
         dlgPreview prv = new dlgPreview("Print Preview", this, printer, scenario, images);
         prv.setLocationRelativeTo(this);
@@ -2603,6 +2605,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_btnCSBottomActionPerformed
 
     private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintActionPerformed
+        scenario.getAttackerForce().clearEmptyGroups();
+        scenario.getDefenderForce().clearEmptyGroups();
         dlgPrint print = new dlgPrint(this, true, scenario, images);
         print.setLocationRelativeTo(this);
         print.setVisible(true);
