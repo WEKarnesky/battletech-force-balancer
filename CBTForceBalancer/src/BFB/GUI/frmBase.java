@@ -47,6 +47,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
+import java.util.Vector;
 import java.util.prefs.*;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -269,13 +270,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void removeUnits( javax.swing.JTable Table, Force force ) {
          int[] rows = Table.getSelectedRows();
-         Unit[] units = new Unit[rows.length];
-         for (int i=0; i < rows.length; i++ ) {
-             Unit u = (Unit) force.getUnits().get(Table.convertRowIndexToModel(rows[i]));
-             units[i] = u;
+         Vector<Unit> units = new Vector<Unit>();
+         for ( int i : rows ) {
+             Unit u = (Unit) force.getUnits().get(Table.convertRowIndexToModel(i));
+             units.add(u);
          }
-         for (int j=0; j < units.length; j++) {
-             force.RemoveUnit(units[j]);
+         for ( Unit u : units ) {
+             force.RemoveUnit(u);
          }
     }
 
@@ -464,34 +465,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         sheet.setTitle(scenario.getName());
         sheet.AddForces(scenario.getForces());
         printer.Append( BFBPrinter.Letter.toPage(), sheet );
-
-        /*
-        //Fire Chits
-        PrintDeclaration fire = new PrintDeclaration();
-        fire.AddForces(new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()});
-        printer.Append( Printer.Letter.toPage(), fire );
-
-        //BattleForce
-        PrintBattleforce topBF = new PrintBattleforce(scenario.getAttackerForce().toBattleForce());
-        PrintBattleforce bottomBF = new PrintBattleforce(scenario.getDefenderForce().toBattleForce());
-
-        printer.Append( Printer.Letter.toPage(), topBF );
-        printer.Append( Printer.Letter.toPage(), bottomBF );
-
-        //Recordsheets
-        Force[] forces = new Force[]{scenario.getAttackerForce(), scenario.getDefenderForce()};
-
-        for ( int f=0; f < forces.length; f++ ) {
-            Force force = forces[f];
-
-            for ( int m=0; m < force.Units.size(); m++ ) {
-                Unit u = (Unit) force.Units.get(m);
-                u.LoadMech();
-                PrintMech pm = new PrintMech(u.m, u.Mechwarrior, u.Gunnery, u.Piloting);
-                printer.Append( Printer.Letter.toPage(), pm);
-            }
-        }
-        */
         return printer;
     }
 
