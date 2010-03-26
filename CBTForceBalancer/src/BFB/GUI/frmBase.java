@@ -432,6 +432,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 }
                 force.isDirty = true;
                 break;
+            case dlgBalance.SK_RANDOMNAME:
+                NameGenerator gen = new NameGenerator();
+                boolean overwrite = balance.overwrite;
+                for ( int i : table.getSelectedRows() ) {
+                    Unit u = (Unit) force.getUnits().get(table.convertRowIndexToModel(i));
+                    if ( u.getMechwarrior().isEmpty() || overwrite ) u.setMechwarrior(gen.SimpleGenerate());
+                }
         }
         force.RefreshBV();
     }
