@@ -333,8 +333,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         if (forceFile != null) {
             XMLReader reader = new XMLReader();
             try {
-                reader.ReadUnit( force, forceFile.getCanonicalPath() );
-                force.RefreshBV();
+                Force f = new Force();
+                reader.ReadUnit( f, forceFile.getCanonicalPath() );
+                for ( Unit u : f.getUnits() ) {
+                    force.AddUnit(u);
+                }
                 Refresh();
 
                Prefs.put("LastOpenUnit", forceFile.getCanonicalPath());
