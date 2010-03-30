@@ -44,17 +44,17 @@ public class TXTWriter {
         BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
         FR.write( CSVFormat("unit_type") );
-        FR.write( CSVFormat("Sub_unit_type") );
+        FR.write( CSVFormat("sub_unit_type") );
         FR.write( CSVFormat("unit_name") );
         FR.write( CSVFormat("model_number") );
         FR.write( CSVFormat("tonnage") );
-        FR.write( CSVFormat("canon verified") );
+        FR.write( CSVFormat("bv2") );
         FR.write( CSVFormat("tw rules_level") );
         FR.write( CSVFormat("technology base") );
         FR.write( CSVFormat("source") );
         FR.write( CSVFormat("date") );
         FR.write( CSVFormat("era") );
-        FR.write( CSVFormat("introduced") );
+        //FR.write( "Element,PV,Wt,MV,S,M,L,E,OV,Armor,Internal,Special Abilities" );
         FR.newLine();
 
         String datum = "";
@@ -67,31 +67,31 @@ public class TXTWriter {
             FR.write( CSVFormat(data.getName()) );
             FR.write( CSVFormat(data.getModel()) );
             FR.write( CSVFormat(data.getTonnage()+"") );
-            FR.write( CSVFormat("N") );
+            FR.write( CSVFormat(data.getBV()+"") );
             FR.write( CSVFormat(data.getLevel()) );
             FR.write( CSVFormat(data.getTech()) );
             FR.write( CSVFormat(data.getSource()) );
             FR.write( CSVFormat(data.getYear()+"") );
             FR.write( CSVFormat(data.getEra()) );
-            FR.write( "\"\"" );
+            //FR.write( data.getBattleForceStats().SerializeCSV() );
             FR.newLine();
         }
         FR.close();
 
-        String message = "";
-        for ( int i=0; i < list.Size(); i++ ) {
-            Unit u = ((MechListData) list.Get(i)).getUnit();
-            u.LoadMech();
-            if ( u.m != null ) {
-                WriteCost( u.m, filename.replace("MechListing.csv", "") );
-            } else {
-                message += u.TypeModel + "\n";
-            }
-        }
-
-        if ( !message.isEmpty() ) {
-            Media.Messager("Could not write out the following:\n" + message);
-        }
+//        String message = "";
+//        for ( int i=0; i < list.Size(); i++ ) {
+//            Unit u = ((MechListData) list.Get(i)).getUnit();
+//            u.LoadMech();
+//            if ( u.m != null ) {
+//                WriteCost( u.m, filename.replace("MechListing.csv", "") );
+//            } else {
+//                message += u.TypeModel + "\n";
+//            }
+//        }
+//
+//        if ( !message.isEmpty() ) {
+//            Media.Messager("Could not write out the following:\n" + message);
+//        }
     }
 
     public void WriteCost( Mech m, String filename ) throws IOException {
@@ -126,6 +126,9 @@ public class TXTWriter {
 
     
     public String CSVFormat( String data ) {
-        return "\"" + data + "\", ";
+        if ( data.contains(",") )
+            return "\"" + data + "\",";
+        else
+            return data + ",";
     }
 }
