@@ -647,7 +647,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         mnuExportClipboard = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JSeparator();
         mnuBVList = new javax.swing.JMenuItem();
-        mnuBFList = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         rmnuTWModel = new javax.swing.JRadioButtonMenuItem();
@@ -1603,6 +1602,16 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         txtAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
         txtTrackCost.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        txtTrackCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTrackCostActionPerformed(evt);
+            }
+        });
+        txtTrackCost.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTrackCostKeyReleased(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel21.setText("Optional Bonuses");
@@ -1911,22 +1920,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jMenu4.add(jSeparator12);
 
         mnuBVList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/document-excel-table.png"))); // NOI18N
-        mnuBVList.setText("BV2 List");
+        mnuBVList.setText("Full Mech List");
         mnuBVList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuBVListActionPerformed(evt);
             }
         });
         jMenu4.add(mnuBVList);
-
-        mnuBFList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/document-excel.png"))); // NOI18N
-        mnuBFList.setText("BF Stats List");
-        mnuBFList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuBFListActionPerformed(evt);
-            }
-        });
-        jMenu4.add(mnuBFList);
 
         jMenuBar1.add(jMenu4);
 
@@ -2594,7 +2594,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_mnuPrintActionPerformed
 
     private void mnuBVListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBVListActionPerformed
-        Media.Messager("This will output a csv list of mechs and also a list of EVERY SINGLE Mech's cost and BV2 calculation!");
+        //Media.Messager("This will output a csv list of mechs and also a list of EVERY SINGLE Mech's cost and BV2 calculation!");
         WaitCursor();
         if ( dOpen.getList() == null ) { dOpen.LoadList(true); }
         
@@ -2617,29 +2617,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
         DefaultCursor();
     }//GEN-LAST:event_mnuBVListActionPerformed
-
-    private void mnuBFListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBFListActionPerformed
-        WaitCursor();
-        if ( dOpen.getList() == null ) { dOpen.LoadList(true); }
-
-        TXTWriter out = new TXTWriter();
-        String dir = "";
-        dir = media.GetDirectorySelection(this, Prefs.get("ListDirectory", ""));
-        if ( dir.isEmpty() ) {
-            DefaultCursor();
-            return;
-        }
-
-        Prefs.put("ListDirectory", dir);
-        try {
-            out.WriteBFList(dir + File.separator + "BattleForceListing.csv", dOpen.getList());
-            Media.Messager("BattleForce List output to " + dir);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            Media.Messager("Unable to output list\n" + ex.getMessage() );
-        }
-        DefaultCursor();
-    }//GEN-LAST:event_mnuBFListActionPerformed
 
     private void rmnuTWModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuTWModelActionPerformed
         WaitCursor();
@@ -2744,6 +2721,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             Media.Messager("Images have been removed from all units in the list.");
         }
     }//GEN-LAST:event_btnClearImagesActionPerformed
+
+    private void txtTrackCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTrackCostActionPerformed
+        try {
+            int val = Integer.parseInt(txtTrackCost.getText());
+            scenario.getWarchest().setTrackCost(val);
+        } catch ( Exception e ) {
+            Media.Messager("You must enter a valid value for the Track Cost");
+        }
+    }//GEN-LAST:event_txtTrackCostActionPerformed
+
+    private void txtTrackCostKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTrackCostKeyReleased
+        txtTrackCostActionPerformed(null);
+    }//GEN-LAST:event_txtTrackCostKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBonus;
@@ -2875,7 +2865,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JList lstBonuses;
     private javax.swing.JList lstObjectives;
     private javax.swing.JMenuItem mnuAbout;
-    private javax.swing.JMenuItem mnuBFList;
     private javax.swing.JMenuItem mnuBVList;
     private javax.swing.JMenuItem mnuDesignBattleMech;
     private javax.swing.JMenuItem mnuExit;
