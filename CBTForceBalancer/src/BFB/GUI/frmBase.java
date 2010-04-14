@@ -153,13 +153,23 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void updateFields() {
         lblUnitsTop.setText(scenario.getAttackerForce().getUnits().size()+"");
         lblTonnageTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalTonnage) );
-        lblBaseBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalBaseBV) );
-        lblTotalBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalForceBVAdjusted) );
 
         lblUnitsBottom.setText(scenario.getDefenderForce().getUnits().size()+"");
         lblTonnageBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalTonnage) );
-        lblBaseBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalBaseBV) );
-        lblTotalBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalForceBVAdjusted) );
+
+        if ( scenario.getAttackerForce().getCurrentModel() instanceof tbBattleForce ) {
+            lblBaseBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalBasePV) );
+            lblTotalBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalForcePV) );
+
+            lblBaseBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalBasePV) );
+            lblTotalBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalForcePV) );
+        } else {
+            lblBaseBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalBaseBV) );
+            lblTotalBVTop.setText( String.format("%1$,.0f", scenario.getAttackerForce().TotalForceBVAdjusted) );
+
+            lblBaseBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalBaseBV) );
+            lblTotalBVBottom.setText( String.format("%1$,.0f", scenario.getDefenderForce().TotalForceBVAdjusted) );
+        }
     }
 
     private void loadScenario( String filename ) {
