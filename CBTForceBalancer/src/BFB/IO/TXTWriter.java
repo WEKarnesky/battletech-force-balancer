@@ -54,7 +54,7 @@ public class TXTWriter {
         FR.write( CSVFormat("source") );
         FR.write( CSVFormat("date") );
         FR.write( CSVFormat("era") );
-        //FR.write( "Element,PV,Wt,MV,S,M,L,E,OV,Armor,Internal,Special Abilities" );
+        FR.write( "PV,Wt,MV,S,M,L,E,OV,Armor,Internal,Special Abilities" );
         FR.newLine();
 
         String datum = "";
@@ -73,25 +73,10 @@ public class TXTWriter {
             FR.write( CSVFormat(data.getSource()) );
             FR.write( CSVFormat(data.getYear()+"") );
             FR.write( CSVFormat(data.getEra()) );
-            //FR.write( data.getBattleForceStats().SerializeCSV() );
+            FR.write( data.getBattleForceStats().SerializeCSV( false ) );
             FR.newLine();
         }
         FR.close();
-
-//        String message = "";
-//        for ( int i=0; i < list.Size(); i++ ) {
-//            Unit u = ((MechListData) list.Get(i)).getUnit();
-//            u.LoadMech();
-//            if ( u.m != null ) {
-//                WriteCost( u.m, filename.replace("MechListing.csv", "") );
-//            } else {
-//                message += u.TypeModel + "\n";
-//            }
-//        }
-//
-//        if ( !message.isEmpty() ) {
-//            Media.Messager("Could not write out the following:\n" + message);
-//        }
     }
 
     public void WriteCost( Mech m, String filename ) throws IOException {
@@ -112,7 +97,7 @@ public class TXTWriter {
         FR.write("Element,PV,Wt,MV,S,M,L,E,OV,Armor,Internal,Special Abilities");
         FR.newLine();
         for ( MechListData mech : list.getList() ) {
-            FR.write(mech.getBattleForceStats().SerializeCSV());
+            FR.write(mech.getBattleForceStats().SerializeCSV( true ));
             FR.newLine();
         }
 
