@@ -28,9 +28,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package BFB.IO;
 
 import common.CommonTools;
-import Force.*;
 
 import BFB.GUI.frmBase;
+import Force.Force;
+import Force.Scenario;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.*;
