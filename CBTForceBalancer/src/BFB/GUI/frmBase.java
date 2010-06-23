@@ -183,6 +183,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             scenario.setModel(new tbTotalWarfare());
             scenario.AddListener(ForceChanged);
             chkUseForceModifier.setSelected(scenario.UseForceSizeModifier());
+            scenario.updateOpFor(scenario.UseForceSizeModifier());
             scenario.Refresh();
 
             lstObjectives.setModel(scenario.getWarchest().getObjectiveList());
