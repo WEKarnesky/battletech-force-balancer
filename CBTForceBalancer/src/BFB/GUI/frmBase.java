@@ -475,6 +475,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         }
         force.RefreshBV();
+        Refresh();
     }
 
     private PagePrinter SetupPrinter() {
