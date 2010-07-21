@@ -454,7 +454,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                     if ( u.getMechwarrior().isEmpty() || overwrite ) u.setMechwarrior(gen.SimpleGenerate());
                 }
         }
-        force.RefreshBV();
+        scenario.Refresh();
     }
 
     private void ManageGroup() {
