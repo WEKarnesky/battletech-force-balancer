@@ -2182,6 +2182,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         lblUnitLogoBottom.setIcon(null);
         chkUseForceModifier.setSelected(false);
 
+        scenario.setModel(new tbTotalWarfare());
+        scenario.AddListener(ForceChanged);
+
         Refresh();
     }//GEN-LAST:event_mnuNewActionPerformed
 
