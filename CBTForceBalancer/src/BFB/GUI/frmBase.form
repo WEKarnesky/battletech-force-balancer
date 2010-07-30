@@ -722,7 +722,7 @@
                                           <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="cmbC3Bottom" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="80" max="32767" attributes="0"/>
+                                          <EmptySpace pref="57" max="32767" attributes="0"/>
                                           <Component id="tlbBottom" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="spnBottom" pref="990" max="32767" attributes="0"/>
@@ -892,6 +892,20 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                   <SubComponents>
+                    <Component class="javax.swing.JButton" name="btnQuickAddBottom">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/BFB/Images/shield--arrow.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Quick Add"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="horizontalTextPosition" type="int" value="0"/>
+                        <Property name="verticalTextPosition" type="int" value="3"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuickAddBottomActionPerformed"/>
+                      </Events>
+                    </Component>
                     <Component class="javax.swing.JButton" name="btnAddBottom1">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -1143,7 +1157,7 @@
                                           <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="cmbC3Top" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="98" max="32767" attributes="0"/>
+                                          <EmptySpace pref="75" max="32767" attributes="0"/>
                                           <Component id="tlbTop" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="spnTop" pref="991" max="32767" attributes="0"/>
@@ -1326,6 +1340,20 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                   <SubComponents>
+                    <Component class="javax.swing.JButton" name="btnQuickAdd">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/BFB/Images/shield--arrow.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Quick Add"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="horizontalTextPosition" type="int" value="0"/>
+                        <Property name="verticalTextPosition" type="int" value="3"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuickAddActionPerformed"/>
+                      </Events>
+                    </Component>
                     <Component class="javax.swing.JButton" name="btnAddTop1">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">

@@ -117,7 +117,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         
         Refresh();
 
-        if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
+        //if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
     }
 
     public void Refresh() {
@@ -327,6 +327,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         dOpen.setLocationRelativeTo(this);
         dOpen.setSize(1024, 768);
         dOpen.setVisible(true);
+    }
+
+    private void OpenQuickAdd( Force force ) {
+        dlgQuickAdd dlgQAdd = new dlgQuickAdd(this, true, force);
+        dlgQAdd.setLocationRelativeTo(this);
+        dlgQAdd.setVisible(true);
     }
 
     public void setScenario( String scenario ) {
@@ -542,6 +548,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel7 = new javax.swing.JLabel();
         lblBaseBVBottom = new javax.swing.JLabel();
         tlbBottom = new javax.swing.JToolBar();
+        btnQuickAddBottom = new javax.swing.JButton();
         btnAddBottom1 = new javax.swing.JButton();
         btnEditBottom1 = new javax.swing.JButton();
         btnDeleteBottom1 = new javax.swing.JButton();
@@ -576,6 +583,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         lblBaseBVTop = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         tlbTop = new javax.swing.JToolBar();
+        btnQuickAdd = new javax.swing.JButton();
         btnAddTop1 = new javax.swing.JButton();
         btnEditTop1 = new javax.swing.JButton();
         btnDeleteTop1 = new javax.swing.JButton();
@@ -896,6 +904,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         tlbBottom.setFloatable(false);
         tlbBottom.setRollover(true);
 
+        btnQuickAddBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/shield--arrow.png"))); // NOI18N
+        btnQuickAddBottom.setToolTipText("Quick Add");
+        btnQuickAddBottom.setFocusable(false);
+        btnQuickAddBottom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnQuickAddBottom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnQuickAddBottom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuickAddBottomActionPerformed(evt);
+            }
+        });
+        tlbBottom.add(btnQuickAddBottom);
+
         btnAddBottom1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/shield--plus.png"))); // NOI18N
         btnAddBottom1.setToolTipText("Add Unit");
         btnAddBottom1.setFocusable(false);
@@ -1093,7 +1113,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbC3Bottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                                 .addComponent(tlbBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(spnBottom, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
@@ -1219,6 +1239,18 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         tlbTop.setFloatable(false);
         tlbTop.setRollover(true);
+
+        btnQuickAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/shield--arrow.png"))); // NOI18N
+        btnQuickAdd.setToolTipText("Quick Add");
+        btnQuickAdd.setFocusable(false);
+        btnQuickAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnQuickAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnQuickAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuickAddActionPerformed(evt);
+            }
+        });
+        tlbTop.add(btnQuickAdd);
 
         btnAddTop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/shield--plus.png"))); // NOI18N
         btnAddTop1.setToolTipText("Add Unit");
@@ -1415,7 +1447,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbC3Top, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                                 .addComponent(tlbTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(spnTop, javax.swing.GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTopLayout.createSequentialGroup()
@@ -2750,6 +2782,14 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         txtTrackCostActionPerformed(null);
     }//GEN-LAST:event_txtTrackCostKeyReleased
 
+    private void btnQuickAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickAddActionPerformed
+        OpenQuickAdd(scenario.getAttackerForce());
+    }//GEN-LAST:event_btnQuickAddActionPerformed
+
+    private void btnQuickAddBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickAddBottomActionPerformed
+        OpenQuickAdd(scenario.getDefenderForce());
+}//GEN-LAST:event_btnQuickAddBottomActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBonus;
     private javax.swing.JButton btnAddBottom1;
@@ -2783,6 +2823,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JButton btnOpenTop;
     private javax.swing.JButton btnPersonnel;
     private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnQuickAdd;
+    private javax.swing.JButton btnQuickAddBottom;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveBottom;
     private javax.swing.JButton btnSaveTop;
