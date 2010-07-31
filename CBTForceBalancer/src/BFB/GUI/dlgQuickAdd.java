@@ -33,8 +33,10 @@ public class dlgQuickAdd extends javax.swing.JDialog {
         txtName.addKeyListener(filterKey);
         jScrollPane1.addKeyListener(filterKey);
         tblList.addKeyListener(filterKey);
-        spnGunnery.addKeyListener(filterKey);
-        spnPiloting.addKeyListener(filterKey);
+        cmbGunnery.addKeyListener(filterKey);
+        cmbPiloting.addKeyListener(filterKey);
+        cmbGunnery.setSelectedIndex(4);
+        cmbPiloting.setSelectedIndex(5);
 
         list = new MechList(this.parent.Prefs.get("ListPath", ""), true);
         viewModel = new tbTotalWarfareCompact(list);
@@ -64,20 +66,23 @@ public class dlgQuickAdd extends javax.swing.JDialog {
 
         txtName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        spnGunnery = new javax.swing.JSpinner();
-        spnPiloting = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblList = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        cmbGunnery = new javax.swing.JComboBox();
+        cmbPiloting = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Quick Add Units");
+
+        txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNameFocusGained(evt);
+            }
+        });
 
         jLabel1.setText("Name:");
-
-        spnGunnery.setModel(new javax.swing.SpinnerNumberModel(4, 0, 9, 1));
-
-        spnPiloting.setModel(new javax.swing.SpinnerNumberModel(5, 0, 9, 1));
 
         tblList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,6 +118,12 @@ public class dlgQuickAdd extends javax.swing.JDialog {
             }
         });
 
+        cmbGunnery.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7" }));
+        cmbGunnery.setSelectedIndex(4);
+
+        cmbPiloting.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7" }));
+        cmbPiloting.setEditor(null);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,15 +132,15 @@ public class dlgQuickAdd extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                        .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnGunnery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbGunnery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spnPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClose)))
@@ -141,11 +152,11 @@ public class dlgQuickAdd extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
                     .addComponent(btnClose)
-                    .addComponent(spnGunnery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spnPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd))
+                    .addComponent(btnAdd)
+                    .addComponent(cmbGunnery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbPiloting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                 .addContainerGap())
@@ -159,13 +170,21 @@ public class dlgQuickAdd extends javax.swing.JDialog {
             int[] Rows = tblList.getSelectedRows();
             for (int i = 0; i < Rows.length; i++) {
                 Unit u = new Unit( ((abView) tblList.getModel()).list.Get(tblList.convertRowIndexToModel(Rows[i])) );
-                u.setGunnery(Integer.parseInt(spnGunnery.getValue().toString()));
-                u.setPiloting(Integer.parseInt(spnPiloting.getValue().toString()));
+                u.setGunnery(cmbGunnery.getSelectedIndex());
+                u.setPiloting(cmbPiloting.getSelectedIndex());
                 u.Refresh();
                 force.AddUnit(u);
             }
             parent.Refresh();
+        } else if ( filtered.Size() == 1 ) {
+            Unit u = new Unit(filtered.Get(0));
+            u.setGunnery(cmbGunnery.getSelectedIndex());
+            u.setPiloting(cmbPiloting.getSelectedIndex());
+            u.Refresh();
+            force.AddUnit(u);
+            parent.Refresh();
         }
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListMouseClicked
@@ -178,13 +197,17 @@ public class dlgQuickAdd extends javax.swing.JDialog {
         this.dispose();
 }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void txtNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFocusGained
+        txtName.selectAll();
+    }//GEN-LAST:event_txtNameFocusGained
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
+    private javax.swing.JComboBox cmbGunnery;
+    private javax.swing.JComboBox cmbPiloting;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner spnGunnery;
-    private javax.swing.JSpinner spnPiloting;
     private javax.swing.JTable tblList;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
