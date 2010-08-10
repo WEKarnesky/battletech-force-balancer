@@ -2668,6 +2668,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void rmnuTWModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuTWModelActionPerformed
         WaitCursor();
         scenario.setModel(new tbTotalWarfare());
+        scenario.AddListener(ForceChanged);
         Refresh();
         DefaultCursor();
     }//GEN-LAST:event_rmnuTWModelActionPerformed
@@ -2675,6 +2676,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void rmnuBFModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuBFModelActionPerformed
         WaitCursor();
         scenario.setModel(new tbBattleForce());
+        scenario.AddListener(ForceChanged);
         Refresh();
         DefaultCursor();
     }//GEN-LAST:event_rmnuBFModelActionPerformed
@@ -2692,6 +2694,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void rmnuInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuInformationActionPerformed
         WaitCursor();
         scenario.setModel(new tbChatInfo());
+        scenario.AddListener(ForceChanged);
         Refresh();
         DefaultCursor();
 }//GEN-LAST:event_rmnuInformationActionPerformed
