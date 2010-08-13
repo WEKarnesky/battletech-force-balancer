@@ -45,6 +45,8 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
@@ -52,6 +54,8 @@ import java.util.Vector;
 import java.util.prefs.*;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -92,10 +96,19 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     };
 
+    JPopupMenu popUtilities = new JPopupMenu();
+    JMenuItem popGroup = new JMenuItem( "Set Lance/Star" );
+    JMenuItem popSkill = new JMenuItem( "Adjust Skills" );
+    JMenuItem popName = new JMenuItem( "Generate Names" );
+
     public frmBase() {
         initComponents();
         Prefs = Preferences.userNodeForPackage(this.getClass());
-        
+
+        popUtilities.add(popGroup);
+        popUtilities.add(popSkill);
+        popUtilities.add(popName);
+
         //Clear tracking data
         Prefs.put("CurrentBFBFile", "");
 
@@ -234,6 +247,24 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private void clearPopupActions(JMenuItem popMenu) {
+        ActionListener[] actions = popMenu.getActionListeners();
+        for ( ActionListener a : actions ) {
+            popMenu.removeActionListener(a);
+        }
+    }
+
+    private void SetGroup(JTable Table, Force force) {
+        String group = javax.swing.JOptionPane.showInputDialog("Enter Lance/Star Name");
+        int[] rows = Table.getSelectedRows();
+        for (int i=0; i < rows.length; i++ ) {
+            Unit u = (Unit) force.getUnits().get(Table.convertRowIndexToModel(rows[i]));
+            u.setGroup(group);
+            force.GroupUnit(u);
+        }
+        force.RefreshBV();
     }
 
     private void setLogo( javax.swing.JLabel lblLogo, File Logo ) {
@@ -849,6 +880,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblBottomMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblBottomMouseReleased(evt);
+            }
         });
         tblBottom.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -1184,6 +1218,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         tblTop.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblTopMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblTopMouseReleased(evt);
             }
         });
         tblTop.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -2792,6 +2829,70 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void btnQuickAddBottomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickAddBottomActionPerformed
         OpenQuickAdd(scenario.getDefenderForce());
 }//GEN-LAST:event_btnQuickAddBottomActionPerformed
+
+    private void tblTopMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTopMouseReleased
+        if( evt.isPopupTrigger() ) {
+            clearPopupActions(popGroup);
+            clearPopupActions(popSkill);
+            clearPopupActions(popName);
+            popGroup.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    SetGroup( tblTop, scenario.getAttackerForce() );
+                }
+            });
+            popSkill.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    balanceSkills( tblTop, scenario.getAttackerForce() );
+                }
+            });
+            popName.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    NameGenerator gen = new NameGenerator();
+                    boolean overwrite = true;
+                    for ( int i : tblTop.getSelectedRows() ) {
+                        Unit u = (Unit) scenario.getAttackerForce().getUnits().get(tblTop.convertRowIndexToModel(i));
+                        if ( u.getMechwarrior().isEmpty() || overwrite ) u.setMechwarrior(gen.SimpleGenerate());
+                        u.Refresh();
+                    }
+                    scenario.getAttackerForce().isDirty = true;
+                    scenario.getAttackerForce().RefreshBV();
+                }
+            });
+            popUtilities.show( evt.getComponent(), evt.getX(), evt.getY() );
+        }
+    }//GEN-LAST:event_tblTopMouseReleased
+
+    private void tblBottomMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBottomMouseReleased
+        if( evt.isPopupTrigger() ) {
+            clearPopupActions(popGroup);
+            clearPopupActions(popSkill);
+            clearPopupActions(popName);
+            popGroup.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    SetGroup( tblBottom, scenario.getDefenderForce() );
+                }
+            });
+            popSkill.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    balanceSkills( tblBottom, scenario.getDefenderForce() );
+                }
+            });
+            popName.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    NameGenerator gen = new NameGenerator();
+                    boolean overwrite = true;
+                    for ( int i : tblBottom.getSelectedRows() ) {
+                        Unit u = (Unit) scenario.getDefenderForce().getUnits().get(tblBottom.convertRowIndexToModel(i));
+                        if ( u.getMechwarrior().isEmpty() || overwrite ) u.setMechwarrior(gen.SimpleGenerate());
+                        u.Refresh();
+                    }
+                    scenario.getDefenderForce().isDirty = true;
+                    scenario.getDefenderForce().RefreshBV();
+                }
+            });
+            popUtilities.show( evt.getComponent(), evt.getX(), evt.getY() );
+        }
+    }//GEN-LAST:event_tblBottomMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBonus;
