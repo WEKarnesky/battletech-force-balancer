@@ -92,8 +92,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         public void tableChanged(TableModelEvent e) {
             Refresh();
         }
-
-
     };
 
     JPopupMenu popUtilities = new JPopupMenu();
