@@ -26,6 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package BFB.GUI;
 
+import dialog.dlgManeiDomini;
 import Force.NameGenerator;
 import Force.Warrior;
 import Force.Warriors;
