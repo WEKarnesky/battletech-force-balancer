@@ -27,6 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
+import IO.XMLWriter;
 import Force.*;
 import Force.View.*;
 import Print.*;
@@ -40,6 +41,7 @@ import battleforce.BattleForce;
 import BFB.IO.*;
 
 import Force.Skills.Skill;
+import filehandlers.FileCommon;
 import filehandlers.MechWriter;
 import java.awt.Cursor;
 import java.awt.Image;
@@ -696,11 +698,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         mnuExportClipboard = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JSeparator();
         mnuBVList = new javax.swing.JMenuItem();
+        mnuFactorList = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         rmnuTWModel = new javax.swing.JRadioButtonMenuItem();
         rmnuBFModel = new javax.swing.JRadioButtonMenuItem();
         rmnuInformation = new javax.swing.JRadioButtonMenuItem();
+        rmnuFCTModel = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         mnuDesignBattleMech = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -2007,6 +2011,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jMenu4.add(mnuBVList);
 
+        mnuFactorList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/document-excel-table.png"))); // NOI18N
+        mnuFactorList.setText("Factors");
+        mnuFactorList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFactorListActionPerformed(evt);
+            }
+        });
+        jMenu4.add(mnuFactorList);
+
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("View");
@@ -2043,6 +2056,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
         jMenu6.add(rmnuInformation);
+
+        rmnuFCTModel.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        rmnuFCTModel.setText("Balance Factors");
+        rmnuFCTModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rmnuFCTModelActionPerformed(evt);
+            }
+        });
+        jMenu6.add(rmnuFCTModel);
 
         jMenu5.add(jMenu6);
 
@@ -2892,6 +2914,38 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
     }//GEN-LAST:event_tblBottomMouseReleased
 
+    private void rmnuFCTModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmnuFCTModelActionPerformed
+        WaitCursor();
+        scenario.setFactors();
+        scenario.setModel(new tbFactors());
+        scenario.AddListener(ForceChanged);
+        Refresh();
+        DefaultCursor();
+    }//GEN-LAST:event_rmnuFCTModelActionPerformed
+
+    private void mnuFactorListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFactorListActionPerformed
+        WaitCursor();
+        TXTWriter out = new TXTWriter();
+        String dir = "";
+        dir = media.GetDirectorySelection(this, Prefs.get("ListDirectory", ""));
+        if ( dir.isEmpty() ) {
+            DefaultCursor();
+            return;
+        }
+
+        Prefs.put("ListDirectory", dir);
+        try {
+            scenario.setFactors();
+            out.WriteFactorList(dir + File.separator + "FactorList.csv", scenario);
+            Media.Messager("Force Factors output to " + dir);
+        } catch (IOException ex) {
+            //do nothing
+            System.out.println(ex.getMessage());
+            Media.Messager("Unable to output factors\n" + ex.getMessage() );
+        }
+        DefaultCursor();
+}//GEN-LAST:event_mnuFactorListActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBonus;
     private javax.swing.JButton btnAddBottom1;
@@ -3030,6 +3084,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JMenuItem mnuExportClipboard;
     private javax.swing.JMenuItem mnuExportMUL;
     private javax.swing.JMenuItem mnuExportText;
+    private javax.swing.JMenuItem mnuFactorList;
     private javax.swing.JMenuItem mnuLoad;
     private javax.swing.JMenuItem mnuNew;
     private javax.swing.JMenu mnuPrint;
@@ -3044,6 +3099,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JPanel pnlSituation;
     private javax.swing.JPanel pnlTop;
     private javax.swing.JRadioButtonMenuItem rmnuBFModel;
+    private javax.swing.JMenuItem rmnuFCTModel;
     private javax.swing.JRadioButtonMenuItem rmnuInformation;
     private javax.swing.JRadioButtonMenuItem rmnuTWModel;
     private javax.swing.JScrollPane spnBottom;
