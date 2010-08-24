@@ -31,7 +31,7 @@ import Force.Warrior;
 import Force.Warriors;
 import filehandlers.Media;
 
-import BFB.IO.XMLWriter;
+import IO.XMLWriter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
