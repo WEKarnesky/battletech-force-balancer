@@ -7,6 +7,8 @@ package BFB.IO;
 
 import filehandlers.Media;
 import Force.Force;
+import Force.Group;
+import Force.Scenario;
 import Force.Unit;
 import list.*;
 import components.Mech;
@@ -108,7 +110,33 @@ public class TXTWriter {
         }
     }
 
+    public void WriteFactorList(String filename, Scenario scenario ) throws IOException {
+        if ( !filename.endsWith(".csv") ) { filename += ".csv"; }
+        BufferedWriter FR = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ), "UTF-8" ) );
 
+        String message = "";
+        FR.write("Unit,Type,Prb,ECM,Spd,Jmp,TSM,Phys,Armr,TC,8+,10+,Hd Cap,Tot Dmg,Base BV, Adj BV");
+        FR.newLine();
+        for ( Force f : scenario.getForces() ) {
+            if ( !f.ForceName.isEmpty()) {FR.write(f.ForceName);}
+            for ( Group g : f.Groups ) {
+                FR.newLine();
+                for ( Unit u : g.getUnits() ) {
+                    FR.write(u.SerializeFactors());
+                    FR.newLine();
+                }
+            }
+            FR.write(f.SerializeFactors());
+            FR.newLine();
+            FR.newLine();
+        }
+
+        FR.close();
+
+        if ( !message.isEmpty() ) {
+            Media.Messager("Could not write out the following:\n" + message);
+        }
+    }
     
     public String CSVFormat( String data ) {
         if ( data.contains(",") )
