@@ -41,6 +41,7 @@ import battleforce.BattleForce;
 import BFB.IO.*;
 
 import Force.Skills.Skill;
+import common.Constants;
 import filehandlers.FileCommon;
 import filehandlers.MechWriter;
 import java.awt.Cursor;
@@ -103,7 +104,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     public frmBase() {
         initComponents();
-        Prefs = Preferences.userNodeForPackage(this.getClass());
+        Prefs = Preferences.userRoot().node( Constants.BFBPrefs );
 
         popUtilities.add(popGroup);
         popUtilities.add(popSkill);
@@ -383,6 +384,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             try {
                 Force f = new Force();
                 reader.ReadUnit( f, forceFile.getCanonicalPath() );
+                force.ForceName = f.ForceName;
                 for ( Unit u : f.getUnits() ) {
                     force.AddUnit(u);
                 }
@@ -419,10 +421,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         String data = "";
 
         data += scenario.SerializeClipboard();
-
-        //for (Force force : forces ) {
-        //    data += force.SerializeClipboard() + Constants.NL + Constants.NL;
-        //}
 
         java.awt.datatransfer.StringSelection export = new java.awt.datatransfer.StringSelection( data );
         java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
