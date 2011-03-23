@@ -27,7 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import BFB.GUI.dlgOpen.DirectoryLeaf;
 import IO.XMLWriter;
 import Force.*;
 import Force.View.*;
@@ -55,8 +54,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 import java.util.prefs.*;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
@@ -64,6 +66,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import list.ListFilter;
 import list.MechList;
 import list.MechListData;
@@ -77,9 +84,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private ImageTracker images = new ImageTracker();
     private Force addToForce = new Force();
     
-    private MechList list = new MechList();
+    private MechList list = new MechList(),  filtered,  chosen = new MechList();
     private abView currentView = new tbTotalWarfareView(list);
-    private String MechListPath = "";
+    private String MechListPath = "", BaseRUSPath = "./Data/Tables/",  RUSDirectory = "",  RUSPath = BaseRUSPath;
+    private RUS rus = new RUS();
 
     private KeyListener KeyTyped = new KeyListener() {
         public void keyTyped(KeyEvent e) {
@@ -112,7 +120,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     JMenuItem popGroup = new JMenuItem( "Set Lance/Star" );
     JMenuItem popSkill = new JMenuItem( "Adjust Skills" );
     JMenuItem popName = new JMenuItem( "Generate Names" );
-    private RUS rus;
 
     public frmBase() {
         initComponents();
@@ -132,6 +139,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         scenario.setModel(new tbTotalWarfare());
         scenario.AddListener(ForceChanged);
         scenario.updateOpFor(chkUseForceModifier.isSelected());
+        addToForce = scenario.getAttackerForce();
 
         txtScenarioName.addKeyListener(KeyTyped);
         edtSituation.addKeyListener(KeyTyped);
@@ -146,6 +154,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         LoadList(true);
         setupList(list, true);
         lblStatusUpdate.setText("");
+        LoadRUSOptions();
 
         //if ( !Prefs.get("LastOpenFile", "").isEmpty() ) { loadScenario(Prefs.get("LastOpenFile", "")); }
 
@@ -179,6 +188,113 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         lblForceMod.setText( String.format( "%1$,.2f", CommonTools.GetForceSizeMultiplier( scenario.getAttackerForce().getUnits().size(), scenario.getDefenderForce().getUnits().size() )) );
         
         updateFields();
+    }
+
+    private void LoadRUSOptions() {
+        treDirectories.setModel(new DefaultTreeModel(addNodes(null, new File(BaseRUSPath))));
+        treDirectories.setRootVisible(false);
+        treDirectories.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        treDirectories.addTreeSelectionListener(new TreeSelectionListener() {
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treDirectories.getLastSelectedPathComponent();
+                DirectoryLeaf f = (DirectoryLeaf) node.getUserObject();
+                LoadRUSFiles(f.getPath());
+            }
+        });
+    }
+
+    /** Add nodes from under "dir" into curTop. Highly recursive. */
+    DefaultMutableTreeNode addNodes(DefaultMutableTreeNode curTop, File dir) {
+        String curPath = dir.getPath();
+        String dirName = dir.getName();
+        DefaultMutableTreeNode curDir = new DefaultMutableTreeNode(new DirectoryLeaf(dir));
+        if (curTop != null) { // should only be null at root
+            curTop.add(curDir);
+        }
+        Vector ol = new Vector();
+        String[] tmp = dir.list();
+        for (int i = 0; i < tmp.length; i++) {
+            ol.addElement(tmp[i]);
+        }
+        Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
+        File f;
+        Vector files = new Vector();
+        // Make two passes, one for Dirs and one for Files. This is #1.
+        for (int i = 0; i < ol.size(); i++) {
+            String thisObject = (String) ol.elementAt(i);
+            String newPath;
+            if (curPath.equals(".")) {
+                newPath = thisObject;
+            } else {
+                newPath = curPath + File.separator + thisObject;
+            }
+            if ((f = new File(newPath)).isDirectory()) {
+                addNodes(curDir, f);
+            } else {
+                //files.addElement(thisObject);
+            }
+        }
+        // Pass two: for files.
+        for (int fnum = 0; fnum < files.size(); fnum++) {
+            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
+        }
+        return curDir;
+    }
+
+    class DirectoryLeaf {
+        private String Name = "",
+                Path = "";
+        public DirectoryLeaf( File f ) {
+            Name = f.getName();
+            try {
+                Path = f.getCanonicalPath();
+            } catch (IOException ex) {
+                Media.Messager(ex.getMessage());
+            }
+        }
+
+        public String getPath() {
+            return Path;
+        }
+
+        @Override
+        public String toString() {
+            return Name;
+        }
+    }
+
+    private void LoadRUSFiles(String dirPath) {
+        if (dirPath.isEmpty()) {
+            return;
+        }
+        try {
+            Vector<DirectoryLeaf> v = new Vector<DirectoryLeaf>();
+            File file = new File(dirPath);
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isFile()) {
+                        if (files[i].getName().endsWith(".txt")) {
+                            v.add(new DirectoryLeaf(files[i]));
+                            //listModel.addElement(new DirectoryLeaf(files[i]));
+                        }
+                    }
+                }
+            }
+            Collections.sort(v, new Comparator<DirectoryLeaf>() {
+                public int compare(DirectoryLeaf o1, DirectoryLeaf o2) {
+                    return (String.CASE_INSENSITIVE_ORDER).compare(o1.toString(), o2.toString());
+                }
+            });
+            DefaultListModel listModel = new DefaultListModel();
+            for ( DirectoryLeaf leaf : v ) {
+                listModel.addElement(leaf);
+            }
+            lstFiles.setModel(listModel);
+        } catch (NullPointerException npe) {
+            Media.Messager("Could not load " + dirPath + ".\n" + npe.getMessage());
+            System.out.println(npe.getMessage());
+        }
     }
 
     private void updateFields() {
@@ -374,6 +490,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void OpenDialog( Force force ) {
         addToForce = force;
         jTabbedPane1.setSelectedComponent(pnlSelect);
+        txtName.requestFocus();
         //dOpen.setForce(force);
         //dOpen.setLocationRelativeTo(this);
         //dOpen.setSize(1024, 768);
@@ -785,6 +902,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jPanel27 = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
         lstOptions = new javax.swing.JList();
+        pnlRandomSelection = new javax.swing.JPanel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        lstSelected = new javax.swing.JList();
+        btnClearSelection = new javax.swing.JButton();
+        btnClipboard1 = new javax.swing.JButton();
+        lblRndStatus = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnuNew = new javax.swing.JMenuItem();
@@ -973,6 +1096,17 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
 
         lblForceMod.setText("0.00");
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
+        jTabbedPane1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTabbedPane1KeyReleased(evt);
+            }
+        });
 
         pnlBottom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Secondary Force Listing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Trebuchet MS", 1, 12), new java.awt.Color(0, 51, 204))); // NOI18N
         pnlBottom.setPreferredSize(new java.awt.Dimension(1010, 250));
@@ -2798,6 +2932,61 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
         );
 
+        pnlRandomSelection.setBorder(javax.swing.BorderFactory.createTitledBorder("Random Selections"));
+
+        lstSelected.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstSelectedValueChanged(evt);
+            }
+        });
+        lstSelected.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lstSelectedKeyPressed(evt);
+            }
+        });
+        jScrollPane14.setViewportView(lstSelected);
+
+        btnClearSelection.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/eraser.png"))); // NOI18N
+        btnClearSelection.setText("Clear");
+        btnClearSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearSelectionActionPerformed(evt);
+            }
+        });
+
+        btnClipboard1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BFB/Images/clipboard.png"))); // NOI18N
+        btnClipboard1.setText("Clipboard");
+        btnClipboard1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClipboard1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlRandomSelectionLayout = new javax.swing.GroupLayout(pnlRandomSelection);
+        pnlRandomSelection.setLayout(pnlRandomSelectionLayout);
+        pnlRandomSelectionLayout.setHorizontalGroup(
+            pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRandomSelectionLayout.createSequentialGroup()
+                .addGroup(pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                    .addGroup(pnlRandomSelectionLayout.createSequentialGroup()
+                        .addComponent(btnClearSelection)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                        .addComponent(btnClipboard1)))
+                .addContainerGap())
+        );
+        pnlRandomSelectionLayout.setVerticalGroup(
+            pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRandomSelectionLayout.createSequentialGroup()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlRandomSelectionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClipboard1)
+                    .addComponent(btnClearSelection)))
+        );
+
+        lblRndStatus.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -2811,22 +3000,30 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRndStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                    .addComponent(pnlRandomSelection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         jPanel7Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel25, jScrollPane11});
 
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+            .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
+                    .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(pnlRandomSelection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRndStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -4073,7 +4270,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         if (! txtSource.getText().isEmpty() ) { filters.setSource(txtSource.getText().trim()); }
         filters.setIsOmni(chkOmni.isSelected());
 
-        MechList filtered = list.Filter(filters);
+        filtered = list.Filter(filters);
         setupList(filtered, false);
     }
 
@@ -4335,7 +4532,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 }//GEN-LAST:event_tblMechDataMouseClicked
 
     private void addChosen() {
-        if (tblMechData.getSelectedRows().length > 0) {
+        if ( tblMechData.getSelectedRows().length > 0 ) {
             int[] Rows = tblMechData.getSelectedRows();
             for (int i = 0; i < Rows.length; i++) {
                 Unit u = new Unit(((abView) tblMechData.getModel()).list.Get(tblMechData.convertRowIndexToModel(Rows[i])));
@@ -4344,6 +4541,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 addToForce.RefreshBV();
             }
             Refresh();
+        } else if (tblMechData.getRowCount() == 1) {
+            Unit u = new Unit( ((abView) tblMechData.getModel()).list.Get(0) );
+            addToForce.AddUnit(u);
+            lblStatusUpdate.setText(u.getFullName() + " Added to " + addToForce.ForceName);
+            addToForce.RefreshBV();
         }
     }
     private void tblMechDataMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMechDataMouseMoved
@@ -4424,11 +4626,12 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             reader.Load(Path, rus);
             lstOptions.setModel(rus.getDisplay());
         } catch (Exception e) {
+            System.out.print(e.getMessage());
         }
     }//GEN-LAST:event_lstFilesValueChanged
 
     private void btnRollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRollActionPerformed
-        //lstSelected.setModel(rus.Generate(Integer.parseInt(spnSelections.getValue().toString()), Integer.parseInt(spnAddOn.getValue().toString())));
+        lstSelected.setModel(rus.Generate(Integer.parseInt(spnSelections.getValue().toString()), Integer.parseInt(spnAddOn.getValue().toString())));
 }//GEN-LAST:event_btnRollActionPerformed
 
     private void lstOptionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstOptionsMouseClicked
@@ -4468,6 +4671,100 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jList1.clearSelection();
         Filter(null);
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void lstSelectedValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstSelectedValueChanged
+        if ((lstSelected.getSelectedValues().length > 0)) {
+            String Item = ((Object) lstSelected.getSelectedValues()[0]).toString();
+            if (Item.contains(" ")) {
+                String Name = RUS.ParseDesignName(Item);
+                txtName.setText(Name);
+                Filter(null);
+
+                if (filtered.Size() == 0) {
+                    txtName.setText(Name.split(" ")[0]);
+                    Filter(null);
+                }
+
+                if ( filtered.Size() == 1 ) {
+                    tblMechData.selectAll();
+                    addChosen();
+                    tblMechData.clearSelection();
+                    lstSelected.clearSelection();
+                    lblRndStatus.setText(filtered.Get(0).getFullName() + " Added");
+                } else {
+                    jTabbedPane1.setSelectedComponent(pnlSelect);
+                    //tbpSelections.setSelectedComponent(pnlUnits);
+                }
+            }
+        }
+}//GEN-LAST:event_lstSelectedValueChanged
+
+    private void lstSelectedKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstSelectedKeyPressed
+        if (lstSelected.getSelectedValues().length > 0) {
+            if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+                DefaultListModel model = (DefaultListModel) lstSelected.getModel();
+                for (int i = lstSelected.getSelectedValues().length - 1; i >= 0; i--) {
+                    model.removeElement((Object) lstSelected.getSelectedValues()[i]);
+                }
+                lstSelected.clearSelection();
+            }
+        }
+}//GEN-LAST:event_lstSelectedKeyPressed
+
+    private void btnClearSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSelectionActionPerformed
+        lstSelected.setModel(rus.ClearSelection());
+}//GEN-LAST:event_btnClearSelectionActionPerformed
+
+    private void btnClipboard1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClipboard1ActionPerformed
+        String data = "";
+
+        for (int i = 0; i < lstSelected.getModel().getSize(); i++) {
+            if (!data.isEmpty()) {
+                data += BFB.Common.Constants.NL;
+            }
+            data += lstSelected.getModel().getElementAt(i).toString();
+        }
+
+        java.awt.datatransfer.StringSelection export = new java.awt.datatransfer.StringSelection(data);
+        java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(export, this);
+}//GEN-LAST:event_btnClipboard1ActionPerformed
+
+    private void jTabbedPane1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTabbedPane1KeyReleased
+        String entered = txtName.getText();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_BACK_SPACE:
+                if (entered.trim().length() > 0) {
+                    entered = entered.substring(0, entered.length() - 1);
+                } else {
+                    entered = "";
+                }
+                break;
+            case KeyEvent.VK_DELETE:
+                entered = "";
+                break;
+            case KeyEvent.VK_ENTER:
+                if (((MechList) tblMechData.getModel()).Size() == 1) {
+                    tblMechData.selectAll();
+                    addChosen();
+                }
+                break;
+            case KeyEvent.VK_SHIFT:
+            case KeyEvent.VK_CONTROL:
+                return;
+            default:
+                if ((evt.getKeyCode() == 32) || (evt.getKeyCode() >= 45 && evt.getKeyCode() <= 90)) {
+                    entered += evt.getKeyChar();
+                }
+        }
+        txtName.setText(entered);
+        txtNameKeyReleased(evt);
+    }//GEN-LAST:event_jTabbedPane1KeyReleased
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        pnlSelect.requestFocus();
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     public void LoadList(boolean UseIndex) {
         if (MechListPath.isEmpty()) {
@@ -4513,7 +4810,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JRadioButton btnCSTop;
     private javax.swing.JButton btnClearFilter;
     private javax.swing.JButton btnClearImages;
+    private javax.swing.JButton btnClearSelection;
     private javax.swing.JButton btnClipboard;
+    private javax.swing.JButton btnClipboard1;
     private javax.swing.JButton btnClipboardBottom;
     private javax.swing.JButton btnClipboardTop;
     private javax.swing.JButton btnDeleteBottom1;
@@ -4639,6 +4938,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -4672,6 +4972,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JLabel lblMinMP;
     private javax.swing.JLabel lblMotive;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblRndStatus;
     private javax.swing.JLabel lblScenarioName;
     private javax.swing.JLabel lblSource;
     private javax.swing.JLabel lblStatus;
@@ -4694,6 +4995,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JList lstFiles;
     private javax.swing.JList lstObjectives;
     private javax.swing.JList lstOptions;
+    private javax.swing.JList lstSelected;
     private javax.swing.JMenuItem mnuAbout;
     private javax.swing.JMenuItem mnuBVList;
     private javax.swing.JMenuItem mnuCurrentList;
@@ -4715,6 +5017,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JMenuItem mnuSaveScenario;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlFilters;
+    private javax.swing.JPanel pnlRandomSelection;
     private javax.swing.JPanel pnlSelect;
     private javax.swing.JPanel pnlTop;
     private javax.swing.JRadioButtonMenuItem rmnuBFModel;
