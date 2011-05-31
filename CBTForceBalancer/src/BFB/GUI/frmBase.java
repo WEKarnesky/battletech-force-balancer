@@ -27,8 +27,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package BFB.GUI;
 
-import IO.XMLWriter;
+import IO.*;
 import Force.*;
+import Force.Skills.Skill;
 import Force.View.*;
 import Print.*;
 import Print.preview.*;
@@ -38,13 +39,10 @@ import filehandlers.ImageTracker;
 import common.CommonTools;
 import battleforce.BattleForce;
 
-import BFB.IO.*;
-
-import Force.Skills.Skill;
-import IO.RUSReader;
 import common.Constants;
 import filehandlers.FileCommon;
 import filehandlers.MechWriter;
+import filehandlers.TXTWriter;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.datatransfer.Clipboard;
@@ -86,7 +84,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     
     private MechList list = new MechList(),  filtered,  chosen = new MechList();
     private abView currentView = new tbTotalWarfareView(list);
-    private String MechListPath = "", BaseRUSPath = "./Data/Tables/",  RUSDirectory = "",  RUSPath = BaseRUSPath;
+    private String MechListPath = "", BaseRUSPath = "./Data/Tables/",  RUSDirectory = "",  RUSPath = BaseRUSPath, CurrentFile = "";
     private RUS rus = new RUS();
 
     private KeyListener KeyTyped = new KeyListener() {
@@ -131,7 +129,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         popUtilities.add(popName);
 
         //Clear tracking data
-        Prefs.put("CurrentBFBFile", "");
+        CurrentFile = "";
+        //Prefs.put("CurrentBFBFile", "");
 
         dOpen = new dlgOpen(this, true);
         dOpen.setMechListPath(Prefs.get("ListPath", ""));
@@ -322,7 +321,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void loadScenario( String filename ) {
         if ( filename.isEmpty() ) { return; }
         
-        XMLReader reader = new XMLReader();
+        BFBReader reader = new BFBReader();
         //Force[] forces;
         try {
             scenario = reader.ReadScenario(filename);
@@ -349,7 +348,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             Refresh();
 
             Prefs.put("LastOpenFile", filename);
-            Prefs.put("CurrentBFBFile", filename);
+            CurrentFile = filename;
+            //Prefs.put("CurrentBFBFile", filename);
 
         } catch ( IOException ie ) {
             Media.Messager(ie.getMessage());
@@ -2001,10 +2001,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             }
         });
 
-        lstObjectives.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        lstObjectives.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstObjectivesValueChanged(evt);
+            }
         });
         lstObjectives.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -2013,10 +2013,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         });
         jScrollPane4.setViewportView(lstObjectives);
 
-        lstBonuses.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        lstBonuses.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstBonusesValueChanged(evt);
+            }
         });
         lstBonuses.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -2985,7 +2985,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                     .addComponent(btnClearSelection)))
         );
 
-        lblRndStatus.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblRndStatus.setFont(new java.awt.Font("Tahoma", 1, 12));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -3438,7 +3438,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                     }
         }
 
-        Prefs.put("CurrentBFBFile", "");
+        //Prefs.put("CurrentBFBFile", "");
+        CurrentFile = "";
         this.scenario = new Scenario();
         edtAftermath.setText("");
         edtAttacker.setText("");
@@ -3472,8 +3473,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         WaitCursor();
         try {
             File file;
-            if ( !Prefs.get("CurrentBFBFile", "").isEmpty() && scenario.isOverwriteable() ) {
-                file = new File(Prefs.get("CurrentBFBFile", ""));
+            if ( !CurrentFile.isEmpty() && scenario.isOverwriteable() ) {
+            //if ( !Prefs.get("CurrentBFBFile", "").isEmpty() && scenario.isOverwriteable() ) {
+                file = new File(CurrentFile);
+                //file = new File(Prefs.get("CurrentBFBFile", ""));
             } else {
                 file = media.SelectFile(txtScenarioName.getText() + ".bfb", "bfb", "Save");
                 if (file == null) {
@@ -3491,7 +3494,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             writer.WriteScenario(scenario, filename);
             
             Prefs.put("LastOpenBFBFile", filename);
-            Prefs.put("CurrentBFBFile", filename);
+            //Prefs.put("CurrentBFBFile", filename);
+            CurrentFile = filename;
             Media.Messager(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
             Media.Messager(e.getMessage());
@@ -3694,7 +3698,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             //write.WriteXML(filename);
 
             Prefs.put("LastOpenBFBFile", filename);
-            Prefs.put("CurrentBFBFile", filename);
+            //Prefs.put("CurrentBFBFile", filename);
+            CurrentFile = filename;
             Media.Messager(this, "Forces saved to " + filename);
         } catch (java.io.IOException e) {
             System.out.println(e.getMessage());
@@ -3713,7 +3718,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void mnuExportTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExportTextActionPerformed
         WaitCursor();
-        TXTWriter txtWrite = new TXTWriter( new Force[]{ scenario.getAttackerForce(), scenario.getDefenderForce() } );
+        TXTWriter txtWrite = new TXTWriter( scenario.getForces() );
         File filename = media.SelectFile(Prefs.get("TXTDirectory", ""), "txt", "Save");
         if ( filename == null ) { return; }
 
@@ -3890,7 +3895,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private void mnuBVListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBVListActionPerformed
         //Media.Messager("This will output a csv list of mechs and also a list of EVERY SINGLE Mech's cost and BV2 calculation!");
         WaitCursor();
-        if ( dOpen.getList() == null ) { dOpen.LoadList(true); }
+        if ( list == null ) { LoadList(true); }
         
         TXTWriter out = new TXTWriter();
         String dir = "";
@@ -3902,7 +3907,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
         Prefs.put("ListDirectory", dir);
         try {
-            out.WriteList(dir + File.separator + "MechListing.csv", dOpen.getList());
+            out.WriteList(dir + File.separator + "MechListing.csv", list);
             Media.Messager("Mech List output to " + dir);
         } catch (IOException ex) {
             //do nothing
@@ -4601,6 +4606,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 break;
             case KeyEvent.VK_SHIFT:
             case KeyEvent.VK_CONTROL:
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_LEFT:
                 return;
             default:
                 if ((evt.getKeyCode() == 32) || (evt.getKeyCode() >= 45 && evt.getKeyCode() <= 90)) {
@@ -4766,6 +4775,20 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         pnlSelect.requestFocus();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
+    private void lstObjectivesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstObjectivesValueChanged
+        Objective o = (Objective) lstObjectives.getSelectedValue();
+        scenario.getWarchest().getObjectives().remove(o);
+        txtReward.setText(o.getValue()+"");
+        txtObjective.setText(o.getDescription());
+    }//GEN-LAST:event_lstObjectivesValueChanged
+
+    private void lstBonusesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstBonusesValueChanged
+        Bonus b = (Bonus) lstBonuses.getSelectedValue();
+        scenario.getWarchest().getBonuses().remove(b);
+        txtAmount.setText(b.getValue()+"");
+        txtBonus.setText(b.getDescription());
+    }//GEN-LAST:event_lstBonusesValueChanged
+
     public void LoadList(boolean UseIndex) {
         if (MechListPath.isEmpty()) {
             if (MechListPath.isEmpty() && this.isVisible()) {
@@ -4791,6 +4814,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 }
             }
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        } else {
+            media.Messager("No path to Mechs selected!");
         }
     }
 
