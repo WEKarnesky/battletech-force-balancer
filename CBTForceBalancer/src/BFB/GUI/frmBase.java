@@ -336,6 +336,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
             lstBonuses.setModel(scenario.getWarchest().getBonusList());
 
             //Load scenario info into fields
+            txtTrackCost.setText(scenario.getWarchest().getTrackCost()+"");
             txtScenarioName.setText(scenario.getName());
             edtSituation.setText(scenario.getSituation());
             edtSetup.setText(scenario.getSetup());
@@ -1993,6 +1994,11 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jLabel23.setText("Objectives");
 
         txtReward.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        txtReward.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRewardActionPerformed(evt);
+            }
+        });
 
         btnAddObjective.setText("Add Objective");
         btnAddObjective.addActionListener(new java.awt.event.ActionListener() {
@@ -3935,7 +3941,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void btnAddObjectiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddObjectiveActionPerformed
         if ( !txtReward.getText().isEmpty() && !txtObjective.getText().isEmpty() ) {
-            scenario.getWarchest().getObjectives().add(new Objective(txtObjective.getText(), Integer.parseInt(txtReward.getText())));
+            scenario.getWarchest().getObjectives().add(new Objective(txtObjective.getText(), Integer.parseInt(txtReward.getText().replace(",", ""))));
             txtReward.setText("");
             txtObjective.setText("");
             lstObjectives.setModel(scenario.getWarchest().getObjectiveList());
@@ -4026,7 +4032,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
 
     private void txtTrackCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTrackCostActionPerformed
         try {
-            int val = Integer.parseInt(txtTrackCost.getText());
+            int val = Integer.parseInt(txtTrackCost.getText().replace(",",""));
             scenario.getWarchest().setTrackCost(val);
         } catch ( Exception e ) {
             Media.Messager("You must enter a valid value for the Track Cost");
@@ -4788,6 +4794,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         txtAmount.setText(b.getValue()+"");
         txtBonus.setText(b.getDescription());
     }//GEN-LAST:event_lstBonusesValueChanged
+
+    private void txtRewardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRewardActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRewardActionPerformed
 
     public void LoadList(boolean UseIndex) {
         if (MechListPath.isEmpty()) {
