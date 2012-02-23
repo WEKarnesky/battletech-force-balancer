@@ -109,7 +109,7 @@ public class Main {
                 ImageIcon icon;
                 frmBase MainFrame = new frmBase();
                 try {
-                    icon = new ImageIcon(MainFrame.getClass().getResource("/BFB/Images/battletech.png"));
+                    icon = new ImageIcon(MainFrame.getClass().getResource("/BFB/Images/Battletech.png"));
                     MainFrame.setIconImage(icon.getImage());
                 } catch (Exception e) {
                     System.out.println("Error loading Icon image...\n" + e.getMessage());

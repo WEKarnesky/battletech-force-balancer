@@ -1,7 +1,8 @@
 
 package BFB.GUI;
 
-import Force.*;
+import Force.Force;
+import Force.Unit;
 
 public class dlgGenericUnit extends javax.swing.JDialog {
 
@@ -148,7 +149,7 @@ public class dlgGenericUnit extends javax.swing.JDialog {
 
     private void Save() {
         Unit u = new Unit();
-        u.Type = txtName.getText();
+        u.Name = txtName.getText();
         u.Model = txtModel.getText();
         u.Configuration = txtConfig.getText();
         u.TypeModel = u.getFullName();

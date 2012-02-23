@@ -29,6 +29,7 @@ package BFB.GUI;
 
 import IO.RUSReader;
 import Force.*;
+import java.util.Arrays;
 import list.*;
 import javax.swing.event.TreeSelectionEvent;
 import filehandlers.Media;
@@ -46,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -60,7 +61,7 @@ import javax.swing.tree.TreeSelectionModel;
 public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer.ClipboardOwner {
 
     private frmBase parent;
-    private MechList list,  filtered,  chosen = new MechList();
+    private UnitList list,  filtered,  chosen = new UnitList();
     private String MechListPath = "",  BaseRUSPath = "./Data/Tables/",  RUSDirectory = "",  RUSPath = BaseRUSPath;
     private Force force;
     private RUS rus = new RUS();
@@ -103,7 +104,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         if (tblMechData.getSelectedRows().length > 0) {
             int[] Rows = tblMechData.getSelectedRows();
             for (int i = 0; i < Rows.length; i++) {
-                MechListData Data = ((MechList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(Rows[i]));
+                UnitListData Data = ((UnitList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(Rows[i]));
                 force.AddUnit(new Unit(Data));
             }
             this.setVisible(false);
@@ -114,7 +115,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         if (tblMechData.getSelectedRows().length > 0) {
             int[] Rows = tblMechData.getSelectedRows();
             for (int i = 0; i < Rows.length; i++) {
-                MechListData Data = ((MechList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(Rows[i]));
+                UnitListData Data = ((UnitList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(Rows[i]));
                 chosen.Add(Data);
             }
             loadChosen();
@@ -126,7 +127,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         float Cost = 0;
         DefaultListModel newList = new DefaultListModel();
 
-        for (MechListData data : chosen.getList()) {
+        for (UnitListData data : chosen.getList()) {
             newList.addElement(data);
             BV += data.getBV();
             Cost += data.getCost();
@@ -176,17 +177,15 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         if (curTop != null) { // should only be null at root
             curTop.add(curDir);
         }
-        Vector ol = new Vector();
+        ArrayList ol = new ArrayList();
         String[] tmp = dir.list();
-        for (int i = 0; i < tmp.length; i++) {
-            ol.addElement(tmp[i]);
-        }
+        ol.addAll(Arrays.asList(tmp));
         Collections.sort(ol, String.CASE_INSENSITIVE_ORDER);
         File f;
-        Vector files = new Vector();
+        ArrayList files = new ArrayList();
         // Make two passes, one for Dirs and one for Files. This is #1.
         for (int i = 0; i < ol.size(); i++) {
-            String thisObject = (String) ol.elementAt(i);
+            String thisObject = (String) ol.get(i);
             String newPath;
             if (curPath.equals(".")) {
                 newPath = thisObject;
@@ -201,7 +200,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         }
         // Pass two: for files.
         for (int fnum = 0; fnum < files.size(); fnum++) {
-            curDir.add(new DefaultMutableTreeNode(files.elementAt(fnum)));
+            curDir.add(new DefaultMutableTreeNode(files.get(fnum)));
         }
         return curDir;
     }
@@ -233,7 +232,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
             return;
         }
         try {
-            Vector<DirectoryLeaf> v = new Vector<DirectoryLeaf>();
+            ArrayList<DirectoryLeaf> v = new ArrayList<DirectoryLeaf>();
             File file = new File(dirPath);
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
@@ -285,14 +284,14 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
         int[] rows = tblMechData.getSelectedRows();
         for (int i = 0; i < rows.length; i++) {
-            MechListData data = ((MechList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(rows[i]));
+            UnitListData data = ((UnitList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(rows[i]));
             BV += data.getBV();
             Cost += data.getCost();
             setTooltip(data);
         }
     }
 
-    private void setTooltip(MechListData data) {
+    private void setTooltip(UnitListData data) {
         spnMechTable.setToolTipText(data.getInfo());
         txtInfo.setText(data.getInfo());
     }
@@ -310,7 +309,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
 
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-            list = new MechList(MechListPath, UseIndex);
+            list = new UnitList(MechListPath, UseIndex);
 
             if (getList().Size() > 0) {
                 setupList(getList());
@@ -328,11 +327,11 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         }
     }
 
-    private void setupList(MechList mechList) {
+    private void setupList(UnitList mechList) {
         tblMechData.setModel(mechList);
 
         //Create a sorting class and apply it to the list
-        TableRowSorter sorter = new TableRowSorter<MechList>(mechList);
+        TableRowSorter sorter = new TableRowSorter<UnitList>(mechList);
         List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
         sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
         sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
@@ -1546,7 +1545,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     }//GEN-LAST:event_txtNameKeyReleased
 
     private void tblMechDataMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMechDataMouseMoved
-        setTooltip((MechListData) ((MechList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(tblMechData.rowAtPoint(evt.getPoint()))));
+        setTooltip((UnitListData) ((UnitList) tblMechData.getModel()).Get(tblMechData.convertRowIndexToModel(tblMechData.rowAtPoint(evt.getPoint()))));
     }//GEN-LAST:event_tblMechDataMouseMoved
 
     private void tblMechDataFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblMechDataFocusGained
@@ -1556,7 +1555,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
     private void btnDeleteUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUnitActionPerformed
         Object[] remove = lstChosen.getSelectedValues();
         for (Object data : remove) {
-            chosen.Remove((MechListData) data);
+            chosen.Remove((UnitListData) data);
         }
         loadChosen();
     }//GEN-LAST:event_btnDeleteUnitActionPerformed
@@ -1582,7 +1581,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
                 entered = "";
                 break;
             case KeyEvent.VK_ENTER:
-                if (((MechList) tblMechData.getModel()).Size() == 1) {
+                if (((UnitList) tblMechData.getModel()).Size() == 1) {
                     tblMechData.selectAll();
                     LoadMech();
                 }
@@ -1702,7 +1701,7 @@ public class dlgOpen extends javax.swing.JFrame implements java.awt.datatransfer
         //do nothing
     }
 
-    public MechList getList() {
+    public UnitList getList() {
         return list;
     }
 }

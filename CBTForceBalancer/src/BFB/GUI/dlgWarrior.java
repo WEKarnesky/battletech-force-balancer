@@ -387,7 +387,7 @@ public class dlgWarrior extends javax.swing.JDialog {
 
         if ( dMD.Modifier > 0.00 ) txtManeiDomini.setText(dMD.Modifier + "");
         if ( dMD.Enhancements.size() > 0 ) {
-            warrior.getEnhancements().removeAllElements();
+            warrior.getEnhancements().clear();
             warrior.addEnhancements(dMD.Enhancements);
         }
 

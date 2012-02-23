@@ -12,7 +12,7 @@ public class dlgQuickAdd extends javax.swing.JDialog {
     
     private frmBase parent;
     private Force force;
-    private MechList list,  filtered = new MechList();
+    private UnitList list,  filtered = new UnitList();
     private abView viewModel;
 
     KeyListener filterKey = new KeyListener() {
@@ -38,7 +38,7 @@ public class dlgQuickAdd extends javax.swing.JDialog {
         cmbGunnery.setSelectedIndex(4);
         cmbPiloting.setSelectedIndex(5);
 
-        list = new MechList(this.parent.Prefs.get("ListPath", ""), true);
+        list = new UnitList(this.parent.Prefs.get("ListPath", ""), true);
         viewModel = new tbTotalWarfareCompact(list);
         tblList.setModel(new DefaultTableModel());
         //setupList(list);
@@ -55,7 +55,7 @@ public class dlgQuickAdd extends javax.swing.JDialog {
         setupList(filtered);
     }
 
-    private void setupList(MechList mechList) {
+    private void setupList(UnitList mechList) {
         viewModel.list = mechList;
         viewModel.setupTable(tblList);
     }
