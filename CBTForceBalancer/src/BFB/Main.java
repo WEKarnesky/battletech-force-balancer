@@ -41,11 +41,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Main {
 
     public static void main(String[] args) {
-        String logFile = "./logs/bfb.log";
+        String logFile = "./Logs/bfb.log";
 
         try {
-            if (!new File("./logs/").exists()) {
-                new File("./logs/").mkdir();
+            if (!new File("./Logs/").exists()) {
+                new File("./Logs/").mkdir();
             }
             PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(logFile), 64));
             System.setOut(ps);
