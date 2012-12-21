@@ -151,8 +151,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         edtAftermath.addKeyListener(KeyTyped);
         
         Refresh();
-        LoadList(true);
-        setupList(list, true);
         lblStatusUpdate.setText("");
         LoadRUSOptions();
 
@@ -960,6 +958,9 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -4864,10 +4865,15 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        LoadList(true);
+        setupList(list, true);
+    }//GEN-LAST:event_formWindowOpened
+
     public void LoadList(boolean UseIndex) {
         if (MechListPath.isEmpty()) {
             if (MechListPath.isEmpty() && this.isVisible()) {
-                MechListPath = media.GetDirectorySelection(null);
+                MechListPath = media.GetDirectorySelection(null, "", "Select the location of the Master Files.");
                 Prefs.put("ListPath", MechListPath);
             }
         }
