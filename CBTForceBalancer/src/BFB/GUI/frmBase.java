@@ -937,6 +937,8 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         mnuFactorList = new javax.swing.JMenuItem();
         mnuCurrentList = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         rmnuTWModel = new javax.swing.JRadioButtonMenuItem();
         rmnuBFModel = new javax.swing.JRadioButtonMenuItem();
@@ -2690,9 +2692,7 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlFiltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlFiltersLayout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addGap(18, 18, 18)))
+                    .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -3247,6 +3247,17 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("View");
+
+        jMenuItem2.setText("Select Units List");
+        jMenu5.add(jMenuItem2);
+
+        jMenuItem8.setText("jMenuItem8");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem8);
 
         jMenu6.setText("Force List");
 
@@ -4849,6 +4860,10 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
         }
     }//GEN-LAST:event_mnuDesignVehicleActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     public void LoadList(boolean UseIndex) {
         if (MechListPath.isEmpty()) {
             if (MechListPath.isEmpty() && this.isVisible()) {
@@ -4936,7 +4951,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JComboBox cmbC3Top;
     private javax.swing.JComboBox cmbEra;
     private javax.swing.JComboBox cmbMinMP;
-    private javax.swing.JComboBox cmbMinMP1;
     private javax.swing.JComboBox cmbMotive;
     private javax.swing.JComboBox cmbRulesLevel;
     private javax.swing.JComboBox cmbTech;
@@ -4987,11 +5001,13 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -5012,7 +5028,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
-    private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -5058,7 +5073,6 @@ public class frmBase extends javax.swing.JFrame implements java.awt.datatransfer
     private javax.swing.JLabel lblForceMod;
     private javax.swing.JLabel lblLevel;
     private javax.swing.JLabel lblMinMP;
-    private javax.swing.JLabel lblMinMP1;
     private javax.swing.JLabel lblMotive;
     private javax.swing.JLabel lblMotive1;
     private javax.swing.JLabel lblName;
